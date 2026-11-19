@@ -10,6 +10,10 @@ displayName = "xiabi's modpack toolbox"
 authors = "xiabi"
 description = '''
 Add useful(maybe) things for modpackz
+Skip all those annoying procedures in the modpack!
+(Could potentially disrupt the mod balance)
+Special thanks:Squareful(Art reference)|https://www.curseforge.com/minecraft/texture-packs/xekr-square-pattern
+Code by DeepSeek 4.1
 '''
 
 [[dependencies.xiabis_modpack_toolbox]]
