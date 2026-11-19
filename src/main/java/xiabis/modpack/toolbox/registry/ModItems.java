@@ -1,0 +1,98 @@
+package xiabis.modpack.toolbox.registry;
+
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.component.Unbreakable;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredItem;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import xiabis.modpack.toolbox.XmtMod;
+import xiabis.modpack.toolbox.item.MagicPoisonBottleItem;
+import xiabis.modpack.toolbox.item.OmniToolItem;
+import xiabis.modpack.toolbox.item.OmniWeaponItem;
+import xiabis.modpack.toolbox.item.TimeWandItem;
+
+public final class ModItems {
+    public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(XmtMod.MOD_ID);
+
+    public static final DeferredRegister<CreativeModeTab> CREATIVE_TABS =
+            DeferredRegister.create(Registries.CREATIVE_MODE_TAB, XmtMod.MOD_ID);
+
+    public static final DeferredItem<Item> OMNI_TOOL = ITEMS.registerItem("omni_tool", OmniToolItem::new,
+            new Item.Properties()
+                    .stacksTo(1)
+                    .durability(OmniToolItem.DURABILITY)
+                    .rarity(Rarity.EPIC)
+                    .fireResistant()
+                    .component(DataComponents.UNBREAKABLE, new Unbreakable(true)));
+
+    public static final DeferredItem<Item> OMNI_WEAPON = ITEMS.registerItem("omni_weapon", OmniWeaponItem::new,
+            new Item.Properties()
+                    .stacksTo(1)
+                    .durability(OmniWeaponItem.DURABILITY)
+                    .rarity(Rarity.EPIC)
+                    .fireResistant()
+                    .component(DataComponents.UNBREAKABLE, new Unbreakable(true)));
+
+    public static final DeferredItem<Item> TIME_WAND = ITEMS.registerItem("time_wand", TimeWandItem::new,
+            new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant());
+
+    /** Block item of the omni generator. */
+    public static final DeferredItem<net.minecraft.world.item.BlockItem> OMNI_GENERATOR_ITEM =
+            ITEMS.registerSimpleBlockItem(ModBlocks.OMNI_GENERATOR);
+
+    /** Upgrade card that doubles the generator's internal energy buffer per card. */
+    public static final DeferredItem<Item> ENERGY_CARD = ITEMS.registerItem("energy_card", Item::new,
+            new Item.Properties().stacksTo(64).rarity(Rarity.RARE));
+
+    /** Upgrade card that doubles the generator's generation and output rate per card. */
+    public static final DeferredItem<Item> SPEED_CARD = ITEMS.registerItem("speed_card", Item::new,
+            new Item.Properties().stacksTo(64).rarity(Rarity.RARE));
+
+    public static final DeferredItem<Item> MAGIC_POISON_BOTTLE =
+            ITEMS.registerItem("magic_poison_bottle", MagicPoisonBottleItem::new,
+                    new Item.Properties().stacksTo(1).rarity(Rarity.RARE));
+
+    /**
+     * The 24 hour flight potion item, or an empty stack when Apothic Attributes (and therefore the
+     * "flying" effect) is not installed.
+     */
+    public static ItemStack flightPotion() {
+        if (!ModPotions.hasFlightEffect()) {
+            return ItemStack.EMPTY;
+        }
+        ItemStack stack = new ItemStack(net.minecraft.world.item.Items.POTION);
+        stack.set(DataComponents.POTION_CONTENTS,
+                new net.minecraft.world.item.alchemy.PotionContents(ModPotions.FLIGHT));
+        return stack;
+    }
+
+    public static final int FLIGHT_POTION_DURATION_TICKS = ModPotions.FLIGHT_DURATION_TICKS;
+
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> TAB =
+            CREATIVE_TABS.register("toolbox", () -> CreativeModeTab.builder()
+                    .title(Component.translatable("itemGroup.xiabis_modpack_toolbox.toolbox"))
+                    .icon(() -> new ItemStack(OMNI_TOOL.get()))
+                    .displayItems((parameters, output) -> {
+                        output.accept(OMNI_TOOL.get());
+                        output.accept(OMNI_WEAPON.get());
+                        output.accept(TIME_WAND.get());
+                        output.accept(MAGIC_POISON_BOTTLE.get());
+                        output.accept(OMNI_GENERATOR_ITEM.get());
+                        output.accept(ENERGY_CARD.get());
+                        output.accept(SPEED_CARD.get());
+                        ItemStack flightPotion = flightPotion();
+                        if (!flightPotion.isEmpty()) {
+                            output.accept(flightPotion);
+                        }
+                    })
+                    .build());
+
+    private ModItems() {
+    }
+}

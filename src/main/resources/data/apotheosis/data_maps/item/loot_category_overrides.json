@@ -1,0 +1,9 @@
+{
+  "neoforge:conditions": [
+    { "type": "neoforge:mod_loaded", "modid": "apotheosis" }
+  ],
+  "values": {
+    "xiabis_modpack_toolbox:omni_tool": "apotheosis:breaker",
+    "xiabis_modpack_toolbox:omni_weapon": "apotheosis:melee_weapon"
+  }
+}

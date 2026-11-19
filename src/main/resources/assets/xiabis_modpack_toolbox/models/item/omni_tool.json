@@ -1,0 +1,110 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "xiabis_modpack_toolbox:item/omni_tool_fortune"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "custom_model_data": 1
+      },
+      "model": "xiabis_modpack_toolbox:item/omni_tool_silk"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 11
+      },
+      "model": "xiabis_modpack_toolbox:item/omni_tool_fortune_pickaxe"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 21
+      },
+      "model": "xiabis_modpack_toolbox:item/omni_tool_silk_pickaxe"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 12
+      },
+      "model": "xiabis_modpack_toolbox:item/omni_tool_fortune_shovel"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 22
+      },
+      "model": "xiabis_modpack_toolbox:item/omni_tool_silk_shovel"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 13
+      },
+      "model": "xiabis_modpack_toolbox:item/omni_tool_fortune_axe"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 23
+      },
+      "model": "xiabis_modpack_toolbox:item/omni_tool_silk_axe"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 14
+      },
+      "model": "xiabis_modpack_toolbox:item/omni_tool_fortune_hoe"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 24
+      },
+      "model": "xiabis_modpack_toolbox:item/omni_tool_silk_hoe"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 15
+      },
+      "model": "xiabis_modpack_toolbox:item/omni_tool_fortune_shears"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 25
+      },
+      "model": "xiabis_modpack_toolbox:item/omni_tool_silk_shears"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 16
+      },
+      "model": "xiabis_modpack_toolbox:item/omni_tool_fortune_shield"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 26
+      },
+      "model": "xiabis_modpack_toolbox:item/omni_tool_silk_shield"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 17
+      },
+      "model": "xiabis_modpack_toolbox:item/omni_tool_fortune_wrench"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 27
+      },
+      "model": "xiabis_modpack_toolbox:item/omni_tool_silk_wrench"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 18
+      },
+      "model": "xiabis_modpack_toolbox:item/omni_tool_fortune_staff"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 28
+      },
+      "model": "xiabis_modpack_toolbox:item/omni_tool_silk_staff"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " R ",
+    "GBG",
+    " F "
+  ],
+  "key": {
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "G": {
+      "item": "minecraft:glowstone_dust"
+    },
+    "B": {
+      "item": "minecraft:glass_bottle"
+    },
+    "F": {
+      "item": "minecraft:fermented_spider_eye"
+    }
+  },
+  "result": {
+    "id": "xiabis_modpack_toolbox:magic_poison_bottle",
+    "count": 1
+  }
+}

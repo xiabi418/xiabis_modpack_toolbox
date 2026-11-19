@@ -1,0 +1,8 @@
+# Gradle / build output
+build/
+.gradle/
+run/
+*.log
+
+# Third-party mod jar, fetched by the `downloadCurios` task (see README)
+libs/

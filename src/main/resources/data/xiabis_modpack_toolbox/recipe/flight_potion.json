@@ -1,0 +1,67 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "apotheosis"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "apothic_attributes"
+    }
+  ],
+  "ingredients": [
+    {
+      "type": "neoforge:components",
+      "items": [
+        "minecraft:potion"
+      ],
+      "components": {
+        "minecraft:potion_contents": {
+          "potion": "minecraft:water"
+        }
+      }
+    },
+    {
+      "type": "neoforge:components",
+      "items": [
+        "minecraft:potion"
+      ],
+      "components": {
+        "minecraft:potion_contents": {
+          "potion": "minecraft:water"
+        }
+      }
+    },
+    {
+      "type": "neoforge:components",
+      "items": [
+        "minecraft:potion"
+      ],
+      "components": {
+        "minecraft:potion_contents": {
+          "potion": "minecraft:water"
+        }
+      }
+    },
+    {
+      "item": "minecraft:phantom_membrane"
+    },
+    {
+      "item": "minecraft:fermented_spider_eye"
+    },
+    {
+      "item": "minecraft:popped_chorus_fruit"
+    }
+  ],
+  "result": {
+    "id": "minecraft:potion",
+    "count": 1,
+    "components": {
+      "minecraft:potion_contents": {
+        "potion": "xiabis_modpack_toolbox:flight"
+      }
+    }
+  }
+}

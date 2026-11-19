@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "xiabis_modpack_toolbox:item/omni_tool_silk_wrench"
+  }
+}

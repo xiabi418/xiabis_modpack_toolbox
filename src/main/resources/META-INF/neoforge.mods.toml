@@ -1,0 +1,55 @@
+modLoader = "javafml"
+loaderVersion = "[4,)"
+license = "All Rights Reserved"
+issueTrackerURL = ""
+
+[[mods]]
+modId = "xiabis_modpack_toolbox"
+version = "${version}"
+displayName = "xiabi's modpack toolbox"
+authors = "xiabi"
+description = '''
+Add useful(maybe) things for modpackz
+'''
+
+[[dependencies.xiabis_modpack_toolbox]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21.1,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.xiabis_modpack_toolbox]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21.1, 1.21.2)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.xiabis_modpack_toolbox]]
+modId = "curios"
+type = "required"
+versionRange = "[9.0.0,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.xiabis_modpack_toolbox]]
+modId = "create"
+type = "optional"
+versionRange = "*"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.xiabis_modpack_toolbox]]
+modId = "irons_spellbooks"
+type = "optional"
+versionRange = "*"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.xiabis_modpack_toolbox]]
+modId = "apotheosis"
+type = "optional"
+versionRange = "*"
+ordering = "NONE"
+side = "BOTH"

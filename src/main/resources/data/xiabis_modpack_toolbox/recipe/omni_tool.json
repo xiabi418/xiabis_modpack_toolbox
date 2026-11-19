@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    { "item": "minecraft:wooden_pickaxe" },
+    { "item": "minecraft:wooden_axe" },
+    { "item": "minecraft:shield" },
+    { "item": "minecraft:wooden_hoe" },
+    { "item": "minecraft:wooden_shovel" },
+    { "item": "minecraft:shears" },
+    { "tag": "minecraft:planks" },
+    { "tag": "minecraft:planks" },
+    { "tag": "minecraft:planks" }
+  ],
+  "result": {
+    "id": "xiabis_modpack_toolbox:omni_tool",
+    "count": 1
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "xiabis_modpack_toolbox:item/omni_weapon"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "pulling": 1
+      },
+      "model": "xiabis_modpack_toolbox:item/omni_weapon_pulling_0"
+    },
+    {
+      "predicate": {
+        "pulling": 1,
+        "pull": 0.25
+      },
+      "model": "xiabis_modpack_toolbox:item/omni_weapon_pulling_1"
+    },
+    {
+      "predicate": {
+        "pulling": 1,
+        "pull": 0.5
+      },
+      "model": "xiabis_modpack_toolbox:item/omni_weapon_pulling_2"
+    },
+    {
+      "predicate": {
+        "pulling": 1,
+        "pull": 0.75
+      },
+      "model": "xiabis_modpack_toolbox:item/omni_weapon_pulling_3"
+    }
+  ]
+}

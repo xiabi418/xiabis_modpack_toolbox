@@ -1,0 +1,102 @@
+plugins {
+    id 'java-library'
+    id 'net.neoforged.moddev' version '2.0.148'
+}
+
+version = '1.3.0'
+group = 'xiabis.modpack'
+
+base {
+    archivesName = 'xiabis_modpack_toolbox'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+neoForge {
+    version = '21.1.266'
+
+    runs {
+        client {
+            client()
+        }
+        server {
+            server()
+            programArgument '--nogui'
+        }
+    }
+
+    mods {
+        xiabis_modpack_toolbox {
+            sourceSet sourceSets.main
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'MinecraftLibraries'
+        url = 'https://libraries.minecraft.net'
+    }
+}
+
+// maven.neoforged.net is unreachable from this network (SNI blocking on the CDN77
+// endpoint). neoforged.forgecdn.net serves the same repository, so every repository
+// the ModDevGradle plugin registers pointing at the original host gets redirected.
+def redirectNeoForgedMaven = { repos ->
+    repos.withType(org.gradle.api.artifacts.repositories.MavenArtifactRepository).all { repo ->
+        def target = repo.url.toString()
+        if (target.contains('maven.neoforged.net')) {
+            repo.url = target.replace('maven.neoforged.net', 'neoforged.forgecdn.net')
+        }
+    }
+}
+redirectNeoForgedMaven(repositories)
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 21
+}
+
+// Curios API is a hard dependency. The jar is not committed (third-party LGPL-3.0
+// binary), so it is downloaded into libs/ on demand; there it doubles as the
+// compile-time API and as a mod that the dev runs load.
+def curiosVersion = '9.5.1+1.21.1'
+def curiosJar = layout.projectDirectory.file("libs/curios-neoforge-${curiosVersion}.jar")
+def curiosUrl = 'https://cdn.modrinth.com/data/vvuO3ImH/versions/yohfFbgD/curios-neoforge-9.5.1%2B1.21.1.jar'
+
+tasks.register('downloadCurios') {
+    group = 'setup'
+    description = 'Downloads the Curios API jar into libs/ when it is missing.'
+    outputs.file(curiosJar)
+    onlyIf { !curiosJar.asFile.exists() }
+    doLast {
+        curiosJar.asFile.parentFile.mkdirs()
+        logger.lifecycle("Downloading Curios API ${curiosVersion} to libs/ ...")
+        new URL(curiosUrl).withInputStream { input ->
+            curiosJar.asFile.withOutputStream { output -> output << input }
+        }
+    }
+}
+
+tasks.configureEach { task ->
+    if (task.name in ['compileJava', 'runClient', 'runServer', 'test']) {
+        task.dependsOn('downloadCurios')
+    }
+}
+
+dependencies {
+    implementation files(curiosJar)
+}
+
+processResources {
+    def props = [version: project.version, mod_id: 'xiabis_modpack_toolbox']
+    inputs.properties props
+    filesMatching(['META-INF/neoforge.mods.toml']) {
+        expand props
+    }
+}

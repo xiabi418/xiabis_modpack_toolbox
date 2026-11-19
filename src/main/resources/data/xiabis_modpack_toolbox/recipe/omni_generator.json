@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "FSF",
+    "ICI",
+    "OOO"
+  ],
+  "key": {
+    "F": {
+      "item": "minecraft:furnace"
+    },
+    "S": {
+      "item": "minecraft:smoker"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "C": {
+      "item": "minecraft:copper_block"
+    },
+    "O": {
+      "item": "minecraft:obsidian"
+    }
+  },
+  "result": {
+    "id": "xiabis_modpack_toolbox:omni_generator",
+    "count": 1
+  }
+}
