@@ -219,6 +219,18 @@ other mods recognise them (`data/minecraft/tags/item/*` and `data/c/tags/item/*`
 forwarded to a real wrench/staff item found at runtime, and tagging the toolbox items as
 wrenches would make other mods (and the forwarding code) treat them as the genuine article.
 
+## Changes in 1.3.2
+
+* Fixed the omni weapon providing mining: it no longer carries the omni tool's mining rules.
+  The weapon keeps only the sword's block interaction (cobwebs at 15x, sword-efficient blocks at
+  1.5x) and cannot harvest any block that needs a pickaxe/shovel/hoe/shears, so stone, ores and
+  logs give no drops and break at normal hand speed.
+* The custom 0.3 s break speed now only applies to the **omni tool**; the weapon is not affected.
+* Weapon stacks from older versions are migrated on first tick (their old 8-rule mining `tool`
+  component is replaced with the 2-rule sword component).
+* The weapon was also removed from the `c:tools/mining_tool`, `minecraft:cluster_max_harvestables`,
+  `minecraft:enchantable/mining` and `minecraft:enchantable/mining_loot` tags.
+
 ## Changes in 1.3.1
 
 * Removed the custom tooltip lines from both omni items (the "Mining tier", "Mining speed" and

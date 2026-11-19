@@ -1,7 +1,6 @@
 {
   "replace": false,
   "values": [
-    "xiabis_modpack_toolbox:omni_tool",
-    "xiabis_modpack_toolbox:omni_weapon"
+    "xiabis_modpack_toolbox:omni_tool"
   ]
 }

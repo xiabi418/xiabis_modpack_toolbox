@@ -107,7 +107,8 @@ public final class GameEvents {
     @SubscribeEvent
     public static void onBreakSpeed(PlayerEvent.BreakSpeed event) {
         Player player = event.getEntity();
-        if (!isOmni(player.getMainHandItem())) {
+        // Only the omni tool mines; the omni weapon has no pickaxe/shovel/hoe function.
+        if (!(player.getMainHandItem().getItem() instanceof OmniToolItem)) {
             return;
         }
         BlockState state = event.getState();

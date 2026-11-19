@@ -12,7 +12,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.Tool;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -37,6 +39,7 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.common.ItemAbility;
 import net.neoforged.neoforge.common.ItemAbilities;
@@ -44,7 +47,6 @@ import org.jetbrains.annotations.Nullable;
 import xiabis.modpack.toolbox.XmtMod;
 import xiabis.modpack.toolbox.compat.ApotheosisCompat;
 import xiabis.modpack.toolbox.registry.ModComponents;
-import xiabis.modpack.toolbox.util.ToolComponents;
 
 /**
  * Universal weapon. Extends {@link MaceItem} so the whole falling smash attack
@@ -88,15 +90,28 @@ public class OmniWeaponItem extends MaceItem {
         return (int) Math.max(1L, mods);
     }
 
+    /**
+     * The weapon deliberately has no mining function (no pickaxe/shovel/hoe/shears), matching the
+     * design: it is mace + sword + axe(shields) + bow + crossbow. It keeps the sword's block
+     * interaction, which is cobwebs at 15x and sword-efficient blocks at 1.5x, and it cannot
+     * harvest any block that needs a proper tool.
+     */
+    public static Tool weaponToolProperties() {
+        return new Tool(List.of(
+                Tool.Rule.minesAndDrops(List.of(Blocks.COBWEB), 15.0F),
+                Tool.Rule.overrideSpeed(BlockTags.SWORD_EFFICIENT, 1.5F)), 1.0F, 1);
+    }
+
     @Override
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int slot, boolean selected) {
         if (level.isClientSide) {
             return;
         }
-        // The weapon is netherite tier and mines like the omni tool. Backfilled here as
-        // well so weapons created before this component existed pick it up.
-        if (!stack.has(DataComponents.TOOL)) {
-            stack.set(DataComponents.TOOL, ToolComponents.build(ToolMode.ALL));
+        // Migrates stacks from the older builds, where the weapon carried the omni tool's
+        // full mining rules (8 rules). Sword properties have exactly 2 rules.
+        Tool tool = stack.get(DataComponents.TOOL);
+        if (tool == null || tool.rules().size() != 2) {
+            stack.set(DataComponents.TOOL, weaponToolProperties());
         }
         if (stack.getOrDefault(ModComponents.STATE_APPLIED, false)) {
             return;
@@ -118,21 +133,6 @@ public class OmniWeaponItem extends MaceItem {
         }
         looting.ifPresent(holder -> EnchantmentHelper.updateEnchantments(stack,
                 mutable -> mutable.set(holder, DEFAULT_LOOTING)));
-    }
-
-    /** Same mining fallback as the omni tool so the weapon keeps working as a tool. */
-    @Override
-    public float getDestroySpeed(ItemStack stack, BlockState state) {
-        float speed = super.getDestroySpeed(stack, state);
-        if (speed > 1.0F) {
-            return speed;
-        }
-        return ToolComponents.MINING_SPEED;
-    }
-
-    @Override
-    public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
-        return true;
     }
 
     @Override
@@ -157,8 +157,8 @@ public class OmniWeaponItem extends MaceItem {
         if (ability == ItemAbilities.SWORD_DIG || ability == ItemAbilities.SWORD_SWEEP) {
             return true;
         }
-        if (ability == ItemAbilities.AXE_DIG || ability == ItemAbilities.AXE_STRIP
-                || ability == ItemAbilities.AXE_SCRAPE || ability == ItemAbilities.AXE_WAX_OFF) {
+        if (ability == ItemAbilities.AXE_STRIP || ability == ItemAbilities.AXE_SCRAPE
+                || ability == ItemAbilities.AXE_WAX_OFF) {
             return true;
         }
         return super.canPerformAction(stack, ability);
