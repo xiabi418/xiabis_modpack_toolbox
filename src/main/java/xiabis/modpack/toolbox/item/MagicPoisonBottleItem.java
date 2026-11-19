@@ -48,8 +48,16 @@ public class MagicPoisonBottleItem extends Item implements ICurioItem {
 
         MarkedEffects marked = marked(stack);
         MarkedEffects updated = marked;
+        List<net.minecraft.core.Holder<net.minecraft.world.effect.MobEffect>> consumed = new java.util.ArrayList<>();
         for (MobEffectInstance active : player.getActiveEffects()) {
-            updated = updated.mark(active.getEffect(), active.getAmplifier() + 1);
+            int activeLevel = active.getAmplifier() + 1;
+            MarkedEffects next = updated.mark(active.getEffect(), activeLevel);
+            if (!next.equals(updated)) {
+                // Only effects whose stored level actually went up are "marked successfully" and
+                // get consumed; already marked (or higher) effects and lower level instances stay.
+                consumed.add(active.getEffect());
+                updated = next;
+            }
         }
 
         if (updated.equals(marked)) {
@@ -62,6 +70,9 @@ public class MagicPoisonBottleItem extends Item implements ICurioItem {
         }
 
         stack.set(ModComponents.MARKED_EFFECTS.get(), updated);
+        for (var effect : consumed) {
+            player.removeEffect(effect);
+        }
         level.playSound(null, player.blockPosition(), SoundEvents.BREWING_STAND_BREW, SoundSource.PLAYERS,
                 0.7F, 1.6F);
         player.displayClientMessage(Component.translatable(MESSAGE_PREFIX + "marked", updated.entries().size()), true);

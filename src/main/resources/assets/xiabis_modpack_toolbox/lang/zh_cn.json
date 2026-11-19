@@ -24,7 +24,7 @@
   "toolmode.xiabis_modpack_toolbox.staff": "法杖",
   "toolmode.xiabis_modpack_toolbox.wrench": "扳手",
   "tooltip.xiabis_modpack_toolbox.magic_poison_bottle.empty": "尚未标记任何效果",
-  "tooltip.xiabis_modpack_toolbox.magic_poison_bottle.hint": "潜行 + 右键：标记你身上当前的所有效果",
+  "tooltip.xiabis_modpack_toolbox.magic_poison_bottle.hint": "潜行 + 右键：标记你身上当前的所有效果（标记成功的效果会从身上移除）",
   "tooltip.xiabis_modpack_toolbox.magic_poison_bottle.marked": "已标记的效果：",
   "item.xiabis_modpack_toolbox.time_wand": "时间加速手杖",
   "tooltip.xiabis_modpack_toolbox.time_wand.usage": "潜行右键机器、方块实体或作物即可加速",

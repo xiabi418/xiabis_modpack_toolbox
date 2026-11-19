@@ -219,6 +219,15 @@ other mods recognise them (`data/minecraft/tags/item/*` and `data/c/tags/item/*`
 forwarded to a real wrench/staff item found at runtime, and tagging the toolbox items as
 wrenches would make other mods (and the forwarding code) treat them as the genuine article.
 
+## Changes in 1.3.3
+
+* The magic poison bottle now **consumes** an effect when marking it succeeds: the marked effect is
+  removed from the player. Effects that are already marked at the same (or a higher) level, and
+  instances weaker than the marked level, are left alone.
+* Example: with Speed II and Jump Boost I you mark both, both are stored at level 2 / 1 and removed
+  from you. Drinking Speed I later and marking again does nothing (already marked at a higher
+  level), while Speed III raises the stored level to 3 and is consumed.
+
 ## Changes in 1.3.2
 
 * Fixed the omni weapon providing mining: it no longer carries the omni tool's mining rules.

@@ -24,7 +24,7 @@
   "toolmode.xiabis_modpack_toolbox.staff": "Staff",
   "toolmode.xiabis_modpack_toolbox.wrench": "Wrench",
   "tooltip.xiabis_modpack_toolbox.magic_poison_bottle.empty": "No effects marked yet",
-  "tooltip.xiabis_modpack_toolbox.magic_poison_bottle.hint": "Sneak + right click: mark every effect you currently have",
+  "tooltip.xiabis_modpack_toolbox.magic_poison_bottle.hint": "Sneak + right click: mark your current effects (marked ones are consumed)",
   "tooltip.xiabis_modpack_toolbox.magic_poison_bottle.marked": "Marked effects:",
   "item.xiabis_modpack_toolbox.time_wand": "Time Acceleration Wand",
   "tooltip.xiabis_modpack_toolbox.time_wand.usage": "Sneak + right click a machine, block entity or crop to accelerate it",
