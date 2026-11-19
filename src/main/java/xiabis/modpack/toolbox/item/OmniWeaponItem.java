@@ -44,7 +44,6 @@ import org.jetbrains.annotations.Nullable;
 import xiabis.modpack.toolbox.XmtMod;
 import xiabis.modpack.toolbox.compat.ApotheosisCompat;
 import xiabis.modpack.toolbox.registry.ModComponents;
-import xiabis.modpack.toolbox.event.PlayerAttributesHandler;
 import xiabis.modpack.toolbox.util.ToolComponents;
 
 /**
@@ -55,12 +54,15 @@ import xiabis.modpack.toolbox.util.ToolComponents;
 public class OmniWeaponItem extends MaceItem {
     public static final int DURABILITY = 32_500;
     public static final double ATTACK_SPEED = 418.0D;
+    /** Reach granted while the weapon is held in the main hand (3.0 base + 4). */
+    public static final double ENTITY_RANGE_BONUS = 4.0D;
     public static final int DEFAULT_LOOTING = 15;
     /** Vanilla bow reaches full power after 20 ticks; quick charge shortens it. */
     public static final int BASE_CHARGE_TICKS = 20;
 
     private static final ResourceLocation DAMAGE_ID = XmtMod.id("omni_weapon_attack_damage");
     private static final ResourceLocation SPEED_ID = XmtMod.id("omni_weapon_attack_speed");
+    private static final ResourceLocation ENTITY_RANGE_ID = XmtMod.id("omni_weapon_entity_range");
 
     public OmniWeaponItem(Properties properties) {
         super(properties);
@@ -134,20 +136,6 @@ public class OmniWeaponItem extends MaceItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
-        super.appendHoverText(stack, context, tooltip, flag);
-        tooltip.add(Component.translatable("tooltip.xiabis_modpack_toolbox.mining_tier")
-                .withStyle(ChatFormatting.GRAY));
-        tooltip.add(Component.translatable("tooltip.xiabis_modpack_toolbox.mining_speed",
-                        String.format("%.2f", ToolComponents.TARGET_BREAK_SECONDS),
-                        (int) ToolComponents.TARGET_BREAK_TICKS)
-                .withStyle(ChatFormatting.GRAY));
-        tooltip.add(Component.translatable("tooltip.xiabis_modpack_toolbox.omni_weapon.reach",
-                        (int) PlayerAttributesHandler.WEAPON_ENTITY_RANGE_BONUS)
-                .withStyle(ChatFormatting.GRAY));
-    }
-
-    @Override
     public ItemAttributeModifiers getDefaultAttributeModifiers(ItemStack stack) {
         return ItemAttributeModifiers.builder()
                 .add(Attributes.ATTACK_DAMAGE,
@@ -156,6 +144,10 @@ public class OmniWeaponItem extends MaceItem {
                         EquipmentSlotGroup.MAINHAND)
                 .add(Attributes.ATTACK_SPEED,
                         new AttributeModifier(SPEED_ID, ATTACK_SPEED - 4.0D, AttributeModifier.Operation.ADD_VALUE),
+                        EquipmentSlotGroup.MAINHAND)
+                .add(Attributes.ENTITY_INTERACTION_RANGE,
+                        new AttributeModifier(ENTITY_RANGE_ID, ENTITY_RANGE_BONUS,
+                                AttributeModifier.Operation.ADD_VALUE),
                         EquipmentSlotGroup.MAINHAND)
                 .build();
     }

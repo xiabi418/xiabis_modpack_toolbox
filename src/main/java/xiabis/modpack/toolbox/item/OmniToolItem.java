@@ -18,6 +18,7 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -43,7 +44,6 @@ import xiabis.modpack.toolbox.compat.WrenchCompat;
 import xiabis.modpack.toolbox.registry.ModComponents;
 import xiabis.modpack.toolbox.util.ItemDelegates;
 import xiabis.modpack.toolbox.compat.IronsCompat;
-import xiabis.modpack.toolbox.event.PlayerAttributesHandler;
 import xiabis.modpack.toolbox.util.ToolComponents;
 import net.minecraft.world.item.Items;
 
@@ -51,10 +51,20 @@ public class OmniToolItem extends Item {
     public static final int DURABILITY = 79_900;
     public static final double ATTACK_DAMAGE = 4.18D;
     public static final double ATTACK_SPEED = 418.0D;
+    /** Reach granted while the tool is held in the main hand (4.5 base + 5). */
+    public static final double BLOCK_RANGE_BONUS = 5.0D;
+    /** Iron's Spellbooks bonuses, shown by the vanilla attribute tooltip while held. */
+    private static final double SPELL_POWER_BONUS = 20.0D;
+    private static final double MAX_MANA_BONUS = 5_000.0D;
     public static final int DEFAULT_FORTUNE = 15;
 
     private static final ResourceLocation DAMAGE_ID = XmtMod.id("omni_tool_attack_damage");
     private static final ResourceLocation SPEED_ID = XmtMod.id("omni_tool_attack_speed");
+    private static final ResourceLocation BLOCK_RANGE_ID = XmtMod.id("omni_tool_block_range");
+    private static final ResourceLocation SPELL_POWER_ID = XmtMod.id("omni_tool_spell_power");
+    private static final ResourceLocation MAX_MANA_ID = XmtMod.id("omni_tool_max_mana");
+    private static final ResourceLocation COOLDOWN_ID = XmtMod.id("omni_tool_cooldown_reduction");
+    private static final ResourceLocation MANA_REGEN_ID = XmtMod.id("omni_tool_mana_regen");
 
     public OmniToolItem(Properties properties) {
         super(properties);
@@ -70,14 +80,56 @@ public class OmniToolItem extends Item {
 
     @Override
     public ItemAttributeModifiers getDefaultAttributeModifiers(ItemStack stack) {
-        return ItemAttributeModifiers.builder()
+        ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder()
                 .add(Attributes.ATTACK_DAMAGE,
                         new AttributeModifier(DAMAGE_ID, ATTACK_DAMAGE - 1.0D, AttributeModifier.Operation.ADD_VALUE),
                         EquipmentSlotGroup.MAINHAND)
                 .add(Attributes.ATTACK_SPEED,
                         new AttributeModifier(SPEED_ID, ATTACK_SPEED - 4.0D, AttributeModifier.Operation.ADD_VALUE),
                         EquipmentSlotGroup.MAINHAND)
-                .build();
+                .add(Attributes.BLOCK_INTERACTION_RANGE,
+                        new AttributeModifier(BLOCK_RANGE_ID, BLOCK_RANGE_BONUS,
+                                AttributeModifier.Operation.ADD_VALUE),
+                        EquipmentSlotGroup.MAINHAND);
+        addIronsAttributes(builder);
+        return builder.build();
+    }
+
+    /**
+     * Adds the Iron's Spellbooks bonuses as regular item attribute modifiers, so the vanilla
+     * "When in main hand / either hand" tooltip renders them without any custom text. They are
+     * only present while the item is actually equipped in a hand.
+     */
+    private static void addIronsAttributes(ItemAttributeModifiers.Builder builder) {
+        if (!IronsCompat.available()) {
+            return;
+        }
+        Holder<Attribute> spellPower = IronsCompat.spellPower();
+        if (spellPower != null) {
+            builder.add(spellPower,
+                    new AttributeModifier(SPELL_POWER_ID, SPELL_POWER_BONUS,
+                            AttributeModifier.Operation.ADD_VALUE),
+                    EquipmentSlotGroup.HAND);
+        }
+        Holder<Attribute> maxMana = IronsCompat.maxMana();
+        if (maxMana != null) {
+            // Max mana is a flat attribute (base 100), so a plain +5000 is what we want.
+            builder.add(maxMana,
+                    new AttributeModifier(MAX_MANA_ID, MAX_MANA_BONUS, AttributeModifier.Operation.ADD_VALUE),
+                    EquipmentSlotGroup.HAND);
+        }
+        Holder<Attribute> cooldownReduction = IronsCompat.cooldownReduction();
+        if (cooldownReduction != null) {
+            builder.add(cooldownReduction,
+                    new AttributeModifier(COOLDOWN_ID, 5.0D, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
+                    EquipmentSlotGroup.HAND);
+        }
+        Holder<Attribute> manaRegen = IronsCompat.manaRegen();
+        if (manaRegen != null) {
+            builder.add(manaRegen,
+                    new AttributeModifier(MANA_REGEN_ID, 5.0D, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
+                    EquipmentSlotGroup.HAND);
+        }
     }
 
     @Override
@@ -225,27 +277,6 @@ public class OmniToolItem extends Item {
     @Override
     public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
         return true;
-    }
-
-    @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.translatable("tooltip.xiabis_modpack_toolbox.mining_tier")
-                .withStyle(ChatFormatting.GRAY));
-        tooltip.add(Component.translatable("tooltip.xiabis_modpack_toolbox.mining_speed",
-                        String.format("%.2f", ToolComponents.TARGET_BREAK_SECONDS),
-                        (int) ToolComponents.TARGET_BREAK_TICKS)
-                .withStyle(ChatFormatting.GRAY));
-        tooltip.add(Component.translatable("tooltip.xiabis_modpack_toolbox.omni_tool.reach",
-                        (int) PlayerAttributesHandler.TOOL_BLOCK_RANGE_BONUS)
-                .withStyle(ChatFormatting.GRAY));
-        if (IronsCompat.available()) {
-            tooltip.add(Component.translatable("tooltip.xiabis_modpack_toolbox.omni_tool.magic",
-                            (int) PlayerAttributesHandler.SPELL_POWER_BONUS,
-                            (int) PlayerAttributesHandler.MAX_MANA_BONUS,
-                            (int) (PlayerAttributesHandler.COOLDOWN_SPEED_BONUS * 100.0D),
-                            (int) (PlayerAttributesHandler.MANA_REGEN_BONUS * 100.0D))
-                    .withStyle(ChatFormatting.BLUE));
-        }
     }
 
     @Override

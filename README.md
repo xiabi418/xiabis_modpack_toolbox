@@ -219,6 +219,18 @@ other mods recognise them (`data/minecraft/tags/item/*` and `data/c/tags/item/*`
 forwarded to a real wrench/staff item found at runtime, and tagging the toolbox items as
 wrenches would make other mods (and the forwarding code) treat them as the genuine article.
 
+## Changes in 1.3.1
+
+* Removed the custom tooltip lines from both omni items (the "Mining tier", "Mining speed" and
+  reach lines are gone).
+* Reach and Iron's Spellbooks bonuses are now **real item attribute modifiers** built in
+  `getDefaultAttributeModifiers`, so the stock tooltip renders them under
+  "When in Main Hand:" / "When held:" and no per-tick player patching is needed
+  (`PlayerAttributesHandler` was deleted).
+* Iron's Spellbooks defines spell power, cooldown reduction and mana regeneration as percentage
+  attributes (base 1.0 = 100%), therefore the +20 spell power addition shows up as
+  "+2000% Spell Power" (total 21.0) while max mana shows as a flat "+5000 Max Mana".
+
 ## Changes in 1.3.0
 
 * New block `omni_generator` (万用发电机) with its GUI, face routing, fuel / lava burning,
@@ -237,7 +249,8 @@ wrenches would make other mods (and the forwarding code) treat them as the genui
   and **+500% mana regeneration** (1.0 -> 6.0) while held in either hand.
 * Omni Weapon: **+4 entity interaction range** in the main hand.
 * Digging time for both items changed from 18 ticks (0.9 s) to **6 ticks (0.3 s)** per block.
-* New tooltip lines for the range bonuses (the magic line only shows when Iron's is loaded).
+* Range and magic bonuses are item attribute modifiers now, so the vanilla tooltip shows them
+  (the magic entries only appear when Iron's is loaded).
 
 ## Changes in 1.2.1
 
@@ -269,8 +282,8 @@ wrenches would make other mods (and the forwarding code) treat them as the genui
 * Both omni items now override `isCorrectToolForDrops` (always true, netherite tier) and
   `getDestroySpeed` (falls back to the configured 9.0 speed when the `tool` component is missing),
   so mining never depends on the component having been applied yet.
-* Both omni items show two extra tooltip lines: mining tier (netherite) and mining speed
-  (0.3 s / 6 ticks per block).
+* Both omni items expose their combat/utility bonuses as vanilla item attribute modifiers, so the
+  stock tooltip ("When in Main Hand:" / "When held:") lists them.
 
 ## Changes in 1.1.0
 
