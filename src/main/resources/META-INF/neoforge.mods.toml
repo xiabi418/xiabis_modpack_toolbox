@@ -1,12 +1,13 @@
 modLoader = "javafml"
 loaderVersion = "[4,)"
 license = "All Rights Reserved"
-issueTrackerURL = ""
+issueTrackerURL = "https://github.com/xiabi418/xiabis_modpack_toolbox/issues"
 
 [[mods]]
 modId = "xiabis_modpack_toolbox"
 version = "${version}"
 displayName = "xiabi's modpack toolbox"
+logoFile = "icon.png"
 authors = "xiabi"
 description = '''
 Add useful(maybe) things for modpackz
