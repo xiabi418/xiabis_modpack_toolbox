@@ -232,6 +232,30 @@ A block that burns solid fuel or lava and pushes the produced energy out as **FE
   neighbouring block entity that implements `IAEPowerStorage` (AE2's Energy Acceptor does),
   so the FE path keeps working even when neither mod is installed.
 
+## Giant Battery Box (`omni_battery`)
+
+An unbounded FE buffer without a GUI. Right click a face to flip it between **energy input** and
+**energy output** (all six faces start as input); sneak + right click any face toggles **active
+I/O**, which every tick pushes energy out of the output faces and pulls energy from the input
+faces (off by default). Every interaction is reported on the action bar, e.g.
+`Top: energy output, stored 1234567 FE`.
+
+* Capacity: the largest value the FE API supports, `Integer.MAX_VALUE` (2 147 483 647 FE).
+* Transfer (`receiveEnergy` / `extractEnergy` and the active I/O pass): up to
+  **1 000 000 FE per tick per side**, so a full battery can be drained quickly.
+* Faces only expose what they are configured for: input faces reject `extractEnergy`, output
+  faces reject `receiveEnergy`, which means pipes and cables automatically respect the setting.
+* Recipe (shaped):
+
+  ```
+  I C I      I = iron ingot, C = copper ingot
+  B R B      B = iron block, R = redstone block
+  B P B      P = copper block
+  ```
+
+The block id is lowercase (`omni_battery`); Minecraft resource locations cannot contain uppercase
+letters, so the `omni_Battery` from the requirements is registered as `omni_battery`.
+
 ## Item tags
 
 Both items are added to the vanilla and NeoForge common tool/weapon tags so modpacks and
@@ -251,6 +275,21 @@ other mods recognise them (`data/minecraft/tags/item/*` and `data/c/tags/item/*`
 `c:tools/wrench` and `c:tools/staff` are intentionally **not** claimed: those interactions are
 forwarded to a real wrench/staff item found at runtime, and tagging the toolbox items as
 wrenches would make other mods (and the forwarding code) treat them as the genuine article.
+
+## Changes in 1.3.8
+
+* New block **Giant Battery Box** (`omni_battery`): unbounded FE storage, per-face input/output
+  mode, active I/O toggle, action bar feedback, no GUI.
+* The oversized Sophisticated Backpacks / Storage containers are now listed in this mod's creative
+  tab when their mod is installed (with the obfuscated red names and the 4096/8192 slot counts).
+
+## Changes in 1.3.4 - 1.3.7
+
+* 1.3.4: the mods.toml is now maintained by the author (only `version` stays templated).
+* 1.3.5: mod logo (`icon.png`), issue tracker URL and the provided card textures.
+* 1.3.6: provided generator block textures, including a dedicated bottom face.
+* 1.3.7: storage upgrade recipes for Sophisticated Backpacks / Storage (8 diamond blocks around a
+  diamond container -> oversized netherite container that keeps its contents).
 
 ## Changes in 1.3.3
 

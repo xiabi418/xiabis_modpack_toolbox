@@ -60,6 +60,9 @@ public class XmtMod {
         event.registerBlockEntity(net.neoforged.neoforge.capabilities.Capabilities.EnergyStorage.BLOCK,
                 ModBlockEntities.OMNI_GENERATOR.get(),
                 (generator, side) -> generator.energyHandler(side));
+        event.registerBlockEntity(net.neoforged.neoforge.capabilities.Capabilities.EnergyStorage.BLOCK,
+                ModBlockEntities.OMNI_BATTERY.get(),
+                (battery, side) -> battery.energyHandler(side));
     }
 
     public static ResourceLocation id(String path) {

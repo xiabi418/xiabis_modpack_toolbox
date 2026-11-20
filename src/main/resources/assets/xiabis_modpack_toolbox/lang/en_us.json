@@ -52,5 +52,16 @@
   "face.xiabis_modpack_toolbox.both": "input + output",
   "energy.xiabis_modpack_toolbox.fe": "FE",
   "energy.xiabis_modpack_toolbox.eu": "EU",
-  "energy.xiabis_modpack_toolbox.ae": "AE"
+  "energy.xiabis_modpack_toolbox.ae": "AE",
+  "block.xiabis_modpack_toolbox.omni_battery": "Giant Battery Box",
+  "battery.xiabis_modpack_toolbox.face.up": "Top",
+  "battery.xiabis_modpack_toolbox.face.down": "Bottom",
+  "battery.xiabis_modpack_toolbox.face.north": "North",
+  "battery.xiabis_modpack_toolbox.face.south": "South",
+  "battery.xiabis_modpack_toolbox.face.west": "West",
+  "battery.xiabis_modpack_toolbox.face.east": "East",
+  "battery.xiabis_modpack_toolbox.mode.input": "energy input",
+  "battery.xiabis_modpack_toolbox.mode.output": "energy output",
+  "message.xiabis_modpack_toolbox.battery.face": "%s: %s, stored %s FE",
+  "message.xiabis_modpack_toolbox.battery.active": "Active I/O: %s"
 }

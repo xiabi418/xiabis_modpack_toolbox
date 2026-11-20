@@ -52,5 +52,16 @@
   "face.xiabis_modpack_toolbox.both": "同时输入/输出",
   "energy.xiabis_modpack_toolbox.fe": "FE",
   "energy.xiabis_modpack_toolbox.eu": "EU",
-  "energy.xiabis_modpack_toolbox.ae": "AE"
+  "energy.xiabis_modpack_toolbox.ae": "AE",
+  "block.xiabis_modpack_toolbox.omni_battery": "巨型电池箱",
+  "battery.xiabis_modpack_toolbox.face.up": "顶面",
+  "battery.xiabis_modpack_toolbox.face.down": "底面",
+  "battery.xiabis_modpack_toolbox.face.north": "北面",
+  "battery.xiabis_modpack_toolbox.face.south": "南面",
+  "battery.xiabis_modpack_toolbox.face.west": "西面",
+  "battery.xiabis_modpack_toolbox.face.east": "东面",
+  "battery.xiabis_modpack_toolbox.mode.input": "能量输入",
+  "battery.xiabis_modpack_toolbox.mode.output": "能量输出",
+  "message.xiabis_modpack_toolbox.battery.face": "%s：%s，储能 %s FE",
+  "message.xiabis_modpack_toolbox.battery.active": "主动输入输出：%s"
 }

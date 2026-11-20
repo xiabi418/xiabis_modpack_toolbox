@@ -46,6 +46,10 @@ public final class ModItems {
     public static final DeferredItem<net.minecraft.world.item.BlockItem> OMNI_GENERATOR_ITEM =
             ITEMS.registerSimpleBlockItem(ModBlocks.OMNI_GENERATOR);
 
+    /** Block item of the giant battery box. */
+    public static final DeferredItem<net.minecraft.world.item.BlockItem> OMNI_BATTERY_ITEM =
+            ITEMS.registerSimpleBlockItem(ModBlocks.OMNI_BATTERY);
+
     /** Upgrade card that doubles the generator's internal energy buffer per card. */
     public static final DeferredItem<Item> ENERGY_CARD = ITEMS.registerItem("energy_card", Item::new,
             new Item.Properties().stacksTo(64).rarity(Rarity.RARE));
@@ -86,6 +90,15 @@ public final class ModItems {
                         output.accept(OMNI_GENERATOR_ITEM.get());
                         output.accept(ENERGY_CARD.get());
                         output.accept(SPEED_CARD.get());
+                        output.accept(OMNI_BATTERY_ITEM.get());
+                        ItemStack bigBackpack = xiabis.modpack.toolbox.util.StorageUpgradeSupport.creativeBackpack();
+                        if (!bigBackpack.isEmpty()) {
+                            output.accept(bigBackpack);
+                        }
+                        ItemStack bigBarrel = xiabis.modpack.toolbox.util.StorageUpgradeSupport.creativeBarrel();
+                        if (!bigBarrel.isEmpty()) {
+                            output.accept(bigBarrel);
+                        }
                         ItemStack flightPotion = flightPotion();
                         if (!flightPotion.isEmpty()) {
                             output.accept(flightPotion);

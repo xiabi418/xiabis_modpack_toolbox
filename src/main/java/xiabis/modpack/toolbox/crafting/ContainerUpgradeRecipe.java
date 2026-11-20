@@ -3,12 +3,7 @@ package xiabis.modpack.toolbox.crafting;
 import java.util.Map;
 import java.util.Optional;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.Style;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -23,6 +18,7 @@ import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.level.Level;
 
 import xiabis.modpack.toolbox.registry.ModRecipes;
+import xiabis.modpack.toolbox.util.StorageUpgradeSupport;
 
 /**
  * A normal shaped recipe that carries the "storage identity" of the container placed in its grid over to the
@@ -32,19 +28,13 @@ import xiabis.modpack.toolbox.registry.ModRecipes;
  * the stack only holds a {@code sophisticatedcore:storage_uuid} component that points at the stored inventory
  * (and its upgrades), while the wooden look of a barrel lives in {@code sophisticatedstorage:wood_type}. Copying
  * those components over is therefore enough to keep everything the player had inside, and to keep the wood type
- * of a barrel. Slot counts and the display name come from the recipe JSON and always win over the input's own
- * values.
+ * of a barrel. Slot counts come from the recipe JSON and win over the input's own values.
  */
 public class ContainerUpgradeRecipe implements CraftingRecipe {
     /** Components owned by the respective mods; everything else is left alone. */
     private static final String[] COPY_NAMESPACES = {"sophisticatedcore", "sophisticatedstorage", "sophisticatedbackpacks"};
     /** Declared by the recipe JSON, never inherited from the input. */
     private static final String[] KEEP_FROM_RECIPE = {"number_of_inventory_slots", "number_of_upgrade_slots", "custom_name"};
-
-    /** Item id -> display name applied to the crafted container. */
-    private static final Map<String, String> RESULT_NAMES = Map.of(
-            "sophisticatedbackpacks:netherite_backpack", "库存不足恐惧症",
-            "sophisticatedstorage:netherite_barrel", "容量不足恐惧症");
 
     private final ShapedRecipe compose;
 
@@ -65,11 +55,10 @@ public class ContainerUpgradeRecipe implements CraftingRecipe {
     public ItemStack assemble(CraftingInput input, HolderLookup.Provider registries) {
         ItemStack result = this.compose.assemble(input, registries);
         ItemStack container = findContainer(input);
-        if (container.isEmpty() || result.isEmpty()) {
-            return result;
+        if (!container.isEmpty() && !result.isEmpty()) {
+            inheritComponents(container, result);
+            StorageUpgradeSupport.applyDisplayName(result);
         }
-        inheritComponents(container, result);
-        applyDisplayName(result);
         return result;
     }
 
@@ -82,32 +71,11 @@ public class ContainerUpgradeRecipe implements CraftingRecipe {
             }
             DataComponentType<?> type = entry.getKey();
             ResourceLocation id = BuiltInRegistries.DATA_COMPONENT_TYPE.getKey(type);
-            if (id == null || !isCopiedNamespace(id) || isDeclaredByRecipe(id)) {
-                continue;
-            }
-            if (result.has(type)) {
+            if (id == null || !isCopiedNamespace(id) || isDeclaredByRecipe(id) || result.has(type)) {
                 continue;
             }
             result.set((DataComponentType) type, (Object) entry.getValue().get());
         }
-    }
-
-    /**
-     * Names the result after the item it upgrades. A styled component is built here instead of being written in
-     * the recipe JSON because item components in recipe results only accept plain strings.
-     */
-    private static void applyDisplayName(ItemStack result) {
-        ResourceLocation id = BuiltInRegistries.ITEM.getKey(result.getItem());
-        String name = RESULT_NAMES.get(id.toString());
-        if (name == null) {
-            return;
-        }
-        MutableComponent marker = Component.literal("AB").withStyle(ChatFormatting.OBFUSCATED);
-        MutableComponent display = Component.empty()
-                .append(marker.copy())
-                .append(Component.literal(name).withStyle(ChatFormatting.RED, ChatFormatting.BOLD))
-                .append(marker.copy());
-        result.set(DataComponents.CUSTOM_NAME, display.withStyle(Style.EMPTY.withItalic(false)));
     }
 
     private static boolean isCopiedNamespace(ResourceLocation id) {

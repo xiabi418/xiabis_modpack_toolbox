@@ -16,6 +16,11 @@ public final class ModBlockEntities {
                     .of(OmniGeneratorBlockEntity::new, ModBlocks.OMNI_GENERATOR.get())
                     .build(null));
 
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<xiabis.modpack.toolbox.blockentity.OmniBatteryBlockEntity>> OMNI_BATTERY =
+            BLOCK_ENTITIES.register("omni_battery", () -> BlockEntityType.Builder.of(
+                    xiabis.modpack.toolbox.blockentity.OmniBatteryBlockEntity::new,
+                    ModBlocks.OMNI_BATTERY.get()).build(null));
+
     private ModBlockEntities() {
     }
 }

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "xiabis_modpack_toolbox:block/omni_battery"
+  }
+}

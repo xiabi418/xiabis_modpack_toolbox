@@ -32,6 +32,15 @@ public final class ModBlocks {
                     .requiresCorrectToolForDrops()
                     .noOcclusion());
 
+
+    /** Giant battery box: unbounded FE buffer, configured per side. */
+    public static final DeferredBlock<net.minecraft.world.level.block.Block> OMNI_BATTERY =
+            BLOCKS.registerBlock("omni_battery", xiabis.modpack.toolbox.block.OmniBatteryBlock::new,
+                    net.minecraft.world.level.block.state.BlockBehaviour.Properties.of()
+                            .strength(4.0F, 9.0F)
+                            .requiresCorrectToolForDrops()
+                            .noOcclusion());
+
     private ModBlocks() {
     }
 }
