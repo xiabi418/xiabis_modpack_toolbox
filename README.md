@@ -244,7 +244,8 @@ faces (off by default). Every interaction is reported on the action bar, e.g.
   `int` based, so every neighbour interaction is clamped to `Integer.MAX_VALUE` (2 147 483 647 FE)
   per call; inside the block the full `long` range is kept.
 * Transfer (`receiveEnergy` / `extractEnergy` and the active I/O pass): up to
-  **2 100 000 000 FE per tick per side** (2.1 G/t).
+  **2 147 483 647 FE per tick per side** (`Integer.MAX_VALUE`, the most a single FE call can
+  carry).
 * Breaking the battery keeps its charge: the item stores the energy in the
   `stored_energy` component, drops with it and is restored when placed again (the tooltip of the
   item shows `Stored: <n> FE`).
@@ -281,11 +282,15 @@ other mods recognise them (`data/minecraft/tags/item/*` and `data/c/tags/item/*`
 forwarded to a real wrench/staff item found at runtime, and tagging the toolbox items as
 wrenches would make other mods (and the forwarding code) treat them as the genuine article.
 
+## Changes in 1.3.10
+
+* Active I/O transfer is now exactly `Integer.MAX_VALUE` (2 147 483 647 FE/t per side).
+
 ## Changes in 1.3.9
 
 * Battery capacity raised from `Integer.MAX_VALUE` to a real `long` (`Long.MAX_VALUE`); the FE
   capability still reports clamped `int` values.
-* Active I/O transfer raised to **2.1 G FE/t** per side.
+* Active I/O transfer raised from 1 000 000 FE/t to `Integer.MAX_VALUE` FE/t per side.
 * Breaking a giant battery box keeps its stored energy: it is written into the dropped item
   (`stored_energy` component) and restored on placement, with a tooltip showing the amount.
 

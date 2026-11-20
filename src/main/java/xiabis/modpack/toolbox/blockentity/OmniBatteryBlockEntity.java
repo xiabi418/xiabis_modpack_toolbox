@@ -26,8 +26,8 @@ import xiabis.modpack.toolbox.util.BatteryFaceMode;
 public class OmniBatteryBlockEntity extends BlockEntity {
     /** Internal capacity: as much as a {@code long} can hold. */
     public static final long CAPACITY = Long.MAX_VALUE;
-    /** How much energy active I/O moves per side and tick (2.1 billion FE). */
-    public static final int TRANSFER_PER_TICK = 2_100_000_000;
+    /** How much energy active I/O moves per side and tick; the most a single FE call can carry. */
+    public static final int TRANSFER_PER_TICK = Integer.MAX_VALUE;
 
     private final BatteryFaceMode[] faces = new BatteryFaceMode[6];
     private final IEnergyStorage[] faceViews = new IEnergyStorage[6];
