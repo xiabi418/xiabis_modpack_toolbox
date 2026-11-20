@@ -188,6 +188,7 @@ def main():
         os.path.join(TEX_BLOCK, 'omni_generator_top.png'): (TOP, BLOCK_PALETTE),
         os.path.join(TEX_BLOCK, 'omni_generator_side.png'): (SIDE, BLOCK_PALETTE),
         os.path.join(TEX_BLOCK, 'omni_generator_front.png'): (FRONT, BLOCK_PALETTE),
+        os.path.join(TEX_BLOCK, 'omni_generator_bottom.png'): (TOP, BLOCK_PALETTE),
         os.path.join(TEX_ITEM, 'energy_card.png'): (ENERGY_CARD, CARD_PALETTE),
         os.path.join(TEX_ITEM, 'speed_card.png'): (SPEED_CARD, CARD_PALETTE),
     }
@@ -201,7 +202,7 @@ def main():
         'parent': 'minecraft:block/orientable',
         'textures': {
             'top': 'xiabis_modpack_toolbox:block/omni_generator_top',
-            'bottom': 'xiabis_modpack_toolbox:block/omni_generator_top',
+            'bottom': 'xiabis_modpack_toolbox:block/omni_generator_bottom',
             'front': 'xiabis_modpack_toolbox:block/omni_generator_front',
             'side': 'xiabis_modpack_toolbox:block/omni_generator_side',
         },
