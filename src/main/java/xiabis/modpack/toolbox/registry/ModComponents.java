@@ -31,6 +31,11 @@ public final class ModComponents {
                             .networkSynchronized(ByteBufCodecs.fromCodecWithRegistries(MarkedEffects.CODEC))
                             .cacheEncoding());
 
+    /** FE stored inside a giant battery box item (long, since the block itself stores up to Long.MAX_VALUE). */
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Long>> STORED_ENERGY =
+            COMPONENTS.registerComponentType("stored_energy",
+                    b -> b.persistent(Codec.LONG).networkSynchronized(ByteBufCodecs.VAR_LONG).cacheEncoding());
+
     private ModComponents() {
     }
 }

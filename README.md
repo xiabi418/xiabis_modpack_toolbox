@@ -240,9 +240,14 @@ I/O**, which every tick pushes energy out of the output faces and pulls energy f
 faces (off by default). Every interaction is reported on the action bar, e.g.
 `Top: energy output, stored 1234567 FE`.
 
-* Capacity: the largest value the FE API supports, `Integer.MAX_VALUE` (2 147 483 647 FE).
+* Capacity: a `long`, i.e. `Long.MAX_VALUE` = about **9.22e18 FE**. The Forge Energy API is
+  `int` based, so every neighbour interaction is clamped to `Integer.MAX_VALUE` (2 147 483 647 FE)
+  per call; inside the block the full `long` range is kept.
 * Transfer (`receiveEnergy` / `extractEnergy` and the active I/O pass): up to
-  **1 000 000 FE per tick per side**, so a full battery can be drained quickly.
+  **2 100 000 000 FE per tick per side** (2.1 G/t).
+* Breaking the battery keeps its charge: the item stores the energy in the
+  `stored_energy` component, drops with it and is restored when placed again (the tooltip of the
+  item shows `Stored: <n> FE`).
 * Faces only expose what they are configured for: input faces reject `extractEnergy`, output
   faces reject `receiveEnergy`, which means pipes and cables automatically respect the setting.
 * Recipe (shaped):
@@ -275,6 +280,14 @@ other mods recognise them (`data/minecraft/tags/item/*` and `data/c/tags/item/*`
 `c:tools/wrench` and `c:tools/staff` are intentionally **not** claimed: those interactions are
 forwarded to a real wrench/staff item found at runtime, and tagging the toolbox items as
 wrenches would make other mods (and the forwarding code) treat them as the genuine article.
+
+## Changes in 1.3.9
+
+* Battery capacity raised from `Integer.MAX_VALUE` to a real `long` (`Long.MAX_VALUE`); the FE
+  capability still reports clamped `int` values.
+* Active I/O transfer raised to **2.1 G FE/t** per side.
+* Breaking a giant battery box keeps its stored energy: it is written into the dropped item
+  (`stored_energy` component) and restored on placement, with a tooltip showing the amount.
 
 ## Changes in 1.3.8
 

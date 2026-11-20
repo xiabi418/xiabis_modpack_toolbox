@@ -5,18 +5,25 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import java.util.List;
+
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
 
 import xiabis.modpack.toolbox.blockentity.OmniBatteryBlockEntity;
 import xiabis.modpack.toolbox.registry.ModBlockEntities;
+import xiabis.modpack.toolbox.registry.ModComponents;
 import xiabis.modpack.toolbox.util.BatteryFaceMode;
 
 /**
@@ -51,6 +58,34 @@ public class OmniBatteryBlock extends BaseEntityBlock {
                 OmniBatteryBlockEntity.serverTick(tickLevel, pos, tickState, battery);
             }
         };
+    }
+
+    /** Keeps the stored charge on the dropped battery item. */
+    @Override
+    public List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
+        List<ItemStack> drops = super.getDrops(state, params);
+        if (params.getOptionalParameter(LootContextParams.BLOCK_ENTITY) instanceof OmniBatteryBlockEntity battery) {
+            long stored = battery.storedEnergy();
+            if (stored > 0L) {
+                for (ItemStack stack : drops) {
+                    if (stack.is(this.asItem())) {
+                        stack.set(ModComponents.STORED_ENERGY.get(), stored);
+                    }
+                }
+            }
+        }
+        return drops;
+    }
+
+    /** Restores the charge recorded on the battery item when it is placed again. */
+    @Override
+    public void setPlacedBy(Level level, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+        super.setPlacedBy(level, pos, state, placer, stack);
+        if (!level.isClientSide
+                && level.getBlockEntity(pos) instanceof OmniBatteryBlockEntity battery
+                && stack.has(ModComponents.STORED_ENERGY)) {
+            battery.setStoredEnergy(stack.getOrDefault(ModComponents.STORED_ENERGY, 0L));
+        }
     }
 
     @Override

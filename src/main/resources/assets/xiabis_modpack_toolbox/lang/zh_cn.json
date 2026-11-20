@@ -63,5 +63,6 @@
   "battery.xiabis_modpack_toolbox.mode.input": "能量输入",
   "battery.xiabis_modpack_toolbox.mode.output": "能量输出",
   "message.xiabis_modpack_toolbox.battery.face": "%s：%s，储能 %s FE",
-  "message.xiabis_modpack_toolbox.battery.active": "主动输入输出：%s"
+  "message.xiabis_modpack_toolbox.battery.active": "主动输入输出：%s",
+  "tooltip.xiabis_modpack_toolbox.omni_battery.energy": "储能：%s FE"
 }

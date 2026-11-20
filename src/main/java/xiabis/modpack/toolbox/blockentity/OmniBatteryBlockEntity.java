@@ -10,29 +10,30 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.energy.EnergyStorage;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 
 import xiabis.modpack.toolbox.registry.ModBlockEntities;
 import xiabis.modpack.toolbox.util.BatteryFaceMode;
 
 /**
- * Stores energy for the omni battery box. The capacity is {@link Integer#MAX_VALUE}, which is the largest amount
- * the Forge Energy API can address, so it behaves as an unbounded buffer in practice.
+ * Stores energy for the omni battery box in a {@code long}, so the buffer can hold up to
+ * {@link Long#MAX_VALUE} FE (~9.22e18). The Forge Energy API itself is {@code int} based, so every interaction
+ * with a neighbour is clamped to {@code Integer.MAX_VALUE} per call.
  *
  * <p>Every side is either an input or an output side; by default all six accept energy. With active I/O enabled
  * the block also pushes energy to output sides and pulls it from input sides once per tick.
  */
 public class OmniBatteryBlockEntity extends BlockEntity {
-    /** Largest amount of FE the API can represent. */
-    public static final int CAPACITY = Integer.MAX_VALUE;
-    /** How much energy active I/O moves per side and tick. */
-    public static final int TRANSFER_PER_TICK = 1_000_000;
+    /** Internal capacity: as much as a {@code long} can hold. */
+    public static final long CAPACITY = Long.MAX_VALUE;
+    /** How much energy active I/O moves per side and tick (2.1 billion FE). */
+    public static final int TRANSFER_PER_TICK = 2_100_000_000;
 
-    private final BatteryEnergyStorage storage = new BatteryEnergyStorage();
     private final BatteryFaceMode[] faces = new BatteryFaceMode[6];
     private final IEnergyStorage[] faceViews = new IEnergyStorage[6];
+    private final IEnergyStorage genericView = new GenericEnergyStorage();
     private boolean activeIo;
+    private long energy;
 
     public OmniBatteryBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.OMNI_BATTERY.get(), pos, state);
@@ -61,13 +62,41 @@ public class OmniBatteryBlockEntity extends BlockEntity {
         this.setChanged();
     }
 
-    public int storedEnergy() {
-        return this.storage.getEnergyStored();
+    public long storedEnergy() {
+        return this.energy;
+    }
+
+    /** Restores the charge when the block is placed from a battery item. */
+    public void setStoredEnergy(long amount) {
+        this.energy = Math.clamp(amount, 0L, CAPACITY);
+        this.setChanged();
+    }
+
+    private long receiveEnergy(long maxReceive, boolean simulate) {
+        long accepted = Math.min(maxReceive, CAPACITY - this.energy);
+        if (accepted <= 0) {
+            return 0L;
+        }
+        if (!simulate) {
+            this.energy += accepted;
+        }
+        return accepted;
+    }
+
+    private long extractEnergy(long maxExtract, boolean simulate) {
+        long extracted = Math.min(maxExtract, this.energy);
+        if (extracted <= 0) {
+            return 0L;
+        }
+        if (!simulate) {
+            this.energy -= extracted;
+        }
+        return extracted;
     }
 
     /** The storage a neighbour sees from the given side; {@code null} is the generic, two way view. */
     public IEnergyStorage energyHandler(Direction side) {
-        return side == null ? this.storage : this.faceViews[side.get3DDataValue()];
+        return side == null ? this.genericView : this.faceViews[side.get3DDataValue()];
     }
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, OmniBatteryBlockEntity battery) {
@@ -84,37 +113,38 @@ public class OmniBatteryBlockEntity extends BlockEntity {
     }
 
     private void push(Direction direction) {
-        if (this.storage.getEnergyStored() <= 0) {
+        if (this.energy <= 0L) {
             return;
         }
         IEnergyStorage target = this.neighbour(direction);
-        if (target == null) {
+        if (target == null || !target.canReceive()) {
             return;
         }
-        int moved = target.receiveEnergy(Math.min(TRANSFER_PER_TICK, this.storage.getEnergyStored()), true);
-        if (moved <= 0) {
+        int offer = (int) Math.min(TRANSFER_PER_TICK, this.energy);
+        int accepted = target.receiveEnergy(offer, true);
+        if (accepted <= 0) {
             return;
         }
-        int extracted = this.storage.extractEnergy(moved, false);
-        target.receiveEnergy(extracted, false);
+        long extracted = this.extractEnergy(accepted, false);
+        target.receiveEnergy((int) extracted, false);
         this.setChanged();
     }
 
     private void pull(Direction direction) {
-        if (this.storage.getEnergyStored() >= CAPACITY) {
+        if (this.energy >= CAPACITY) {
             return;
         }
         IEnergyStorage source = this.neighbour(direction);
         if (source == null || !source.canExtract()) {
             return;
         }
-        int room = CAPACITY - this.storage.getEnergyStored();
-        int moved = source.extractEnergy(Math.min(TRANSFER_PER_TICK, room), true);
-        if (moved <= 0) {
+        int request = (int) Math.min(TRANSFER_PER_TICK, CAPACITY - this.energy);
+        int offered = source.extractEnergy(request, true);
+        if (offered <= 0) {
             return;
         }
-        int accepted = this.storage.receiveEnergy(moved, false);
-        source.extractEnergy(accepted, false);
+        long accepted = this.receiveEnergy(offered, false);
+        source.extractEnergy((int) accepted, false);
         this.setChanged();
     }
 
@@ -132,7 +162,7 @@ public class OmniBatteryBlockEntity extends BlockEntity {
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
-        tag.putInt("Energy", this.storage.getEnergyStored());
+        tag.putLong("Energy", this.energy);
         tag.putBoolean("ActiveIo", this.activeIo);
         byte[] modes = new byte[6];
         for (Direction direction : Direction.values()) {
@@ -144,7 +174,7 @@ public class OmniBatteryBlockEntity extends BlockEntity {
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
-        this.storage.setStored(tag.getInt("Energy"));
+        this.energy = Math.clamp(tag.getLong("Energy"), 0L, CAPACITY);
         this.activeIo = tag.getBoolean("ActiveIo");
         byte[] modes = tag.getByteArray("Faces");
         for (Direction direction : Direction.values()) {
@@ -155,31 +185,36 @@ public class OmniBatteryBlockEntity extends BlockEntity {
         }
     }
 
-    private static final class BatteryEnergyStorage extends EnergyStorage {
-        private BatteryEnergyStorage() {
-            super(CAPACITY, CAPACITY, CAPACITY, 0);
-        }
-
-        private void setStored(int amount) {
-            this.energy = Math.clamp(amount, 0, this.capacity);
-        }
-
+    /** Two way view used for side-less capability lookups. */
+    private final class GenericEnergyStorage implements IEnergyStorage {
         @Override
         public int receiveEnergy(int maxReceive, boolean simulate) {
-            int accepted = Math.min(maxReceive, this.capacity - this.energy);
-            if (!simulate) {
-                this.energy += accepted;
-            }
-            return accepted;
+            return (int) OmniBatteryBlockEntity.this.receiveEnergy(maxReceive, simulate);
         }
 
         @Override
         public int extractEnergy(int maxExtract, boolean simulate) {
-            int extracted = Math.min(maxExtract, this.energy);
-            if (!simulate) {
-                this.energy -= extracted;
-            }
-            return extracted;
+            return (int) OmniBatteryBlockEntity.this.extractEnergy(maxExtract, simulate);
+        }
+
+        @Override
+        public int getEnergyStored() {
+            return (int) Math.min(Integer.MAX_VALUE, OmniBatteryBlockEntity.this.energy);
+        }
+
+        @Override
+        public int getMaxEnergyStored() {
+            return Integer.MAX_VALUE;
+        }
+
+        @Override
+        public boolean canExtract() {
+            return true;
+        }
+
+        @Override
+        public boolean canReceive() {
+            return true;
         }
     }
 
@@ -193,25 +228,25 @@ public class OmniBatteryBlockEntity extends BlockEntity {
         @Override
         public int receiveEnergy(int maxReceive, boolean simulate) {
             return OmniBatteryBlockEntity.this.mode(this.direction) == BatteryFaceMode.INPUT
-                    ? OmniBatteryBlockEntity.this.storage.receiveEnergy(maxReceive, simulate)
+                    ? (int) OmniBatteryBlockEntity.this.receiveEnergy(maxReceive, simulate)
                     : 0;
         }
 
         @Override
         public int extractEnergy(int maxExtract, boolean simulate) {
             return OmniBatteryBlockEntity.this.mode(this.direction) == BatteryFaceMode.OUTPUT
-                    ? OmniBatteryBlockEntity.this.storage.extractEnergy(maxExtract, simulate)
+                    ? (int) OmniBatteryBlockEntity.this.extractEnergy(maxExtract, simulate)
                     : 0;
         }
 
         @Override
         public int getEnergyStored() {
-            return OmniBatteryBlockEntity.this.storage.getEnergyStored();
+            return (int) Math.min(Integer.MAX_VALUE, OmniBatteryBlockEntity.this.energy);
         }
 
         @Override
         public int getMaxEnergyStored() {
-            return CAPACITY;
+            return Integer.MAX_VALUE;
         }
 
         @Override

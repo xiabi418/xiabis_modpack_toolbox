@@ -48,7 +48,9 @@ public final class ModItems {
 
     /** Block item of the giant battery box. */
     public static final DeferredItem<net.minecraft.world.item.BlockItem> OMNI_BATTERY_ITEM =
-            ITEMS.registerSimpleBlockItem(ModBlocks.OMNI_BATTERY);
+            ITEMS.registerItem("omni_battery",
+                    properties -> new xiabis.modpack.toolbox.item.OmniBatteryBlockItem(ModBlocks.OMNI_BATTERY.get(), properties),
+                    new Item.Properties());
 
     /** Upgrade card that doubles the generator's internal energy buffer per card. */
     public static final DeferredItem<Item> ENERGY_CARD = ITEMS.registerItem("energy_card", Item::new,
