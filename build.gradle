@@ -90,6 +90,10 @@ tasks.configureEach { task ->
 }
 
 dependencies {
+    implementation files('libs/sophisticatedcore-1.21.1-1.5.39.2489.jar')
+    implementation files('libs/sophisticatedbackpacks-1.21.1-3.26.22.2257.jar')
+    implementation files('libs/sophisticatedstorage-1.21.1-1.6.20.2239.jar')
+
 
     implementation files(curiosJar)
 
