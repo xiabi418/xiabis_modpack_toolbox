@@ -282,6 +282,15 @@ other mods recognise them (`data/minecraft/tags/item/*` and `data/c/tags/item/*`
 forwarded to a real wrench/staff item found at runtime, and tagging the toolbox items as
 wrenches would make other mods (and the forwarding code) treat them as the genuine article.
 
+## Changes in 1.3.11
+
+* Fixed a server crash (`No enum constant appeng.api.config.Actionable.MODIFY`) when the generator
+  was set to AE output with AE2 19.x installed. AE2 renamed `Actionable.MODIFY` to
+  `Actionable.MODULATE`; the adapter now resolves the constant by scanning the enum (accepts both
+  names) and disables itself with a logged warning if the API changed again.
+* Soft-dependency adapters (AE2 / GregTech) can no longer throw out of a block entity tick: the
+  generator's energy push is wrapped in a guard that logs and skips the face.
+
 ## Changes in 1.3.10
 
 * Active I/O transfer is now exactly `Integer.MAX_VALUE` (2 147 483 647 FE/t per side).

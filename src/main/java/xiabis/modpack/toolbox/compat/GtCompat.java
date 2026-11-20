@@ -6,6 +6,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.neoforged.fml.ModList;
 
+import xiabis.modpack.toolbox.XmtMod;
+
 /**
  * Reflective access to GregTech Modern's {@code IEnergyContainer}. GregTech is only a soft
  * dependency, so everything is looked up lazily and any failure simply disables EU output.
@@ -35,7 +37,8 @@ public final class GtCompat {
             return;
         }
         resolved = true;
-        if (!ModList.get().isLoaded("gtceu")) {
+        ModList modList = ModList.get();
+        if (modList == null || !modList.isLoaded("gtceu")) {
             return;
         }
         try {
@@ -44,10 +47,12 @@ public final class GtCompat {
             Class<?> container = Class.forName("com.gregtechceu.gtceu.api.capability.IEnergyContainer");
             acceptEnergyFromNetwork = container.getMethod("acceptEnergyFromNetwork", Direction.class, long.class, long.class);
             inputsEnergy = container.getMethod("inputsEnergy", Direction.class);
-        } catch (ReflectiveOperationException | LinkageError ignored) {
+        } catch (ReflectiveOperationException | RuntimeException | LinkageError exception) {
             getEnergyContainer = null;
             acceptEnergyFromNetwork = null;
             inputsEnergy = null;
+            XmtMod.LOGGER.warn("GregTech detected but its energy API could not be used, EU output is disabled: {}",
+                    exception.toString());
         }
     }
 
@@ -74,7 +79,8 @@ public final class GtCompat {
             }
             Object accepted = acceptEnergyFromNetwork.invoke(container, side, VOLTAGE, amps);
             return accepted instanceof Long value ? Math.max(0L, value) : 0L;
-        } catch (ReflectiveOperationException | RuntimeException | LinkageError ignored) {
+        } catch (ReflectiveOperationException | RuntimeException | LinkageError exception) {
+            XmtMod.LOGGER.debug("GregTech energy push failed: {}", exception.toString());
             return 0L;
         }
     }

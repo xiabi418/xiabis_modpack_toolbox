@@ -297,10 +297,16 @@ public class OmniGeneratorBlockEntity extends BlockEntity implements MenuProvide
             }
             BlockPos neighbour = pos.relative(direction);
             Direction opposite = direction.getOpposite();
-            switch (type) {
-                case FE -> budget -= pushFe(level, neighbour, opposite, budget);
-                case EU -> budget -= pushEu(level, neighbour, opposite, budget);
-                case AE -> budget -= pushAe(level, neighbour, opposite, budget);
+            try {
+                switch (type) {
+                    case FE -> budget -= pushFe(level, neighbour, opposite, budget);
+                    case EU -> budget -= pushEu(level, neighbour, opposite, budget);
+                    case AE -> budget -= pushAe(level, neighbour, opposite, budget);
+                }
+            } catch (RuntimeException exception) {
+                // A soft-dependency adapter must never take the server down from inside a block entity tick.
+                xiabis.modpack.toolbox.XmtMod.LOGGER.warn("Energy output to {} failed, skipping this face: {}",
+                        neighbour, exception.toString());
             }
         }
     }
