@@ -119,6 +119,39 @@ model per tool kind (`omni_tool_fortune_<kind>` / `omni_tool_silk_<kind>`) selec
 | 11–18 | pickaxe … staff, fortune |
 | 21–28 | pickaxe … staff, silk |
 
+## Storage upgrade recipes (Sophisticated mods)
+
+Two recipes are only loaded when their mod is installed.
+
+**Sophisticated Backpacks** — 8 diamond blocks around a diamond backpack:
+
+```
+D D D
+D B D      D = diamond block, B = diamond backpack
+D D D
+```
+
+produces a netherite backpack named "[obfuscated]库存不足恐惧症[obfuscated]" (red, bold) with
+15 upgrade slots and 4096 item slots.
+
+**Sophisticated Storage** — 8 diamond blocks around a diamond barrel (any wood):
+
+```
+D D D
+D B D      B = diamond barrel (the wood type is carried over)
+D D D
+```
+
+produces the matching netherite barrel named "[obfuscated]容量不足恐惧症[obfuscated]" with
+15 upgrade slots and 8192 item slots.
+
+Both upgrades keep whatever was inside: the stored inventory is addressed by the
+`sophisticatedcore:storage_uuid` component, which is copied onto the result, and the barrel's
+`sophisticatedstorage:wood_type` is copied as well. Implemented by
+`crafting/ContainerUpgradeRecipe` (a shaped recipe that post-processes its result), so recipe
+viewers still render the pattern normally. Because the new container shares the storage UUID,
+the original item must be consumed by the recipe — it is.
+
 ## Building
 
 Requirements: **JDK 21** and network access (the build resolves NeoForge from

@@ -1,0 +1,31 @@
+{
+  "type": "xiabis_modpack_toolbox:container_upgrade",
+  "category": "misc",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "sophisticatedbackpacks"
+    }
+  ],
+  "pattern": [
+    "DDD",
+    "DBD",
+    "DDD"
+  ],
+  "key": {
+    "D": {
+      "item": "minecraft:diamond_block"
+    },
+    "B": {
+      "item": "sophisticatedbackpacks:diamond_backpack"
+    }
+  },
+  "result": {
+    "id": "sophisticatedbackpacks:netherite_backpack",
+    "count": 1,
+    "components": {
+      "sophisticatedcore:number_of_inventory_slots": 4096,
+      "sophisticatedcore:number_of_upgrade_slots": 15
+    }
+  }
+}

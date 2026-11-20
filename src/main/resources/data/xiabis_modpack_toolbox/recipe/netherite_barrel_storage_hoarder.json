@@ -1,0 +1,31 @@
+{
+  "type": "xiabis_modpack_toolbox:container_upgrade",
+  "category": "misc",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "sophisticatedstorage"
+    }
+  ],
+  "pattern": [
+    "DDD",
+    "DBD",
+    "DDD"
+  ],
+  "key": {
+    "D": {
+      "item": "minecraft:diamond_block"
+    },
+    "B": {
+      "item": "sophisticatedstorage:diamond_barrel"
+    }
+  },
+  "result": {
+    "id": "sophisticatedstorage:netherite_barrel",
+    "count": 1,
+    "components": {
+      "sophisticatedcore:number_of_inventory_slots": 8192,
+      "sophisticatedcore:number_of_upgrade_slots": 15
+    }
+  }
+}

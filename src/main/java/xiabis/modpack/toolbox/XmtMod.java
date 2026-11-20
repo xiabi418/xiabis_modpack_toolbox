@@ -16,6 +16,7 @@ import xiabis.modpack.toolbox.registry.ModComponents;
 import xiabis.modpack.toolbox.registry.ModItems;
 import xiabis.modpack.toolbox.registry.ModMenus;
 import xiabis.modpack.toolbox.registry.ModPotions;
+import xiabis.modpack.toolbox.registry.ModRecipes;
 
 @Mod(XmtMod.MOD_ID)
 public class XmtMod {
@@ -31,6 +32,7 @@ public class XmtMod {
         ModItems.ITEMS.register(modBus);
         ModItems.CREATIVE_TABS.register(modBus);
         ModPotions.POTIONS.register(modBus);
+        ModRecipes.RECIPE_SERIALIZERS.register(modBus);
         modBus.addListener(ModNetwork::register);
         modBus.addListener(XmtMod::registerCapabilities);
         modBus.addListener(XmtMod::commonSetup);
