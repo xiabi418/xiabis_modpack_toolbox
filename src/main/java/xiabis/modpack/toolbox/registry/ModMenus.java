@@ -16,6 +16,11 @@ public final class ModMenus {
             MENUS.register("omni_generator",
                     () -> IMenuTypeExtension.create(OmniGeneratorMenu::new));
 
+    public static final DeferredHolder<MenuType<?>, MenuType<xiabis.modpack.toolbox.menu.OmniArmorMenu>> OMNI_ARMOR =
+            MENUS.register("omni_armor", () -> IMenuTypeExtension.create(
+                    (id, inventory, buffer) -> new xiabis.modpack.toolbox.menu.OmniArmorMenu(id, inventory,
+                            xiabis.modpack.toolbox.util.ArmorSlotTarget.byOrdinal(buffer.readVarInt()))));
+
     private ModMenus() {
     }
 }

@@ -262,6 +262,38 @@ faces (off by default). Every interaction is reported on the action bar, e.g.
 The block id is lowercase (`omni_battery`); Minecraft resource locations cannot contain uppercase
 letters, so the `omni_Battery` from the requirements is registered as `omni_battery`.
 
+## Omni Armor (`omni_armor`)
+
+A single helmet that replaces an entire kit.
+
+* Equips either in the vanilla helmet slot or in the Curios **head** slot (both are shipped: the
+  item is in `data/curios/tags/item/head.json` and the built-in `player` curio entity now declares
+  `charm` **and** `head`).
+* While worn/hold it grants `+60` armor and `+60` armor toughness. Vanilla clamps these attributes at
+  30 / 20, which is exactly why the requirements mention Apotheosis: Apotheosis raises the caps of
+  `minecraft:armor` (200) and `minecraft:armor_toughness` (100). Verified with and without it in the
+  dev environment: 60 / 60 with Apotheosis installed, 30 / 20 without.
+* 640 durability, `Unbreakable`, and it ships with Protection 20, Respiration 20 and Aqua Affinity 1
+  (seeded into a real `enchantments` component, so the tooltip and enchanting behave normally).
+* Every damage source except `/kill` (`minecraft:generic_kill`) is cancelled. That includes void,
+  starvation, the warden's sonic boom and other mods' damage types; this is a deliberately
+  unbalanced sandbox item.
+* Wearing it removes **all** fog (`ViewportEvent.RenderFog` is cancelled) and strips the Darkness and
+  Blindness effects every tick, so boss fog, lava/water/powder-snow fog and darkness ambience are
+  gone.
+* **Block highlighting**: with the armor worn (or held) press `H` to open a 4x9 marker menu. Drop
+  block items into it from your inventory, or drag them from JEI (`IGhostIngredientHandler`, only
+  registered when JEI is installed). Every marked block type is scanned for in a 32 block radius and
+  drawn as a glowing, depth-test-free outline in its own colour; the scan is spread across ticks and
+  refreshed every 0.5 s (up to 6000 outlines).
+* Recipe (shaped):
+
+  ```
+  A D A      A = amethyst shard, D = diamond block
+  G H G      G = glowstone dust,  H = diamond helmet
+  I D I      I = iron block
+  ```
+
 ## Item tags
 
 Both items are added to the vanilla and NeoForge common tool/weapon tags so modpacks and
@@ -281,6 +313,19 @@ other mods recognise them (`data/minecraft/tags/item/*` and `data/c/tags/item/*`
 `c:tools/wrench` and `c:tools/staff` are intentionally **not** claimed: those interactions are
 forwarded to a real wrench/staff item found at runtime, and tagging the toolbox items as
 wrenches would make other mods (and the forwarding code) treat them as the genuine article.
+
+## Changes in 1.4.0
+
+* New item **Omni Armor** (`omni_armor`): helmet/Curios head slot, +60 armor and +60 toughness,
+  640 durability with `Unbreakable`, Protection 20 / Respiration 20 / Aqua Affinity 1, immunity to
+  every damage source except `/kill`, full fog removal (including Darkness/Blindness) and a 36 slot
+  block-highlight editor opened with `H` that accepts inventory and JEI drags.
+* New client-side outline renderer for highlighted blocks (custom `RenderType`, no depth test, 12
+  colour palette, 32 block radius, half-second refresh).
+* New packet pair for the marker menu (`open_armor_menu`, `set_armor_marker`) and the `marker_slots`
+  item component.
+* Curios `player` entity now declares the `charm` and `head` slots; `omni_armor` is tagged
+  `curios:head`.
 
 ## Changes in 1.3.11
 

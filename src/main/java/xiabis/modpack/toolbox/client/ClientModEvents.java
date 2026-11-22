@@ -18,6 +18,12 @@ import xiabis.modpack.toolbox.registry.ModMenus;
 @EventBusSubscriber(modid = XmtMod.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
 public final class ClientModEvents {
     public static final String CATEGORY = "key.categories.xiabis_modpack_toolbox";
+    public static final KeyMapping OPEN_ARMOR_MENU = new KeyMapping(
+            "key.xiabis_modpack_toolbox.open_armor_menu",
+            InputConstants.Type.KEYSYM,
+            org.lwjgl.glfw.GLFW.GLFW_KEY_H,
+            "key.categories.xiabis_modpack_toolbox");
+
     public static final KeyMapping OPEN_MENU = new KeyMapping(
             "key.xiabis.modpack_toolbox.open_menu",
             InputConstants.Type.KEYSYM,
@@ -26,12 +32,14 @@ public final class ClientModEvents {
 
     @SubscribeEvent
     public static void registerKeys(RegisterKeyMappingsEvent event) {
+        event.register(OPEN_ARMOR_MENU);
         event.register(OPEN_MENU);
     }
 
     @SubscribeEvent
     public static void registerScreens(RegisterMenuScreensEvent event) {
         event.register(ModMenus.OMNI_GENERATOR.get(), OmniGeneratorScreen::new);
+        event.register(ModMenus.OMNI_ARMOR.get(), OmniArmorScreen::new);
     }
 
     /** The weapon is not a vanilla bow, so the draw predicates have to be registered by hand. */

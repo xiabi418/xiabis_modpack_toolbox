@@ -39,6 +39,15 @@ public final class ModItems {
                     .fireResistant()
                     .component(DataComponents.UNBREAKABLE, new Unbreakable(true)));
 
+    public static final DeferredItem<Item> OMNI_ARMOR = ITEMS.registerItem("omni_armor",
+            xiabis.modpack.toolbox.item.OmniArmorItem::new,
+            new Item.Properties()
+                    .stacksTo(1)
+                    .durability(xiabis.modpack.toolbox.item.OmniArmorItem.DURABILITY)
+                    .rarity(Rarity.EPIC)
+                    .fireResistant()
+                    .component(DataComponents.UNBREAKABLE, new Unbreakable(true)));
+
     public static final DeferredItem<Item> TIME_WAND = ITEMS.registerItem("time_wand", TimeWandItem::new,
             new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant());
 
@@ -87,6 +96,7 @@ public final class ModItems {
                     .displayItems((parameters, output) -> {
                         output.accept(OMNI_TOOL.get());
                         output.accept(OMNI_WEAPON.get());
+                        output.accept(OMNI_ARMOR.get());
                         output.accept(TIME_WAND.get());
                         output.accept(MAGIC_POISON_BOTTLE.get());
                         output.accept(OMNI_GENERATOR_ITEM.get());

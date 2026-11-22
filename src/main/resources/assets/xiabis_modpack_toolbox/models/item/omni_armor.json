@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "xiabis_modpack_toolbox:item/omni_armor"
+  }
+}

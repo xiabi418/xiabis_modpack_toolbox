@@ -17,6 +17,13 @@ public final class ClientGameEvents {
         if (minecraft.player == null) {
             return;
         }
+        HighlightCache.tick(minecraft);
+        while (ClientModEvents.OPEN_ARMOR_MENU.consumeClick()) {
+            if (xiabis.modpack.toolbox.util.ArmorSupport.hasArmor(minecraft.player)) {
+                net.neoforged.neoforge.network.PacketDistributor
+                        .sendToServer(new xiabis.modpack.toolbox.network.OpenArmorMenuPayload());
+            }
+        }
         while (ClientModEvents.OPEN_MENU.consumeClick()) {
             ItemStack stack = minecraft.player.getMainHandItem();
             if (stack.getItem() instanceof OmniToolItem) {

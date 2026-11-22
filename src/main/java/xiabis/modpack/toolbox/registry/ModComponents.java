@@ -2,7 +2,9 @@ package xiabis.modpack.toolbox.registry;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.core.component.DataComponentType;
+import java.util.List;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -20,6 +22,18 @@ public final class ModComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> SILK_MODE =
             COMPONENTS.registerComponentType("silk_mode",
                     b -> b.persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).cacheEncoding());
+
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ItemStack>>> MARKER_SLOTS =
+            COMPONENTS.registerComponentType("marker_slots", builder -> builder
+                    .persistent(ItemStack.OPTIONAL_CODEC.listOf())
+                    .networkSynchronized(ItemStack.OPTIONAL_LIST_STREAM_CODEC)
+                    .cacheEncoding());
+
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> ARMOR_SEEDED =
+            COMPONENTS.registerComponentType("armor_seeded", builder -> builder
+                    .persistent(Codec.BOOL)
+                    .networkSynchronized(ByteBufCodecs.BOOL)
+                    .cacheEncoding());
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> STATE_APPLIED =
             COMPONENTS.registerComponentType("state_applied",

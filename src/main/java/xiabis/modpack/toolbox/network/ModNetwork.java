@@ -19,6 +19,10 @@ public final class ModNetwork {
         registrar.playToServer(SetToolModePayload.TYPE, SetToolModePayload.CODEC, ModNetwork::handle);
         registrar.playToServer(GeneratorConfigPayload.TYPE, GeneratorConfigPayload.CODEC,
                 ModNetwork::handleGeneratorConfig);
+        registrar.playToServer(OpenArmorMenuPayload.TYPE, OpenArmorMenuPayload.CODEC,
+                ModNetwork::handleOpenArmorMenu);
+        registrar.playToServer(SetArmorMarkerPayload.TYPE, SetArmorMarkerPayload.CODEC,
+                ModNetwork::handleSetArmorMarker);
     }
 
     private static void handle(SetToolModePayload payload, IPayloadContext context) {
@@ -68,6 +72,32 @@ public final class ModNetwork {
             }
             generator.setChanged();
             menu.broadcastChanges();
+        });
+    }
+
+    private static void handleOpenArmorMenu(OpenArmorMenuPayload payload, IPayloadContext context) {
+        context.enqueueWork(() -> {
+            if (!(context.player() instanceof net.minecraft.server.level.ServerPlayer player)) {
+                return;
+            }
+            if (!xiabis.modpack.toolbox.util.ArmorSupport.hasArmor(player)) {
+                return;
+            }
+            xiabis.modpack.toolbox.util.ArmorSlotTarget target =
+                    xiabis.modpack.toolbox.util.ArmorSupport.resolveTarget(player);
+            player.openMenu(new net.minecraft.world.SimpleMenuProvider(
+                    (id, inventory, ignored) -> new xiabis.modpack.toolbox.menu.OmniArmorMenu(id, inventory, target),
+                    net.minecraft.network.chat.Component
+                            .translatable("gui.xiabis_modpack_toolbox.omni_armor.title")),
+                    buffer -> buffer.writeVarInt(target.ordinal()));
+        });
+    }
+
+    private static void handleSetArmorMarker(SetArmorMarkerPayload payload, IPayloadContext context) {
+        context.enqueueWork(() -> {
+            if (context.player().containerMenu instanceof xiabis.modpack.toolbox.menu.OmniArmorMenu menu) {
+                menu.setMarker(payload.slot(), payload.stack().copyWithCount(1));
+            }
         });
     }
 

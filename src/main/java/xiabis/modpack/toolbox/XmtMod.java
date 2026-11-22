@@ -10,6 +10,7 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import xiabis.modpack.toolbox.network.ModNetwork;
+import xiabis.modpack.toolbox.registry.ModArmorMaterials;
 import xiabis.modpack.toolbox.registry.ModBlockEntities;
 import xiabis.modpack.toolbox.registry.ModBlocks;
 import xiabis.modpack.toolbox.registry.ModComponents;
@@ -25,6 +26,7 @@ public class XmtMod {
     public static final org.slf4j.Logger LOGGER = com.mojang.logging.LogUtils.getLogger();
 
     public XmtMod(IEventBus modBus, ModContainer container) {
+        ModArmorMaterials.ARMOR_MATERIALS.register(modBus);
         ModBlocks.BLOCKS.register(modBus);
         ModBlockEntities.BLOCK_ENTITIES.register(modBus);
         ModMenus.MENUS.register(modBus);
@@ -46,6 +48,10 @@ public class XmtMod {
             Item flask = ModItems.MAGIC_POISON_BOTTLE.get();
             if (flask instanceof ICurioItem curio) {
                 CuriosApi.registerCurio(flask, curio);
+            }
+            Item armor = ModItems.OMNI_ARMOR.get();
+            if (armor instanceof ICurioItem curio) {
+                CuriosApi.registerCurio(armor, curio);
             }
         });
     }

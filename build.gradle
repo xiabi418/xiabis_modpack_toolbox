@@ -3,7 +3,7 @@ plugins {
     id 'net.neoforged.moddev' version '2.0.148'
 }
 
-version = '1.3.11'
+version = '1.4.0'
 group = 'xiabis.modpack'
 
 base {
@@ -41,6 +41,10 @@ repositories {
     maven {
         name = 'MinecraftLibraries'
         url = 'https://libraries.minecraft.net'
+    }
+    maven {
+        name = 'BlameJared'
+        url = 'https://maven.blamejared.com'
     }
 }
 
@@ -106,6 +110,19 @@ dependencies {
     // AE2 is kept around because the generator has an AE output adapter.
     implementation files('libs/guideme-21.1.22.jar')
     implementation files('libs/ae2-19.2.20.jar')
+    // Dev-only JEI so the ghost handler compiles; JEI stays optional at runtime.
+    // JEI is optional at runtime: compile against the published artifact, and only put a local jar
+    // on the dev runtime classpath when it is present (the ghost handler needs it to be testable).
+    compileOnly 'mezz.jei:jei-1.21.1-neoforge:19.71.0.475'
+    def jeiDevJar = layout.projectDirectory.file('libs/jei-1.21.1-neoforge-19.71.0.475.jar')
+    if (jeiDevJar.asFile.exists()) {
+        runtimeOnly files(jeiDevJar)
+    }
+    implementation files('libs/mezz_config-1.21.1-neoforge-0.7.1-standalone.jar')
+    // Apotheosis stack, used to verify the 60 armor / 60 toughness caps.
+    implementation files('libs/Placebo-1.21.1-9.9.4.jar')
+    implementation files('libs/ApothicAttributes-1.21.1-2.11.0.jar')
+    implementation files('libs/Apotheosis-1.21.1-8.9.0.jar')
 }
 
 processResources {
