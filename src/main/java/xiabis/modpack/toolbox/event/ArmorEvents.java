@@ -25,7 +25,7 @@ public final class ArmorEvents {
             return;
         }
         boolean worn = ArmorSupport.worn(player);
-        ArmorSupport.applyAttributes(player, worn);
+        ArmorSupport.applyCurioAttributes(player, worn);
         if (worn) {
             ArmorSupport.clearBlindingEffects(player);
         }

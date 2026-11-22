@@ -36,8 +36,11 @@ public final class ArmorSupport {
     public static final int PROTECTION_LEVEL = 20;
     public static final int RESPIRATION_LEVEL = 20;
 
-    private static final ResourceLocation ARMOR_ID = XmtMod.id("omni_armor_armor");
-    private static final ResourceLocation TOUGHNESS_ID = XmtMod.id("omni_armor_toughness");
+    /** Ids of the armor/toughness modifiers. */
+    public static final ResourceLocation ARMOR_ID = XmtMod.id("omni_armor_armor");
+    public static final ResourceLocation TOUGHNESS_ID = XmtMod.id("omni_armor_toughness");
+    private static final ResourceLocation CURIO_ARMOR_ID = XmtMod.id("omni_armor_curio_armor");
+    private static final ResourceLocation CURIO_TOUGHNESS_ID = XmtMod.id("omni_armor_curio_toughness");
 
     private ArmorSupport() {
     }
@@ -133,25 +136,30 @@ public final class ArmorSupport {
                 || isArmor(player.getMainHandItem()) || isArmor(player.getOffhandItem());
     }
 
-    /** Adds/removes the armor + toughness bonuses; attributes are syncable, so server side is enough. */
-    public static void applyAttributes(ServerPlayer player, boolean worn) {
+    /**
+     * Curios slots do not apply vanilla item attribute modifiers, so when the armor is worn in the
+     * curios head slot (and not in the helmet slot, which already grants them through the item) the
+     * bonuses are added as transient modifiers.
+     */
+    public static void applyCurioAttributes(ServerPlayer player, boolean apply) {
+        boolean needed = apply && wornInCurio(player) && !wornOnHead(player);
         AttributeInstance armor = player.getAttribute(Attributes.ARMOR);
         AttributeInstance toughness = player.getAttribute(Attributes.ARMOR_TOUGHNESS);
-        if (worn) {
+        if (needed) {
             if (armor != null) {
                 armor.addOrUpdateTransientModifier(
-                        new AttributeModifier(ARMOR_ID, ARMOR_BONUS, Operation.ADD_VALUE));
+                        new AttributeModifier(CURIO_ARMOR_ID, ARMOR_BONUS, Operation.ADD_VALUE));
             }
             if (toughness != null) {
                 toughness.addOrUpdateTransientModifier(
-                        new AttributeModifier(TOUGHNESS_ID, TOUGHNESS_BONUS, Operation.ADD_VALUE));
+                        new AttributeModifier(CURIO_TOUGHNESS_ID, TOUGHNESS_BONUS, Operation.ADD_VALUE));
             }
         } else {
             if (armor != null) {
                 armor.removeModifier(ARMOR_ID);
             }
             if (toughness != null) {
-                toughness.removeModifier(TOUGHNESS_ID);
+                toughness.removeModifier(CURIO_TOUGHNESS_ID);
             }
         }
     }

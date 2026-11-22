@@ -269,8 +269,11 @@ A single helmet that replaces an entire kit.
 * Equips either in the vanilla helmet slot or in the Curios **head** slot (both are shipped: the
   item is in `data/curios/tags/item/head.json` and the built-in `player` curio entity now declares
   `charm` **and** `head`).
-* While worn/hold it grants `+60` armor and `+60` armor toughness. Vanilla clamps these attributes at
-  30 / 20, which is exactly why the requirements mention Apotheosis: Apotheosis raises the caps of
+* While worn it grants `+60` armor and `+60` armor toughness as plain **item attribute modifiers**, so
+  the stock tooltip lists them itself under `When on Head:` (no custom tooltip text). Curios slots do
+  not apply vanilla item modifiers, so a small server-side fallback adds the same numbers when the
+  armor is worn in the Curios head slot and not in the helmet slot. Vanilla clamps these attributes
+  at 30 / 20, which is exactly why the requirements mention Apotheosis: Apotheosis raises the caps of
   `minecraft:armor` (200) and `minecraft:armor_toughness` (100). Verified with and without it in the
   dev environment: 60 / 60 with Apotheosis installed, 30 / 20 without.
 * 640 durability, `Unbreakable`, and it ships with Protection 20, Respiration 20 and Aqua Affinity 1
@@ -281,7 +284,8 @@ A single helmet that replaces an entire kit.
 * Wearing it removes **all** fog (`ViewportEvent.RenderFog` is cancelled) and strips the Darkness and
   Blindness effects every tick, so boss fog, lava/water/powder-snow fog and darkness ambience are
   gone.
-* **Block highlighting**: with the armor worn (or held) press `H` to open a 4x9 marker menu. The
+* **Block highlighting**: with the armor worn (or held) press the armor-menu key (`H` by default, the
+  tooltip shows whatever is bound in Options > Controls) to open a 4x9 marker menu. The
   slots are ghosts: click a slot while holding a block to mark that block (the held stack is **not**
   consumed), click it with an empty hand to clear it, or drag a block in from JEI
   (`IGhostIngredientHandler`, only registered when JEI is installed). Marked stacks can never be
@@ -315,6 +319,16 @@ other mods recognise them (`data/minecraft/tags/item/*` and `data/c/tags/item/*`
 `c:tools/wrench` and `c:tools/staff` are intentionally **not** claimed: those interactions are
 forwarded to a real wrench/staff item found at runtime, and tagging the toolbox items as
 wrenches would make other mods (and the forwarding code) treat them as the genuine article.
+
+## Changes in 1.4.2
+
+* `omni_armor` now exposes armor and toughness as regular item attribute modifiers, so the vanilla
+  tooltip shows `When on Head: +60 Armor / +60 Armor Toughness`; the custom "wear it for +60" line is
+  gone. Wearing the armor in the Curios head slot still works through a server-side fallback modifier.
+* Both `omni_tool` and `omni_armor` now show `Press <key> to open the item configuration screen`
+  (translated, `%s` = current binding). The key text follows the controls screen, and both menu keys
+  (`Open Tool Menu`, `Open armor highlight menu`) already appear under Options > Controls >
+  xiabi's Modpack Toolbox, so they can be rebound there.
 
 ## Changes in 1.4.1
 

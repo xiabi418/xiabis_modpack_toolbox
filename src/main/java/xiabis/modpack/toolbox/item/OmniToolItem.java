@@ -38,6 +38,7 @@ import net.neoforged.neoforge.common.ItemAbility;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.minecraft.world.level.Level;
 import xiabis.modpack.toolbox.XmtMod;
+import xiabis.modpack.toolbox.util.KeyHints;
 import xiabis.modpack.toolbox.compat.ApotheosisCompat;
 import xiabis.modpack.toolbox.compat.StaffCompat;
 import xiabis.modpack.toolbox.compat.WrenchCompat;
@@ -93,6 +94,12 @@ public class OmniToolItem extends Item {
                         EquipmentSlotGroup.MAINHAND);
         addIronsAttributes(builder);
         return builder.build();
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip,
+            TooltipFlag flag) {
+        tooltip.add(Component.translatable("tooltip.xiabis_modpack_toolbox.open_config", KeyHints.toolMenu()));
     }
 
     /**

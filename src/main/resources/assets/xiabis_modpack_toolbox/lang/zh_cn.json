@@ -66,9 +66,8 @@
   "message.xiabis_modpack_toolbox.battery.active": "主动输入输出：%s",
   "tooltip.xiabis_modpack_toolbox.omni_battery.energy": "储能：%s FE",
   "item.xiabis_modpack_toolbox.omni_armor": "通用多功能护甲",
-  "tooltip.xiabis_modpack_toolbox.omni_armor.stats": "穿戴：护甲 +60、盔甲韧性 +60",
-  "tooltip.xiabis_modpack_toolbox.omni_armor.gui": "按 H 选择要高亮的方块",
   "key.xiabis_modpack_toolbox.open_armor_menu": "打开护甲高亮菜单",
   "gui.xiabis_modpack_toolbox.omni_armor.title": "高亮方块",
-  "gui.xiabis_modpack_toolbox.omni_armor.hint": "把方块物品拖到这里即可高亮"
+  "gui.xiabis_modpack_toolbox.omni_armor.hint": "把方块物品拖到这里即可高亮",
+  "tooltip.xiabis_modpack_toolbox.open_config": "按 %s 打开物品配置界面"
 }

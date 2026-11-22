@@ -66,9 +66,8 @@
   "message.xiabis_modpack_toolbox.battery.active": "Active I/O: %s",
   "tooltip.xiabis_modpack_toolbox.omni_battery.energy": "Stored: %s FE",
   "item.xiabis_modpack_toolbox.omni_armor": "Omni Armor",
-  "tooltip.xiabis_modpack_toolbox.omni_armor.stats": "Worn: +60 armor, +60 armor toughness",
-  "tooltip.xiabis_modpack_toolbox.omni_armor.gui": "Press H to pick the blocks to highlight",
   "key.xiabis_modpack_toolbox.open_armor_menu": "Open armor highlight menu",
   "gui.xiabis_modpack_toolbox.omni_armor.title": "Highlighted blocks",
-  "gui.xiabis_modpack_toolbox.omni_armor.hint": "Drop block items here to highlight them"
+  "gui.xiabis_modpack_toolbox.omni_armor.hint": "Drop block items here to highlight them",
+  "tooltip.xiabis_modpack_toolbox.open_config": "Press %s to open the item configuration screen"
 }
