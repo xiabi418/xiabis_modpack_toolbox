@@ -8,18 +8,21 @@ import xiabis.modpack.toolbox.menu.OmniArmorMenu;
 
 /**
  * The marker editor of the omni armor: a 4x9 grid that accepts block items (also as JEI ghosts).
+ * The background is the hand drawn sheet; its panel starts at y=4 and is 176x182 pixels.
  */
 public class OmniArmorScreen extends AbstractContainerScreen<OmniArmorMenu> {
-    private static final int PANEL_COLOR = 0xF0101018;
-    private static final int SLOT_COLOR = 0xFF2A2A38;
-    private static final int SLOT_BORDER = 0xFF4A4A60;
+    private static final net.minecraft.resources.ResourceLocation BACKGROUND =
+            xiabis.modpack.toolbox.XmtMod.id("textures/gui/omni_armor.png");
+    private static final int TEXTURE_TOP = 0;
+    private static final int TEXT = 0xFF3A3A3A;
+    private static final int TEXT_DIM = 0xFF5A5A5A;
 
     public OmniArmorScreen(OmniArmorMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
         this.imageWidth = 176;
-        this.imageHeight = 196;
+        this.imageHeight = 186;
         this.titleLabelY = 6;
-        this.inventoryLabelY = 92;
+        this.inventoryLabelY = 91;
     }
 
     @Override
@@ -27,17 +30,17 @@ public class OmniArmorScreen extends AbstractContainerScreen<OmniArmorMenu> {
         super.render(graphics, mouseX, mouseY, partialTick);
         renderTooltip(graphics, mouseX, mouseY);
         Component hint = Component.translatable("gui.xiabis_modpack_toolbox.omni_armor.hint");
-        graphics.drawString(font, hint, leftPos + 8, topPos + imageHeight - 10, 0xFF8899AA, false);
+        graphics.drawString(font, hint, leftPos + 8, topPos + imageHeight + 4, TEXT_DIM, false);
     }
 
     @Override
     protected void renderBg(GuiGraphics graphics, float partialTick, int mouseX, int mouseY) {
-        graphics.fill(leftPos, topPos, leftPos + imageWidth, topPos + imageHeight, PANEL_COLOR);
-        for (int index = 0; index < OmniArmorMenu.MARKER_SLOTS; index++) {
-            int x = leftPos + 8 + (index % OmniArmorMenu.COLUMNS) * 18 - 1;
-            int y = topPos + 20 + (index / OmniArmorMenu.COLUMNS) * 18 - 1;
-            graphics.fill(x, y, x + 18, y + 18, SLOT_BORDER);
-            graphics.fill(x + 1, y + 1, x + 17, y + 17, SLOT_COLOR);
-        }
+        graphics.blit(BACKGROUND, leftPos, topPos, 0, TEXTURE_TOP, imageWidth, imageHeight, 256, 256);
+    }
+
+    @Override
+    protected void renderLabels(GuiGraphics graphics, int mouseX, int mouseY) {
+        graphics.drawString(font, title, titleLabelX, titleLabelY, TEXT, false);
+        graphics.drawString(font, playerInventoryTitle, inventoryLabelX, inventoryLabelY, TEXT, false);
     }
 }

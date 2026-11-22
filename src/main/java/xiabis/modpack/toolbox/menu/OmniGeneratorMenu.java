@@ -26,8 +26,9 @@ public class OmniGeneratorMenu extends AbstractContainerMenu {
     /** energy, capacity, burn, burnTotal, activeInput, activeOutput, type, 6 faces, fluid, fluidCapacity. */
     public static final int DATA_COUNT = 15;
 
-    private static final int PLAYER_INVENTORY_X = 25;
-    private static final int PLAYER_INVENTORY_Y = 112;
+    private static final int PLAYER_INVENTORY_X = 8;
+    private static final int PLAYER_INVENTORY_Y = 106;
+    private static final int HOTBAR_Y = 164;
 
     @Nullable
     private final OmniGeneratorBlockEntity generator;
@@ -53,11 +54,11 @@ public class OmniGeneratorMenu extends AbstractContainerMenu {
 
         for (int row = 0; row < 3; row++) {
             for (int column = 0; column < 3; column++) {
-                addSlot(new SlotItemHandler(state.fuel(), row * 3 + column, 82 + column * 20, 18 + row * 20));
+                addSlot(new SlotItemHandler(state.fuel(), row * 3 + column, 33 + column * 18, 30 + row * 18));
             }
         }
-        addSlot(new SlotItemHandler(state.cards(), 0, 194, 18));
-        addSlot(new SlotItemHandler(state.cards(), 1, 194, 42));
+        addSlot(new SlotItemHandler(state.cards(), 0, 101, 63));
+        addSlot(new SlotItemHandler(state.cards(), 1, 120, 63));
 
         for (int row = 0; row < 3; row++) {
             for (int column = 0; column < 9; column++) {
@@ -66,7 +67,7 @@ public class OmniGeneratorMenu extends AbstractContainerMenu {
             }
         }
         for (int column = 0; column < 9; column++) {
-            addSlot(new Slot(inventory, column, PLAYER_INVENTORY_X + column * 18, PLAYER_INVENTORY_Y + 58));
+            addSlot(new Slot(inventory, column, PLAYER_INVENTORY_X + column * 18, HOTBAR_Y));
         }
         addDataSlots(data);
     }

@@ -320,6 +320,18 @@ other mods recognise them (`data/minecraft/tags/item/*` and `data/c/tags/item/*`
 forwarded to a real wrench/staff item found at runtime, and tagging the toolbox items as
 wrenches would make other mods (and the forwarding code) treat them as the genuine article.
 
+## Changes in 1.5.0
+
+* Replaced the placeholder art with the hand-drawn assets: the omni armor's worn model
+  (`textures/models/armor/omni_armor_layer_1.png`), its item icon, and both container GUIs.
+* The armor marker screen now uses the drawn 176x186 sheet (title bar, 4x9 marker grid, inventory and
+  hotbar all line up with the art).
+* The generator screen now uses the drawn 176x186 panel plus the 3x3 button cluster on its right
+  (245x186 total): fuel slots at the drawn 3x3 grid, the two card slots sit on the drawn card icons,
+  the lava and energy gauges fill the drawn frames and the burn progress fills the thin bar.
+  Button colours now indicate state (green = active toggle, blue = fluid input face, orange = item
+  input face, red = energy output face, green = both) and hovering a gauge shows the exact amount.
+
 ## Changes in 1.4.2
 
 * `omni_armor` now exposes armor and toughness as regular item attribute modifiers, so the vanilla
