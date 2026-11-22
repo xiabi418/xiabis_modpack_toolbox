@@ -5,7 +5,9 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import xiabis.modpack.toolbox.registry.ModItems;
 import xiabis.modpack.toolbox.registry.ModMenus;
@@ -41,7 +43,7 @@ public class OmniArmorMenu extends AbstractContainerMenu {
         for (int row = 0; row < ROWS; row++) {
             for (int col = 0; col < COLUMNS; col++) {
                 int index = row * COLUMNS + col;
-                addSlot(new Slot(markers, index, GRID_X + col * 18, GRID_Y + row * 18));
+                addSlot(new GhostSlot(markers, index, GRID_X + col * 18, GRID_Y + row * 18));
             }
         }
         for (int row = 0; row < 3; row++) {
@@ -64,19 +66,36 @@ public class OmniArmorMenu extends AbstractContainerMenu {
         broadcastChanges();
     }
 
+    /**
+     * The marker slots are ghosts: a click marks the block without moving any item, and the stacks
+     * inside them can never be taken out (which used to duplicate items through JEI drags).
+     */
+    @Override
+    public void clicked(int slotId, int button, ClickType clickType, Player player) {
+        if (slotId >= 0 && slotId < MARKER_SLOTS) {
+            if (clickType == ClickType.PICKUP || clickType == ClickType.QUICK_MOVE) {
+                ItemStack carried = getCarried();
+                if (carried.isEmpty()) {
+                    markers.setItem(slotId, ItemStack.EMPTY);
+                } else if (carried.getItem() instanceof BlockItem) {
+                    markers.setItem(slotId, carried.copyWithCount(1));
+                }
+                broadcastChanges();
+            }
+            return;
+        }
+        super.clicked(slotId, button, clickType, player);
+    }
+
     @Override
     public ItemStack quickMoveStack(Player player, int index) {
         Slot slot = slots.get(index);
-        if (!slot.hasItem()) {
+        if (!slot.hasItem() || index < MARKER_SLOTS) {
             return ItemStack.EMPTY;
         }
         ItemStack stack = slot.getItem();
         ItemStack copy = stack.copy();
-        if (index < MARKER_SLOTS) {
-            if (!moveItemStackTo(stack, MARKER_SLOTS, slots.size(), true)) {
-                return ItemStack.EMPTY;
-            }
-        } else if (!moveItemStackTo(stack, 0, MARKER_SLOTS, false)) {
+        if (!moveItemStackTo(stack, MARKER_SLOTS, slots.size(), true)) {
             return ItemStack.EMPTY;
         }
         if (stack.isEmpty()) {
@@ -98,8 +117,20 @@ public class OmniArmorMenu extends AbstractContainerMenu {
         markers.setChanged();
     }
 
-    @SuppressWarnings("unused")
-    private static boolean isArmor(ItemStack stack) {
-        return stack.is(ModItems.OMNI_ARMOR.get());
+    /** Read only slot used for the marker grid. */
+    private static final class GhostSlot extends Slot {
+        private GhostSlot(Container container, int index, int x, int y) {
+            super(container, index, x, y);
+        }
+
+        @Override
+        public boolean mayPlace(ItemStack stack) {
+            return false;
+        }
+
+        @Override
+        public boolean mayPickup(Player player) {
+            return false;
+        }
     }
 }

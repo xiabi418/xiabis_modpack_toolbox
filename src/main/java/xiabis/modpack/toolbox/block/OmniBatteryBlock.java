@@ -13,6 +13,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -36,6 +37,13 @@ public class OmniBatteryBlock extends BaseEntityBlock {
 
     public OmniBatteryBlock(Properties properties) {
         super(properties);
+    }
+
+    @Override
+    protected RenderShape getRenderShape(BlockState state) {
+        // BaseEntityBlock defaults to INVISIBLE, which is meant for blocks with a block entity
+        // renderer; both machines use a normal block model instead.
+        return RenderShape.MODEL;
     }
 
     @Override

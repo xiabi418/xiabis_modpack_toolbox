@@ -281,11 +281,13 @@ A single helmet that replaces an entire kit.
 * Wearing it removes **all** fog (`ViewportEvent.RenderFog` is cancelled) and strips the Darkness and
   Blindness effects every tick, so boss fog, lava/water/powder-snow fog and darkness ambience are
   gone.
-* **Block highlighting**: with the armor worn (or held) press `H` to open a 4x9 marker menu. Drop
-  block items into it from your inventory, or drag them from JEI (`IGhostIngredientHandler`, only
-  registered when JEI is installed). Every marked block type is scanned for in a 32 block radius and
-  drawn as a glowing, depth-test-free outline in its own colour; the scan is spread across ticks and
-  refreshed every 0.5 s (up to 6000 outlines).
+* **Block highlighting**: with the armor worn (or held) press `H` to open a 4x9 marker menu. The
+  slots are ghosts: click a slot while holding a block to mark that block (the held stack is **not**
+  consumed), click it with an empty hand to clear it, or drag a block in from JEI
+  (`IGhostIngredientHandler`, only registered when JEI is installed). Marked stacks can never be
+  taken out, so the menu cannot be used to duplicate items. Every marked block type is scanned for in
+  a 32 block radius and drawn as a glowing, depth-test-free outline in its own colour; the scan is
+  spread across ticks and refreshed every 0.5 s (up to 6000 outlines).
 * Recipe (shaped):
 
   ```
@@ -313,6 +315,15 @@ other mods recognise them (`data/minecraft/tags/item/*` and `data/c/tags/item/*`
 `c:tools/wrench` and `c:tools/staff` are intentionally **not** claimed: those interactions are
 forwarded to a real wrench/staff item found at runtime, and tagging the toolbox items as
 wrenches would make other mods (and the forwarding code) treat them as the genuine article.
+
+## Changes in 1.4.1
+
+* Fixed the **Giant Battery Box** being invisible once placed (only its item looked right). The block
+  extends `BaseEntityBlock`, whose default render shape is `INVISIBLE`; it now returns
+  `RenderShape.MODEL` like the generator does.
+* The armor marker grid is now made of ghost slots: clicking marks the held block without consuming
+  it, JEI drags can no longer be pulled back out (item duplication), shift-clicking never moves items
+  into the grid, and clicking a marker with an empty hand clears it.
 
 ## Changes in 1.4.0
 
