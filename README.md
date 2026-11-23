@@ -337,6 +337,17 @@ other mods recognise them (`data/minecraft/tags/item/*` and `data/c/tags/item/*`
 forwarded to a real wrench/staff item found at runtime, and tagging the toolbox items as
 wrenches would make other mods (and the forwarding code) treat them as the genuine article.
 
+## Changes in 1.6.3
+
+* Every container slot moved up one more pixel so 16x16 item sprites sit centred in the drawn 16x14 cells
+  instead of hanging over the bottom bevel.
+* The greenhouse seed slot now also accepts nether fungi, mushrooms, sugar cane, bamboo, cactus, kelp,
+  sweet berries, glow berries, cocoa beans, sea pickles and chorus fruit, each with its own harvest table
+  (nether fungi give shroomlight, wart blocks and stems).
+* Greenhouse harvests are collected with `Block#getDrops` instead of rolling the block loot table, so
+  Mystical Agriculture crops hand out their essence again (they generate drops in code, not in a loot
+  table).
+
 ## Changes in 1.6.2
 
 * Fine tuned both container GUIs against the drawn art: the 3x3 config buttons now fill exactly the

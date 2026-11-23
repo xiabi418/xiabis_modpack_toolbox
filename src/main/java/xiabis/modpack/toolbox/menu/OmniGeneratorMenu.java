@@ -27,8 +27,8 @@ public class OmniGeneratorMenu extends AbstractContainerMenu {
     public static final int DATA_COUNT = 15;
 
     private static final int PLAYER_INVENTORY_X = 8;
-    private static final int PLAYER_INVENTORY_Y = 105;
-    private static final int HOTBAR_Y = 163;
+    private static final int PLAYER_INVENTORY_Y = 104;
+    private static final int HOTBAR_Y = 162;
 
     @Nullable
     private final OmniGeneratorBlockEntity generator;
@@ -54,11 +54,11 @@ public class OmniGeneratorMenu extends AbstractContainerMenu {
 
         for (int row = 0; row < 3; row++) {
             for (int column = 0; column < 3; column++) {
-                addSlot(new SlotItemHandler(state.fuel(), row * 3 + column, 33 + column * 18, 29 + row * 18));
+                addSlot(new SlotItemHandler(state.fuel(), row * 3 + column, 33 + column * 18, 28 + row * 18));
             }
         }
-        addSlot(new SlotItemHandler(state.cards(), 0, 102, 65));
-        addSlot(new SlotItemHandler(state.cards(), 1, 120, 65));
+        addSlot(new SlotItemHandler(state.cards(), 0, 102, 64));
+        addSlot(new SlotItemHandler(state.cards(), 1, 120, 64));
 
         for (int row = 0; row < 3; row++) {
             for (int column = 0; column < 9; column++) {

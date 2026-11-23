@@ -30,8 +30,8 @@ public class OmniGreenhouseMenu extends AbstractContainerMenu {
     public static final int MACHINE_SLOTS = 12;
 
     private static final int PLAYER_INVENTORY_X = 8;
-    private static final int PLAYER_INVENTORY_Y = 105;
-    private static final int HOTBAR_Y = 163;
+    private static final int PLAYER_INVENTORY_Y = 104;
+    private static final int HOTBAR_Y = 162;
 
     @Nullable
     private final OmniGreenhouseBlockEntity greenhouse;
@@ -55,14 +55,14 @@ public class OmniGreenhouseMenu extends AbstractContainerMenu {
         this.pos = state.pos();
         this.data = state.data();
 
-        addSlot(new SlotItemHandler(state.seed(), 0, 60, 25));
+        addSlot(new SlotItemHandler(state.seed(), 0, 60, 24));
         for (int row = 0; row < 3; row++) {
             for (int column = 0; column < 3; column++) {
-                addSlot(new SlotItemHandler(state.outputs(), row * 3 + column, 114 + column * 18, 29 + row * 18));
+                addSlot(new SlotItemHandler(state.outputs(), row * 3 + column, 114 + column * 18, 28 + row * 18));
             }
         }
-        addSlot(new SlotItemHandler(state.cards(), 0, 64, 65));
-        addSlot(new SlotItemHandler(state.cards(), 1, 82, 65));
+        addSlot(new SlotItemHandler(state.cards(), 0, 64, 64));
+        addSlot(new SlotItemHandler(state.cards(), 1, 82, 64));
 
         for (int row = 0; row < 3; row++) {
             for (int column = 0; column < 9; column++) {
