@@ -337,6 +337,18 @@ other mods recognise them (`data/minecraft/tags/item/*` and `data/c/tags/item/*`
 forwarded to a real wrench/staff item found at runtime, and tagging the toolbox items as
 wrenches would make other mods (and the forwarding code) treat them as the genuine article.
 
+## Changes in 2.0.0
+
+* Reduced server-side work for time-wand markers: display entities are reconciled once per second instead of
+  being searched and refreshed for every accelerated block on every tick. A newly applied marker is still
+  created immediately by the wand.
+* Greenhouse cycles now short-circuit before crop/loot generation when all nine output slots are full. The
+  existing full-batch simulation remains as the final guard, so a cycle consumes no water/FE and never spills
+  items into the world when its outputs cannot hold the complete result.
+* Optional integration jars used for local testing are now `runtimeOnly` dependencies. They remain available in
+  the configured development `libs/` directory, but a clean clone only needs the required Curios download to
+  compile the mod; the optional integrations are still discovered at runtime when their jars are present.
+
 ## Changes in 1.6.4
 
 * The greenhouse no longer works when its nine output slots are full: it holds the finished cycle, consumes

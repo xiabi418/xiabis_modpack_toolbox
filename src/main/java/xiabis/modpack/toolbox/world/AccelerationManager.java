@@ -57,9 +57,13 @@ public final class AccelerationManager {
                 expired.add(pos);
                 continue;
             }
-            float remainingTicks = value.remainingTicks(now);
-            AccelerationDisplay.sync(level, pos, value.tier(),
-                    Math.max(0, Mth.ceil(remainingTicks / 20.0F)), now % 20L == 0L);
+            // The wand creates the display immediately. Refreshing it once per second is enough for the
+            // countdown and avoids an entity scan for every accelerated block on every server tick.
+            if (now % 20L == 0L) {
+                float remainingTicks = value.remainingTicks(now);
+                AccelerationDisplay.sync(level, pos, value.tier(),
+                        Math.max(0, Mth.ceil(remainingTicks / 20.0F)), true);
+            }
             int extra = Math.min(value.multiplier() - 1, budget);
             budget -= extra;
             if (extra > 0) {
