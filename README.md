@@ -337,6 +337,16 @@ other mods recognise them (`data/minecraft/tags/item/*` and `data/c/tags/item/*`
 forwarded to a real wrench/staff item found at runtime, and tagging the toolbox items as
 wrenches would make other mods (and the forwarding code) treat them as the genuine article.
 
+## Changes in 1.6.2
+
+* Fine tuned both container GUIs against the drawn art: the 3x3 config buttons now fill exactly the
+  drawn button cells (16x14 at 185/30 instead of 18x16 at 184/29), the generator card slots moved onto
+  their drawn cells (102/120, 65 instead of 101/120, 63), and every item slot was nudged up one pixel so
+  the 16x16 item sprites sit centered in the drawn 16x14 cells instead of spilling over the lower bevel.
+* The greenhouse GUI now uses the maintainer's hand drawn sheet: two gauges (water left, FE right at
+  33/30), the seed slot at 60/25, three by three outputs at 114/29, two card slots at 64/65 and 82/65,
+  and the progress bar at 64/56.
+
 ## Changes in 1.6.1
 
 * Fixed the container GUIs being distorted: the three GUI sheets were saved at their drawn size

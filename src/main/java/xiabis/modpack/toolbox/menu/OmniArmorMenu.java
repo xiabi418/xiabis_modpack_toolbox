@@ -23,10 +23,10 @@ public class OmniArmorMenu extends AbstractContainerMenu {
     public static final int ROWS = 4;
     public static final int MARKER_SLOTS = COLUMNS * ROWS;
     private static final int GRID_X = 8;
-    private static final int GRID_Y = 20;
+    private static final int GRID_Y = 19;
     private static final int PLAYER_X = 8;
-    private static final int PLAYER_Y = 106;
-    private static final int HOTBAR_Y = 164;
+    private static final int PLAYER_Y = 105;
+    private static final int HOTBAR_Y = 163;
 
     private final Container markers;
     private final Player player;

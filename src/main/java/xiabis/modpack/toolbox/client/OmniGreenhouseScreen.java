@@ -24,22 +24,22 @@ public class OmniGreenhouseScreen extends AbstractContainerScreen<OmniGreenhouse
     private static final ResourceLocation BACKGROUND = XmtMod.id("textures/gui/omni_greenhouse.png");
     private static final int TEXT = 0xFF3A3A3A;
 
-    private static final int BUTTON_SIZE_W = 18;
-    private static final int BUTTON_SIZE_H = 16;
-    private static final int BUTTON_X = 184;
-    private static final int BUTTON_Y = 29;
+    private static final int BUTTON_SIZE_W = 16;
+    private static final int BUTTON_SIZE_H = 14;
+    private static final int BUTTON_X = 185;
+    private static final int BUTTON_Y = 30;
     private static final int BUTTON_PITCH = 18;
 
     private static final int WATER_X = 10;
-    private static final int ENERGY_X = 150;
+    private static final int ENERGY_X = 33;
     private static final int GAUGE_Y = 30;
     private static final int GAUGE_WIDTH = 16;
     private static final int GAUGE_HEIGHT = 50;
 
-    private static final int PROGRESS_X = 116;
-    private static final int PROGRESS_Y = 26;
-    private static final int PROGRESS_WIDTH = 42;
-    private static final int PROGRESS_HEIGHT = 4;
+    private static final int PROGRESS_X = 64;
+    private static final int PROGRESS_Y = 56;
+    private static final int PROGRESS_WIDTH = 34;
+    private static final int PROGRESS_HEIGHT = 3;
 
     private final List<Button> buttons = new ArrayList<>();
 
@@ -107,7 +107,7 @@ public class OmniGreenhouseScreen extends AbstractContainerScreen<OmniGreenhouse
             Component label = buttonLabel(button);
             int bx = leftPos + buttonX(button);
             int by = topPos + buttonY(button);
-            graphics.drawString(font, label, bx + BUTTON_SIZE_W / 2 - font.width(label) / 2, by + 4,
+            graphics.drawString(font, label, bx + BUTTON_SIZE_W / 2 - font.width(label) / 2, by + 3,
                     0xFFFFFFFF, false);
         }
     }

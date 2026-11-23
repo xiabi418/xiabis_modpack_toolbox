@@ -26,10 +26,10 @@ public class OmniGeneratorScreen extends AbstractContainerScreen<OmniGeneratorMe
     private static final int TEXT = 0xFF3A3A3A;
     private static final int TEXT_DIM = 0xFF5A5A5A;
 
-    private static final int BUTTON_SIZE_W = 18;
-    private static final int BUTTON_SIZE_H = 16;
-    private static final int BUTTON_X = 184;
-    private static final int BUTTON_Y = 29;
+    private static final int BUTTON_SIZE_W = 16;
+    private static final int BUTTON_SIZE_H = 14;
+    private static final int BUTTON_X = 185;
+    private static final int BUTTON_Y = 30;
     private static final int BUTTON_PITCH = 18;
 
     private static final int LAVA_X = 10;
@@ -39,7 +39,7 @@ public class OmniGeneratorScreen extends AbstractContainerScreen<OmniGeneratorMe
     private static final int ENERGY_X = 150;
     private static final int BURN_X = 98;
     private static final int BURN_Y = 46;
-    private static final int BURN_WIDTH = 41;
+    private static final int BURN_WIDTH = 42;
     private static final int BURN_HEIGHT = 3;
 
     private final List<Button> buttons = new ArrayList<>();
@@ -113,7 +113,7 @@ public class OmniGeneratorScreen extends AbstractContainerScreen<OmniGeneratorMe
             Component label = buttonLabel(button);
             int bx = leftPos + buttonX(button);
             int by = topPos + buttonY(button);
-            graphics.drawString(font, label, bx + BUTTON_SIZE_W / 2 - font.width(label) / 2, by + 4,
+            graphics.drawString(font, label, bx + BUTTON_SIZE_W / 2 - font.width(label) / 2, by + 3,
                     0xFFFFFFFF, false);
         }
     }
