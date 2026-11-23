@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:block",
+  "random_sequence": "xiabis_modpack_toolbox:blocks/omni_greenhouse",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "xiabis_modpack_toolbox:omni_greenhouse"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ]
+    }
+  ]
+}

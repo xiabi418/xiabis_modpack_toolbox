@@ -17,6 +17,8 @@ public final class ModNetwork {
     public static void register(RegisterPayloadHandlersEvent event) {
         PayloadRegistrar registrar = event.registrar("1");
         registrar.playToServer(SetToolModePayload.TYPE, SetToolModePayload.CODEC, ModNetwork::handle);
+        registrar.playToServer(GreenhouseConfigPayload.TYPE, GreenhouseConfigPayload.CODEC,
+                ModNetwork::handleGreenhouseConfig);
         registrar.playToServer(GeneratorConfigPayload.TYPE, GeneratorConfigPayload.CODEC,
                 ModNetwork::handleGeneratorConfig);
         registrar.playToServer(OpenArmorMenuPayload.TYPE, OpenArmorMenuPayload.CODEC,
@@ -71,6 +73,36 @@ public final class ModNetwork {
                 }
             }
             generator.setChanged();
+            menu.broadcastChanges();
+        });
+    }
+
+    private static void handleGreenhouseConfig(GreenhouseConfigPayload payload, IPayloadContext context) {
+        context.enqueueWork(() -> {
+            if (!(context.player().containerMenu instanceof xiabis.modpack.toolbox.menu.OmniGreenhouseMenu menu)) {
+                return;
+            }
+            xiabis.modpack.toolbox.blockentity.OmniGreenhouseBlockEntity greenhouse = menu.greenhouse();
+            if (greenhouse == null) {
+                return;
+            }
+            int direction = payload.value() < 0 ? -1 : 1;
+            switch (payload.action()) {
+                case GreenhouseConfigPayload.ACTION_ACTIVE_OUTPUT ->
+                        greenhouse.setActiveOutput(!greenhouse.activeOutput());
+                case GreenhouseConfigPayload.ACTION_ACTIVE_INPUT ->
+                        greenhouse.setActiveInput(!greenhouse.activeInput());
+                default -> {
+                    int guiFace = payload.action() - GreenhouseConfigPayload.ACTION_FACE_BASE;
+                    if (guiFace < 0 || guiFace > 5) {
+                        return;
+                    }
+                    net.minecraft.core.Direction side = menu.guiDirection(guiFace);
+                    xiabis.modpack.toolbox.util.GreenhouseFaceMode mode = greenhouse.faceMode(side);
+                    greenhouse.setFaceMode(side, mode.next(direction));
+                }
+            }
+            greenhouse.setChanged();
             menu.broadcastChanges();
         });
     }

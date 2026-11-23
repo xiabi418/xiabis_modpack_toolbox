@@ -21,6 +21,11 @@ public final class ModBlockEntities {
                     xiabis.modpack.toolbox.blockentity.OmniBatteryBlockEntity::new,
                     ModBlocks.OMNI_BATTERY.get()).build(null));
 
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<xiabis.modpack.toolbox.blockentity.OmniGreenhouseBlockEntity>> OMNI_GREENHOUSE =
+            BLOCK_ENTITIES.register("omni_greenhouse", () -> BlockEntityType.Builder.of(
+                    xiabis.modpack.toolbox.blockentity.OmniGreenhouseBlockEntity::new,
+                    ModBlocks.OMNI_GREENHOUSE.get()).build(null));
+
     private ModBlockEntities() {
     }
 }

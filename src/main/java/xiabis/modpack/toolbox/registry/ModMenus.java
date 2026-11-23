@@ -21,6 +21,10 @@ public final class ModMenus {
                     (id, inventory, buffer) -> new xiabis.modpack.toolbox.menu.OmniArmorMenu(id, inventory,
                             xiabis.modpack.toolbox.util.ArmorSlotTarget.byOrdinal(buffer.readVarInt()))));
 
+    public static final DeferredHolder<MenuType<?>, MenuType<xiabis.modpack.toolbox.menu.OmniGreenhouseMenu>> OMNI_GREENHOUSE =
+            MENUS.register("omni_greenhouse", () -> IMenuTypeExtension.create(
+                    xiabis.modpack.toolbox.menu.OmniGreenhouseMenu::new));
+
     private ModMenus() {
     }
 }

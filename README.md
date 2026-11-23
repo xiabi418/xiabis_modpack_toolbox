@@ -200,6 +200,23 @@ gives the dev runs both the compile-time API and Curios as a runtime mod (ModDev
   `non-existent data map type` warning when Apotheosis is not installed (NeoForge's data map
   loader ignores `neoforge:conditions` overrides).
 
+## Omni Greenhouse (`omni_greenhouse`)
+
+A single-block farm that turns one seed or sapling into its harvest.
+
+* Recipe (shaped): glowstone / glass / glowstone, iron block / dirt / iron block, iron block / bone block / iron block.
+* Right-click opens the GUI: one seed slot (a single item, extra copies are ignored), nine output slots, a
+  640 B water tank, a 64 000 FE buffer and two card slots.
+* One cycle takes 1 s and costs 1 000 FE and 1 000 mB of water. The seed is **not** consumed.
+* Crops are harvested through their loot table (rolled against the fully grown block), so modded crops work;
+  saplings yield the matching log plus sticks.
+* Mystical Agriculture (and other mods that follow the same naming) are handled by mapping `xxx_seeds` to the
+  `xxx_crop` block, so the essence comes out of its own loot table.
+* Six faces can each be set to *fluid input*, *energy input*, *item output* or *both*; the two left buttons toggle
+  active input/output (pulling water/FE from neighbours and pushing harvests out).
+* Card slots: each **speed card** shortens the cycle by 0.1 s; once the cycle reaches 1 tick the remaining cards
+  add one extra harvest each. Each **energy card** adds 64 000 FE of buffer.
+
 ## Omni Generator (`omni_generator`)
 
 A block that burns solid fuel or lava and pushes the produced energy out as **FE**, **EU**
@@ -319,6 +336,11 @@ other mods recognise them (`data/minecraft/tags/item/*` and `data/c/tags/item/*`
 `c:tools/wrench` and `c:tools/staff` are intentionally **not** claimed: those interactions are
 forwarded to a real wrench/staff item found at runtime, and tagging the toolbox items as
 wrenches would make other mods (and the forwarding code) treat them as the genuine article.
+
+## Changes in 1.6.0
+
+* Added the omni greenhouse (`omni_greenhouse`) with its GUI, face configuration, water/FE handling, loot table
+  based harvests (crops, saplings, Mystical Agriculture style seeds) and the speed/energy card support.
 
 ## Changes in 1.5.0
 

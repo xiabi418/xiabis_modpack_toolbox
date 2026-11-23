@@ -33,6 +33,14 @@ public final class ModBlocks {
                     .noOcclusion());
 
 
+    /** Grows one seed or sapling into its harvest while drinking water and FE. */
+    public static final DeferredBlock<xiabis.modpack.toolbox.block.OmniGreenhouseBlock> OMNI_GREENHOUSE =
+            BLOCKS.registerBlock("omni_greenhouse", xiabis.modpack.toolbox.block.OmniGreenhouseBlock::new,
+                    net.minecraft.world.level.block.state.BlockBehaviour.Properties.of()
+                            .strength(4.0F, 9.0F)
+                            .requiresCorrectToolForDrops()
+                            .noOcclusion());
+
     /** Giant battery box: unbounded FE buffer, configured per side. */
     public static final DeferredBlock<net.minecraft.world.level.block.Block> OMNI_BATTERY =
             BLOCKS.registerBlock("omni_battery", xiabis.modpack.toolbox.block.OmniBatteryBlock::new,

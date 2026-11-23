@@ -69,6 +69,15 @@ public class XmtMod {
         event.registerBlockEntity(net.neoforged.neoforge.capabilities.Capabilities.EnergyStorage.BLOCK,
                 ModBlockEntities.OMNI_BATTERY.get(),
                 (battery, side) -> battery.energyHandler(side));
+        event.registerBlockEntity(net.neoforged.neoforge.capabilities.Capabilities.ItemHandler.BLOCK,
+                ModBlockEntities.OMNI_GREENHOUSE.get(),
+                (greenhouse, side) -> greenhouse.itemHandler(side));
+        event.registerBlockEntity(net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK,
+                ModBlockEntities.OMNI_GREENHOUSE.get(),
+                (greenhouse, side) -> greenhouse.fluidHandler(side));
+        event.registerBlockEntity(net.neoforged.neoforge.capabilities.Capabilities.EnergyStorage.BLOCK,
+                ModBlockEntities.OMNI_GREENHOUSE.get(),
+                (greenhouse, side) -> greenhouse.energyHandler(side));
     }
 
     public static ResourceLocation id(String path) {

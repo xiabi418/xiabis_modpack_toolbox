@@ -40,6 +40,7 @@ public final class ClientModEvents {
     public static void registerScreens(RegisterMenuScreensEvent event) {
         event.register(ModMenus.OMNI_GENERATOR.get(), OmniGeneratorScreen::new);
         event.register(ModMenus.OMNI_ARMOR.get(), OmniArmorScreen::new);
+        event.register(ModMenus.OMNI_GREENHOUSE.get(), OmniGreenhouseScreen::new);
     }
 
     /** The weapon is not a vanilla bow, so the draw predicates have to be registered by hand. */

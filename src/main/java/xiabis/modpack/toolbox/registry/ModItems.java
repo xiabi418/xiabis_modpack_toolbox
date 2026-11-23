@@ -61,6 +61,10 @@ public final class ModItems {
                     properties -> new xiabis.modpack.toolbox.item.OmniBatteryBlockItem(ModBlocks.OMNI_BATTERY.get(), properties),
                     new Item.Properties());
 
+    /** Block item of the omni greenhouse. */
+    public static final DeferredItem<net.minecraft.world.item.BlockItem> OMNI_GREENHOUSE_ITEM =
+            ITEMS.registerSimpleBlockItem(ModBlocks.OMNI_GREENHOUSE);
+
     /** Upgrade card that doubles the generator's internal energy buffer per card. */
     public static final DeferredItem<Item> ENERGY_CARD = ITEMS.registerItem("energy_card", Item::new,
             new Item.Properties().stacksTo(64).rarity(Rarity.RARE));
@@ -103,6 +107,7 @@ public final class ModItems {
                         output.accept(ENERGY_CARD.get());
                         output.accept(SPEED_CARD.get());
                         output.accept(OMNI_BATTERY_ITEM.get());
+                        output.accept(OMNI_GREENHOUSE_ITEM.get());
                         ItemStack bigBackpack = xiabis.modpack.toolbox.util.StorageUpgradeSupport.creativeBackpack();
                         if (!bigBackpack.isEmpty()) {
                             output.accept(bigBackpack);

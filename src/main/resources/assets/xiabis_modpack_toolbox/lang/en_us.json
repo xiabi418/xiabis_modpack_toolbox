@@ -69,5 +69,17 @@
   "key.xiabis_modpack_toolbox.open_armor_menu": "Open armor highlight menu",
   "gui.xiabis_modpack_toolbox.omni_armor.title": "Highlighted blocks",
   "gui.xiabis_modpack_toolbox.omni_armor.hint": "Drop block items here to highlight them",
-  "tooltip.xiabis_modpack_toolbox.open_config": "Press %s to open the item configuration screen"
+  "tooltip.xiabis_modpack_toolbox.open_config": "Press %s to open the item configuration screen",
+  "block.xiabis_modpack_toolbox.omni_greenhouse": "Omni Greenhouse",
+  "greenhouse.xiabis_modpack_toolbox.mode.input_fluid": "Fluid input",
+  "greenhouse.xiabis_modpack_toolbox.mode.input_energy": "Energy input",
+  "greenhouse.xiabis_modpack_toolbox.mode.output_items": "Item output",
+  "greenhouse.xiabis_modpack_toolbox.mode.both": "Both",
+  "gui.xiabis_modpack_toolbox.omni_greenhouse.title": "Omni Greenhouse",
+  "gui.xiabis_modpack_toolbox.omni_greenhouse.water": "Water: %s / %s B",
+  "gui.xiabis_modpack_toolbox.omni_greenhouse.energy": "Energy: %s / %s FE",
+  "gui.xiabis_modpack_toolbox.omni_greenhouse.cycle": "Cycle: %s s",
+  "gui.xiabis_modpack_toolbox.omni_greenhouse.face": "%s: %s",
+  "gui.xiabis_modpack_toolbox.omni_greenhouse.active_input": "Active input: %s",
+  "gui.xiabis_modpack_toolbox.omni_greenhouse.active_output": "Active output: %s"
 }
