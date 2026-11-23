@@ -81,5 +81,15 @@
   "gui.xiabis_modpack_toolbox.omni_greenhouse.cycle": "\u5468\u671f\uff1a%s \u79d2",
   "gui.xiabis_modpack_toolbox.omni_greenhouse.face": "%s\uff1a%s",
   "gui.xiabis_modpack_toolbox.omni_greenhouse.active_input": "\u4e3b\u52a8\u8f93\u5165\uff1a%s",
-  "gui.xiabis_modpack_toolbox.omni_greenhouse.active_output": "\u4e3b\u52a8\u8f93\u51fa\uff1a%s"
+  "gui.xiabis_modpack_toolbox.omni_greenhouse.active_output": "\u4e3b\u52a8\u8f93\u51fa\uff1a%s",
+  "block.xiabis_modpack_toolbox.compressed_condenser": "压缩物质聚合器",
+  "item.xiabis_modpack_toolbox.compressed_condenser": "压缩物质聚合器",
+  "gui.xiabis_modpack_toolbox.compressed_condenser.mode": "模式：%s",
+  "gui.xiabis_modpack_toolbox.compressed_condenser.value": "聚合值：%s",
+  "gui.xiabis_modpack_toolbox.compressed_condenser.matter": "物质球",
+  "gui.xiabis_modpack_toolbox.compressed_condenser.singularity": "奇点",
+  "gui.xiabis_modpack_toolbox.compressed_condenser.output": "切换主动弹出",
+  "gui.xiabis_modpack_toolbox.compressed_condenser.mode_button": "切换物质类型",
+  "gui.xiabis_modpack_toolbox.compressed_condenser.rate": "处理速率：%s/t",
+  "gui.xiabis_modpack_toolbox.compressed_condenser.output_state": "网络输出：%s"
 }

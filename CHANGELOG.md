@@ -2,7 +2,13 @@
 
 All notable changes to xiabi's modpack toolbox are recorded here.
 
-## 2.0.1
+## 2.1.0
+
+- Added the optional AE2 Compressed Matter Condenser (`compressed_condenser`).
+- Added ME-network extraction, storage-cell output, AE2-value aggregation, six card slots and matter-ball/singularity modes.
+- Added English and Simplified Chinese player-guide sections.
+- AE2 API compilation is downloaded on demand; AE2 remains optional and is not bundled in the release jar.
+
 
 - Replaced the README with separate English and Simplified Chinese player guides.
 - Moved the version history into this standalone changelog.

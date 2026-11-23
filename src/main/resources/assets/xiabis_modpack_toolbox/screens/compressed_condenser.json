@@ -1,0 +1,28 @@
+{
+  "generatedBackground": { "width": 320, "height": 193 },
+  "palette": {
+    "DEFAULT_TEXT_COLOR": "#413f54",
+    "MUTED_TEXT_COLOR": "#878fa5",
+    "SELECTION_COLOR": "#ace9ff",
+    "TEXTFIELD_PLACEHOLDER": "#dedfe3",
+    "TEXTFIELD_SELECTION": "#FF0000FF",
+    "TEXTFIELD_ERROR": "#FF1900",
+    "TEXTFIELD_TEXT": "#f2f2f2",
+    "ERROR": "#CE2401"
+  },
+  "slots": {
+    "CONFIG": { "left": 105, "top": 22, "grid": "BREAK_AFTER_9COLS" },
+    "UPGRADE": { "left": 274, "top": 22, "grid": "BREAK_AFTER_2COLS" },
+    "STORAGE_CELL": { "left": 283, "top": 82 },
+    "PLAYER_INVENTORY": { "left": 79, "top": 111, "grid": "BREAK_AFTER_9COLS" },
+    "PLAYER_HOTBAR": { "left": 79, "top": 169, "grid": "HORIZONTAL" }
+  },
+  "widgets": {
+    "output": { "left": 7, "top": 22, "width": 91, "height": 20 },
+    "mode": { "left": 7, "top": 45, "width": 91, "height": 20 }
+  },
+  "text": {
+    "dialog_title": { "text": { "translate": "block.xiabis_modpack_toolbox.compressed_condenser" }, "position": { "left": 8, "top": 7 } },
+    "player_inventory_title": { "text": { "translate": "container.inventory" }, "position": { "left": 79, "top": 99 } }
+  }
+}

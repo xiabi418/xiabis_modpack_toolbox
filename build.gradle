@@ -1,9 +1,12 @@
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
+
 plugins {
     id 'java-library'
     id 'net.neoforged.moddev' version '2.0.148'
 }
 
-version = '2.0.1'
+version = '2.1.0'
 group = 'xiabis.modpack'
 
 base {
@@ -87,9 +90,30 @@ tasks.register('downloadCurios') {
     }
 }
 
+def ae2Jar = layout.projectDirectory.file('libs/ae2-19.2.20.jar')
+
+tasks.register('downloadAe2Api') {
+    group = 'setup'
+    description = 'Downloads the AE2 API jar for optional condenser compilation.'
+    outputs.file(ae2Jar)
+    onlyIf { !ae2Jar.asFile.exists() }
+    doLast {
+        ae2Jar.asFile.parentFile.mkdirs()
+        def url = 'https://cdn.modrinth.com/data/XxWD5pD3/versions/7Ac6mXbf/appliedenergistics2-19.2.20.jar'
+        def partial = new File(ae2Jar.asFile.parentFile, ae2Jar.asFile.name + '.part')
+        def connection = new URI(url).toURL().openConnection()
+        connection.connectTimeout = 15000
+        connection.readTimeout = 30000
+        connection.inputStream.withCloseable { input ->
+            partial.withOutputStream { output -> output << input }
+        }
+        Files.move(partial.toPath(), ae2Jar.asFile.toPath(), StandardCopyOption.REPLACE_EXISTING)
+    }
+}
+
 tasks.configureEach { task ->
     if (task.name in ['compileJava', 'runClient', 'runServer', 'test']) {
-        task.dependsOn('downloadCurios')
+        task.dependsOn('downloadCurios', 'downloadAe2Api')
     }
 }
 
@@ -111,8 +135,11 @@ dependencies {
     optionalDevMod('player-animation-lib-forge-2.0.4+1.21.1.jar')
     optionalDevMod('irons_lib-1.21.1-2.3.0.jar')
     optionalDevMod('irons_spellbooks-1.21.1-3.16.3.jar')
-    optionalDevMod('guideme-21.1.22.jar')
-    optionalDevMod('ae2-19.2.20.jar')
+    if (!providers.gradleProperty('withoutAe2').isPresent()) {
+        optionalDevMod('guideme-21.1.22.jar')
+        optionalDevMod('ae2-19.2.20.jar')
+    }
+    compileOnly files(ae2Jar)
     optionalDevMod('mezz_config-1.21.1-neoforge-0.7.1-standalone.jar')
     optionalDevMod('Placebo-1.21.1-9.9.4.jar')
     optionalDevMod('ApothicAttributes-1.21.1-2.11.0.jar')
@@ -120,8 +147,6 @@ dependencies {
 
     implementation files(curiosJar)
 
-    // JEI is optional at runtime: compile against the published artifact, and only put a local jar
-    // on the dev runtime classpath when it is present (the ghost handler needs it to be testable).
     compileOnly 'mezz.jei:jei-1.21.1-neoforge:19.71.0.475'
     def jeiDevJar = layout.projectDirectory.file('libs/jei-1.21.1-neoforge-19.71.0.475.jar')
     if (jeiDevJar.asFile.exists()) {

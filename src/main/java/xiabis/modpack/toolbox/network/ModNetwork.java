@@ -17,6 +17,8 @@ public final class ModNetwork {
     public static void register(RegisterPayloadHandlersEvent event) {
         PayloadRegistrar registrar = event.registrar("1");
         registrar.playToServer(SetToolModePayload.TYPE, SetToolModePayload.CODEC, ModNetwork::handle);
+        registrar.playToServer(CondenserConfigPayload.TYPE, CondenserConfigPayload.CODEC,
+                ModNetwork::handleCondenserConfig);
         registrar.playToServer(GreenhouseConfigPayload.TYPE, GreenhouseConfigPayload.CODEC,
                 ModNetwork::handleGreenhouseConfig);
         registrar.playToServer(GeneratorConfigPayload.TYPE, GeneratorConfigPayload.CODEC,
@@ -45,6 +47,19 @@ public final class ModNetwork {
         });
     }
 
+    private static void handleCondenserConfig(CondenserConfigPayload payload, IPayloadContext context) {
+        context.enqueueWork(() -> {
+            if (context.player().containerMenu instanceof xiabis.modpack.toolbox.menu.CompressedCondenserMenu menu
+                    && menu.condenser() != null) {
+                switch (payload.action()) {
+                    case CondenserConfigPayload.TOGGLE_OUTPUT -> menu.condenser().toggleOutput();
+                    case CondenserConfigPayload.TOGGLE_MODE -> menu.condenser().toggleMode();
+                    default -> { return; }
+                }
+                menu.broadcastChanges();
+            }
+        });
+    }
     private static void handleGeneratorConfig(GeneratorConfigPayload payload, IPayloadContext context) {
         context.enqueueWork(() -> {
             if (!(context.player().containerMenu instanceof OmniGeneratorMenu menu)) {

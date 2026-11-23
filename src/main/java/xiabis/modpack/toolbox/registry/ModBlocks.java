@@ -5,6 +5,8 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import xiabis.modpack.toolbox.XmtMod;
+import net.neoforged.fml.ModList;
+import xiabis.modpack.toolbox.block.CompressedCondenserBlock;
 import xiabis.modpack.toolbox.block.OmniGeneratorBlock;
 
 public final class ModBlocks {
@@ -24,7 +26,11 @@ public final class ModBlocks {
                     .isSuffocating((state, level, pos) -> false)
                     .noTerrainParticles());
 
-    /** Burns solid fuel or lava and pushes the produced energy to its neighbours. */
+    public static final DeferredBlock<Block> COMPRESSED_CONDENSER = ModList.get().isLoaded("ae2")
+            ? BLOCKS.registerBlock("compressed_condenser", CompressedCondenserBlock::new,
+                    BlockBehaviour.Properties.of().strength(4.0F, 9.0F).requiresCorrectToolForDrops().noOcclusion())
+            : null;
+
     public static final DeferredBlock<OmniGeneratorBlock> OMNI_GENERATOR = BLOCKS.registerBlock("omni_generator",
             OmniGeneratorBlock::new,
             BlockBehaviour.Properties.of()

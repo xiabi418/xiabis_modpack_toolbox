@@ -11,6 +11,7 @@ import net.minecraft.world.item.component.Unbreakable;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.fml.ModList;
 import xiabis.modpack.toolbox.XmtMod;
 import xiabis.modpack.toolbox.item.MagicPoisonBottleItem;
 import xiabis.modpack.toolbox.item.OmniToolItem;
@@ -51,7 +52,9 @@ public final class ModItems {
     public static final DeferredItem<Item> TIME_WAND = ITEMS.registerItem("time_wand", TimeWandItem::new,
             new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant());
 
-    /** Block item of the omni generator. */
+    public static final DeferredItem<net.minecraft.world.item.BlockItem> COMPRESSED_CONDENSER_ITEM = ModList.get().isLoaded("ae2")
+            ? ITEMS.registerSimpleBlockItem(ModBlocks.COMPRESSED_CONDENSER) : null;
+
     public static final DeferredItem<net.minecraft.world.item.BlockItem> OMNI_GENERATOR_ITEM =
             ITEMS.registerSimpleBlockItem(ModBlocks.OMNI_GENERATOR);
 
@@ -107,7 +110,8 @@ public final class ModItems {
                         output.accept(ENERGY_CARD.get());
                         output.accept(SPEED_CARD.get());
                         output.accept(OMNI_BATTERY_ITEM.get());
-                        output.accept(OMNI_GREENHOUSE_ITEM.get());
+                        if (COMPRESSED_CONDENSER_ITEM != null) output.accept(COMPRESSED_CONDENSER_ITEM.get());
+
                         ItemStack bigBackpack = xiabis.modpack.toolbox.util.StorageUpgradeSupport.creativeBackpack();
                         if (!bigBackpack.isEmpty()) {
                             output.accept(bigBackpack);

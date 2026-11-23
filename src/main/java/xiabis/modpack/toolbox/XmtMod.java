@@ -57,6 +57,9 @@ public class XmtMod {
     }
 
     private static void registerCapabilities(net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent event) {
+        if (ModBlockEntities.COMPRESSED_CONDENSER != null) {
+            xiabis.modpack.toolbox.blockentity.CompressedCondenserBlockEntity.registerCapabilities(event);
+        }
         event.registerBlockEntity(net.neoforged.neoforge.capabilities.Capabilities.ItemHandler.BLOCK,
                 ModBlockEntities.OMNI_GENERATOR.get(),
                 (generator, side) -> generator.itemHandler(side));

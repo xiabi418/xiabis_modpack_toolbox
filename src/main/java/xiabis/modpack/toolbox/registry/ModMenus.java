@@ -6,11 +6,17 @@ import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import xiabis.modpack.toolbox.XmtMod;
+import net.neoforged.fml.ModList;
+import xiabis.modpack.toolbox.menu.CompressedCondenserMenu;
 import xiabis.modpack.toolbox.menu.OmniGeneratorMenu;
 
 public final class ModMenus {
     public static final DeferredRegister<MenuType<?>> MENUS =
             DeferredRegister.create(Registries.MENU, XmtMod.MOD_ID);
+
+    public static final DeferredHolder<MenuType<?>, MenuType<CompressedCondenserMenu>> COMPRESSED_CONDENSER = ModList.get().isLoaded("ae2")
+            ? MENUS.register("compressed_condenser", () -> IMenuTypeExtension.create(CompressedCondenserMenu::fromBuffer))
+            : null;
 
     public static final DeferredHolder<MenuType<?>, MenuType<OmniGeneratorMenu>> OMNI_GENERATOR =
             MENUS.register("omni_generator",

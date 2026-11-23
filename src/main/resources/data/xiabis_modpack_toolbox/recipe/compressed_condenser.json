@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "neoforge:conditions": [{"type":"neoforge:mod_loaded","modid":"ae2"}],
+  "pattern": ["STS","ICI","DMD"],
+  "key": {
+    "S": {"item":"ae2:storage_bus"},
+    "T": {"item":"ae2:terminal"},
+    "I": {"item":"ae2:interface"},
+    "C": {"item":"ae2:condenser"},
+    "D": {"tag":"xiabis_modpack_toolbox:dense_cables"},
+    "M": {"item":"ae2:chest"}
+  },
+  "result": {"id":"xiabis_modpack_toolbox:compressed_condenser","count":1}
+}

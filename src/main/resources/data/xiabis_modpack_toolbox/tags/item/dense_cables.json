@@ -1,0 +1,6 @@
+{
+  "values": [
+    {"id": "#ae2:smart_dense_cable", "required": false},
+    {"id": "#ae2:covered_dense_cable", "required": false}
+  ]
+}

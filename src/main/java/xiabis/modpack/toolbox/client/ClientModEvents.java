@@ -12,6 +12,7 @@ import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import xiabis.modpack.toolbox.XmtMod;
 import xiabis.modpack.toolbox.item.OmniWeaponItem;
+import xiabis.modpack.toolbox.menu.CompressedCondenserMenu;
 import xiabis.modpack.toolbox.registry.ModItems;
 import xiabis.modpack.toolbox.registry.ModMenus;
 
@@ -41,6 +42,8 @@ public final class ClientModEvents {
         event.register(ModMenus.OMNI_GENERATOR.get(), OmniGeneratorScreen::new);
         event.register(ModMenus.OMNI_ARMOR.get(), OmniArmorScreen::new);
         event.register(ModMenus.OMNI_GREENHOUSE.get(), OmniGreenhouseScreen::new);
+        if (ModMenus.COMPRESSED_CONDENSER != null) event.register(ModMenus.COMPRESSED_CONDENSER.get(), CompressedCondenserScreen::new);
+
     }
 
     /** The weapon is not a vanilla bow, so the draw predicates have to be registered by hand. */

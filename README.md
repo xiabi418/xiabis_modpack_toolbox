@@ -90,6 +90,16 @@ When the corresponding Sophisticated mod is installed, surround a Diamond Backpa
 
 When Apotheosis and Apothic Attributes are installed, three Water Bottles, a Phantom Membrane, a Fermented Spider Eye and a Popped Chorus Fruit craft a **24-hour Flight Potion**. It uses the flight effect supplied by Apothic Attributes.
 
-## Updates and Feedback
+## Compressed Matter Condenser
+
+When Applied Energistics 2 is installed, the **Compressed Matter Condenser** (`compressed_condenser`) connects to an ME network and converts selected network items into AE2 matter balls or singularities.
+
+- Insert an AE2 storage cell and mark up to 27 item filters. The machine only extracts marked items while it is connected to an online ME network.
+- The base processing rate is **102,400 items per tick**. The condenser follows AE2’s configured costs. On the tested default settings, one matter ball costs **256 items** and one singularity costs **256,000 items**.
+- Six card slots accept one Inverter Card, one Redstone Card, one Fuzzy Card and up to five Speed Cards. Each Speed Card adds ten times the base rate.
+- Enable network output to send finished products back into the ME network. Otherwise products are written to the inserted storage cell. The inserted cell is always required.
+- The GUI provides filter slots, card slots, a storage-cell slot, mode controls and the current aggregation value.
+- The crafting recipe is only available when AE2 is installed.
+
 
 See [CHANGELOG.md](CHANGELOG.md) for the version history. For mod issues, use the [GitHub issue tracker](https://github.com/xiabi418/xiabis_modpack_toolbox/issues).

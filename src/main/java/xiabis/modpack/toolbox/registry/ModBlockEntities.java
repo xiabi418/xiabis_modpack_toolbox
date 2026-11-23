@@ -5,11 +5,18 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import xiabis.modpack.toolbox.XmtMod;
+import net.neoforged.fml.ModList;
+import xiabis.modpack.toolbox.blockentity.CompressedCondenserBlockEntity;
 import xiabis.modpack.toolbox.blockentity.OmniGeneratorBlockEntity;
 
 public final class ModBlockEntities {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
             DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, XmtMod.MOD_ID);
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CompressedCondenserBlockEntity>> COMPRESSED_CONDENSER = ModList.get().isLoaded("ae2")
+            ? BLOCK_ENTITIES.register("compressed_condenser", () -> BlockEntityType.Builder.of(
+                    CompressedCondenserBlockEntity::new, ModBlocks.COMPRESSED_CONDENSER.get()).build(null))
+            : null;
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<OmniGeneratorBlockEntity>> OMNI_GENERATOR =
             BLOCK_ENTITIES.register("omni_generator", () -> BlockEntityType.Builder
