@@ -30,6 +30,7 @@ import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 import net.neoforged.neoforge.items.ItemStackHandler;
 
+import xiabis.modpack.toolbox.XmtMod;
 import xiabis.modpack.toolbox.menu.OmniGreenhouseMenu;
 import xiabis.modpack.toolbox.registry.ModBlockEntities;
 import xiabis.modpack.toolbox.registry.ModItems;
@@ -54,6 +55,8 @@ public class OmniGreenhouseBlockEntity extends BlockEntity implements MenuProvid
     public static final int TICKS_PER_SPEED_CARD = 2;
     public static final int SPEED_CARDS_BEFORE_EXTRA = 10;
     public static final int FE_PER_CYCLE = 1_000;
+    /** How long a blocked machine waits before it checks the output slots again. */
+    private static final int RETRY_TICKS = 10;
     public static final int MB_PER_CYCLE = 1_000;
 
     private static final Predicate<FluidStack> WATER = stack -> stack.getFluid().is(FluidTags.WATER);
@@ -197,7 +200,11 @@ public class OmniGreenhouseBlockEntity extends BlockEntity implements MenuProvid
 
     private boolean activeInput = true;
     private boolean activeOutput = true;
+    private static final java.util.Set<BlockPos> WARNED_LOSS = java.util.concurrent.ConcurrentHashMap.newKeySet();
+
     private int progress;
+    /** Game tick before which a blocked cycle is not retried, so a full machine stays cheap. */
+    private long retryAt;
 
     public OmniGreenhouseBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.OMNI_GREENHOUSE.get(), pos, state);
@@ -293,11 +300,15 @@ public class OmniGreenhouseBlockEntity extends BlockEntity implements MenuProvid
 
         if (!canRun()) {
             progress = 0;
-        } else {
+            retryAt = 0L;
+        } else if (progress < period()) {
             progress++;
-            if (progress >= period()) {
+        } else if (level.getGameTime() >= retryAt) {
+            if (harvest(level, pos)) {
                 progress = 0;
-                harvest(level, pos);
+                retryAt = 0L;
+            } else {
+                retryAt = level.getGameTime() + RETRY_TICKS;
             }
         }
 
@@ -314,31 +325,56 @@ public class OmniGreenhouseBlockEntity extends BlockEntity implements MenuProvid
                 && energy.getEnergyStored() >= FE_PER_CYCLE;
     }
 
-    private void harvest(Level level, BlockPos pos) {
+    /**
+     * Runs one cycle: rolls the harvest, makes sure it fits into the output slots and only then consumes the
+     * energy and water. When the outputs are full the machine simply waits, so nothing is ever dropped on the
+     * ground and no resources are wasted.
+     *
+     * @return true when a harvest happened
+     */
+    private boolean harvest(Level level, BlockPos pos) {
         if (!(level instanceof ServerLevel server)) {
-            return;
+            return false;
         }
-        List<ItemStack> rolled = GreenhouseRecipes.produce(server, pos, seed.getStackInSlot(0), server.getRandom());
-        if (rolled.isEmpty()) {
-            return;
+        ItemStack seedStack = seed.getStackInSlot(0);
+        if (seedStack.isEmpty()) {
+            return false;
+        }
+        int harvests = 1 + extraHarvests();
+        List<ItemStack> harvested = new java.util.ArrayList<>();
+        for (int harvest = 0; harvest < harvests; harvest++) {
+            for (ItemStack stack : GreenhouseRecipes.produce(server, pos, seedStack, server.getRandom())) {
+                if (!stack.isEmpty()) {
+                    harvested.add(stack);
+                }
+            }
+        }
+        if (harvested.isEmpty() || !hasRoomFor(harvested)) {
+            return false;
         }
         energy.extractInternal(FE_PER_CYCLE);
         tank.drain(MB_PER_CYCLE, IFluidHandler.FluidAction.EXECUTE);
-        int harvests = 1 + extraHarvests();
-        for (int harvest = 0; harvest < harvests; harvest++) {
-            List<ItemStack> drops = harvest == 0 ? rolled
-                    : GreenhouseRecipes.produce(server, pos, seed.getStackInSlot(0), server.getRandom());
-            for (ItemStack stack : drops) {
-                insertOrDrop(level, pos, stack);
+        for (ItemStack stack : harvested) {
+            ItemStack remainder = ItemHandlerHelper.insertItemStacked(outputs, stack, false);
+            if (!remainder.isEmpty() && WARNED_LOSS.add(pos)) {
+                XmtMod.LOGGER.warn("Greenhouse at {} could not store {} after the space check", pos, remainder);
             }
         }
+        return true;
     }
 
-    private void insertOrDrop(Level level, BlockPos pos, ItemStack stack) {
-        ItemStack remainder = ItemHandlerHelper.insertItemStacked(outputs, stack.copy(), false);
-        if (!remainder.isEmpty()) {
-            Block.popResource(level, pos, remainder);
+    /** Checks that the whole harvest fits, by inserting into a copy of the output slots. */
+    private boolean hasRoomFor(List<ItemStack> stacks) {
+        ItemStackHandler preview = new ItemStackHandler(OUTPUT_SLOTS);
+        for (int slot = 0; slot < OUTPUT_SLOTS; slot++) {
+            preview.setStackInSlot(slot, outputs.getStackInSlot(slot).copy());
         }
+        for (ItemStack stack : stacks) {
+            if (!ItemHandlerHelper.insertItemStacked(preview, stack.copy(), false).isEmpty()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private void pullFromNeighbours(Level level, BlockPos pos) {

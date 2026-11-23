@@ -337,6 +337,12 @@ other mods recognise them (`data/minecraft/tags/item/*` and `data/c/tags/item/*`
 forwarded to a real wrench/staff item found at runtime, and tagging the toolbox items as
 wrenches would make other mods (and the forwarding code) treat them as the genuine article.
 
+## Changes in 1.6.4
+
+* The greenhouse no longer works when its nine output slots are full: it holds the finished cycle, consumes
+  no energy or water and never throws the harvest on the ground. Once a slot is emptied it resumes on the
+  next retry tick (checked every 0.5 s while blocked).
+
 ## Changes in 1.6.3
 
 * Every container slot moved up one more pixel so 16x16 item sprites sit centred in the drawn 16x14 cells
