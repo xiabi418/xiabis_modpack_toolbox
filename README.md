@@ -1,598 +1,95 @@
 # xiabi's modpack toolbox
 
-Minecraft **1.21.1** / **NeoForge 21.1.x** mod for modpack play. Adds two unbreakable,
-non-stackable, highly enchanted "everything" items plus a Curios charm that stores buffs:
+[简体中文](README_zh.md) | English
 
-* `xiabis_modpack_toolbox:omni_tool` — 通用多功能工具 / Omni Tool
-* `xiabis_modpack_toolbox:omni_weapon` — 通用多功能武器 / Omni Weapon
-* `xiabis_modpack_toolbox:magic_poison_bottle` — 魔法药水瓶 / Magic Poison Bottle
-* `xiabis_modpack_toolbox:time_wand` — 时间加速手杖 / Time Acceleration Wand
-* `xiabis_modpack_toolbox:flight` — 飞行药水（24 小时） / Potion of Flight (24 hours)
+A collection of deliberately powerful tools, weapons, armor and machines for skipping frustrating modpack progression bottlenecks. Some features may significantly change pack balance.
 
-**Dependencies:** Curios API is required (`[9.0.0,)`, tested with 9.5.1+1.21.1). Apotheosis
-(and therefore Apothic Attributes) is optional; the 24 hour flight potion recipe only loads
-when it is installed.
+**For players:** Minecraft 1.21.1 with NeoForge 21.1.x. Curios is required. Iron's Spellbooks, Apotheosis, GregTech Modern, Applied Energistics 2, Sophisticated Backpacks Sophisticated Storage and Mystical Agriculture add optional integrations or recipes.
 
-## Features
+## Omni Tool
 
-### Omni Tool
-* Works as pickaxe, shovel, axe, hoe, shears, shield, wrench and staff.
-* Default state mines/tills with everything enabled:
-  * plain right click on grass = shovel flatten,
-  * sneak + right click = hoe till,
-  * right click on logs = axe strip, on pumpkins = shears carve,
-  * right click with a wrench selected = wrench action (proxy from `c:tools/wrench`,
-    otherwise block state rotation),
-  * sneak + right click in the air = staff cast (proxy spell item) / shield block otherwise.
-* Menu key **V** opens the mode screen: pick a single tool function or "Omni (all)",
-  and toggle **Silk Touch mode** (off = Fortune 15, on = Silk Touch I).
-* 79 900 durability, unbreakable by default (`minecraft:unbreakable` component).
-* Netherite tier and one shared digging speed: every block breaks in **6 ticks (0.3 s)**
-  (`PlayerEvent.BreakSpeed` sets the speed to `hardness * 5`, so haste, water and
-  airborne penalties cannot change the time).
-* Held in the **main hand** it adds **+5 block interaction range**.
-* With Iron's Spellbooks installed, holding it in the main *or* off hand adds
-  **+20 spell power**, **+5000 max mana**, **+5 cooldown reduction** (the attribute value goes
-  from 1.0 to 6.0, which the mod's soft cap turns into ~5% cooldown time) and
-  **+5 mana regeneration** (1.0 -> 6.0, i.e. six times the regen rate).
-  The attributes are resolved by reflection, so the mod still works without Iron's.
-* Attack damage **4.18**, attack speed **418** (literal values from the spec).
-* Accepts every enchantment (pickaxe/shovel/axe/hoe/shears/sword/bow/crossbow tables),
-  including mutually exclusive ones (merged in the anvil).
-* Apotheosis: loot category is overridden to `apotheosis:breaker` through a data map, and
-  4 gem sockets are seeded so gems can be inserted.
-* Recipe (shapeless): wooden pickaxe + wooden axe + shield + wooden hoe + wooden shovel +
-  shears + 3 planks.
+One item combines a pickaxe, shovel, axe, hoe, shears, shield, wrench and staff.
 
-### Omni Weapon
-* Mace fall attack (`getAttackDamageBonus` + ground smash / knockback), sword sweep,
-  axe shield disabling, bow shooting (right click, consumes arrows from the inventory),
-  crossbow enchantments.
-* Attack damage = **number of installed mods** (1 mod = 1 damage point; the loader's
-  built-in `minecraft` / `neoforge` entries are not counted),
-  attack speed **418**.
-* 32 500 durability, unbreakable, Looting 15 by default.
-* Also netherite tier and digs every block in **6 ticks (0.3 s)**, same as the omni tool.
-* Held in the **main hand** it adds **+4 entity interaction range**.
-* Accepts every enchantment including conflicting ones; Apotheosis loot category
-  `apotheosis:melee_weapon` + 4 sockets.
-* Recipe (shapeless): wooden axe + wooden sword + bow + crossbow + 5 cobblestone.
+- Choose **Omni (all)** or a single function from the item configuration screen. The default key is **V** and can be changed in the controls menu.
+- Switch between Fortune 15 and Silk Touch I.
+- Breaks blocks in about **0.3 seconds** and can harvest blocks that normally require a Netherite-tier tool.
+- Main-hand use adds **5 blocks** of block reach. With Iron's Spellbooks installed, holding it in either hand also grants **20 spell power**, **5000 max mana**, **+500% cooldown speed** and **500% mana regeneration**.
+- Grass is flattened with a regular right-click; sneak-right-click tills. Logs can be stripped, pumpkins carved, and shield mode blocks attacks. Optional wrench and spellbook integrations use compatible items from the installed pack.
 
-### Magic Poison Bottle (Curios charm)
-* `sneak + right click` with any active mob effect marks the effect (its current amplifier) into
-  the bottle. Marking the same effect again only raises the level when the new level is higher;
-  lower or equal levels are ignored. Up to 16 effects can be stored.
-* The marked effects and their levels are listed in the tooltip below the item name.
-* Wearing the bottle in a **Curios charm slot** grants every marked effect with an **infinite
-  duration**; unequipping removes the effects it granted (only if they are still infinite and at
-  the same amplifier).
-* Recipe (shaped, 3x3):
+## Omni Weapon
+
+A single weapon combines a sword's sweep, an axe's shield-breaking, a mace's falling smash and bow-style ranged attacks.
+
+- Right-click to draw and fire arrows; Multishot, Quick Charge and other supported weapon enchantments apply.
+- Falling attacks use the familiar mace impact effects.
+- Main-hand use adds **4 blocks** of entity reach.
+- Unbreakable by default, with Looting 15.
+
+## Omni Armor
+
+A powerful helmet for either the vanilla head slot or the Curios head slot.
+
+- Grants **60 armor** and **60 armor toughness** where the pack's attribute limits allow them.
+- Provides strong protection, underwater breathing and immunity to nearly all damage sources other than `/kill`.
+- Removes fog and darkness effects while worn.
+- Open its block-highlighting screen with the configurable armor-menu key (default **H**). Marked blocks are outlined nearby; the screen does not consume the blocks you select.
+
+## Magic Poison Bottle
+
+A Curios charm that stores active potion effects.
+
+- Sneak-right-click while you have effects to mark them in the bottle. Successfully marked effects are removed from you; an effect already stored at the same or a higher level is left alone.
+- The bottle displays stored effects in its tooltip. Wearing it in a Curios **charm** slot grants them indefinitely. Removing the bottle removes the effects it granted.
+- Crafting: redstone above a middle row of glowstone dust, glass bottle, glowstone dust; fermented spider eye below.
+
+## Time Acceleration Wand
+
+Sneak-right-click a ticking block, such as a furnace, or a randomly ticking block, such as a crop.
+
+- Each click increases its speed through **4x, 8x, 16x, 64x, 128x and 256x** and resets its duration to **60 seconds**. The maximum level cannot be increased further.
+- An expanded shell, floating multiplier/countdown and sparks mark accelerated blocks. Acceleration data is saved with the world.
+- Crafting pattern:
   ```
-  . R .
-  G B G
-  . F .
-  ```
-  `R` redstone, `G` glowstone dust, `B` glass bottle, `F` fermented spider eye.
-
-### Time Acceleration Wand (时间加速手杖)
-* `sneak + right click` a block entity (furnace, hopper, brewing stand, ...) or a block that
-  accepts random ticks (crops, saplings, ...) to accelerate it.
-* Every click steps the multiplier along **4x → 8x → 16x → 64x → 128x → 256x** and resets the
-  timer to **60 s**; at 256x further clicks are refused until the timer runs out.
-* Acceleration follows the "Time in a Bottle" / "Just Dire Things" approach: each game tick the
-  block entity ticker (or `BlockState#randomTick`) runs `multiplier - 1` extra times, with a
-  global budget of 2048 extra ticks per level tick so a few 256x blocks cannot stall the server.
-* Accelerated blocks are wrapped in a glowing block shell: a `minecraft:block_display` renders
-  the internal `time_layer` block scaled to 1.2 (so the cube sits 0.1 blocks outside every face,
-  no z-fighting) and a `minecraft:text_display` above it shows `4x - 59s`, always facing the
-  player. Both are plain vanilla entities created by the server, so no client code or custom
-  packets are involved. `ELECTRIC_SPARK` particles on the six faces are still emitted as well.
-* Recipe (shaped, 3x3):
-  ```
-  . A B
-  . C A
-  D . .
-  ```
-  `A` amethyst block (2x), `B` amethyst shard, `C`/`D` stick.
-* State is persisted per dimension in `xmt_time_acceleration.dat`, so accelerations survive a
-  restart and stop cleanly when the block is removed or the timer expires.
-
-### Potion of Flight (24 hours)
-* Registered as the potion type `xiabis_modpack_toolbox:flight`: one effect,
-  `apothic_attributes:flying` (shipped by Apothic Attributes, so this mod does not register a
-  duplicate flight effect), duration **1 728 000 ticks = 86 400 s = 24 h** (not drinkable-time
-  limited, it counts down like any potion).
-* Recipe (shapeless, only loaded when Apotheosis + Apothic Attributes are present):
-  3 water bottles + phantom membrane + fermented spider eye + popped chorus fruit. The water
-  bottles use the `neoforge:components` ingredient type; plain `{"item": "minecraft:potion",
-  "components": {...}}` entries silently lose their components (the recipe would consume any
-  potion and JEI showed "不可合成的药水").
-
-### Models
-Placeholder 16x16 textures are generated for every state. The omni tool has its own item
-model per tool kind (`omni_tool_fortune_<kind>` / `omni_tool_silk_<kind>`) selected with
-`custom_model_data`; the omni weapon has a single model.
-
-| custom_model_data | state |
-|---|---|
-| 0 / 1 | Omni (all functions), fortune / silk |
-| 11–18 | pickaxe … staff, fortune |
-| 21–28 | pickaxe … staff, silk |
-
-## Storage upgrade recipes (Sophisticated mods)
-
-Two recipes are only loaded when their mod is installed.
-
-**Sophisticated Backpacks** — 8 diamond blocks around a diamond backpack:
-
-```
-D D D
-D B D      D = diamond block, B = diamond backpack
-D D D
-```
-
-produces a netherite backpack named "[obfuscated]库存不足恐惧症[obfuscated]" (red, bold) with
-15 upgrade slots and 4096 item slots.
-
-**Sophisticated Storage** — 8 diamond blocks around a diamond barrel (any wood):
-
-```
-D D D
-D B D      B = diamond barrel (the wood type is carried over)
-D D D
-```
-
-produces the matching netherite barrel named "[obfuscated]容量不足恐惧症[obfuscated]" with
-15 upgrade slots and 8192 item slots.
-
-Both upgrades keep whatever was inside: the stored inventory is addressed by the
-`sophisticatedcore:storage_uuid` component, which is copied onto the result, and the barrel's
-`sophisticatedstorage:wood_type` is copied as well. Implemented by
-`crafting/ContainerUpgradeRecipe` (a shaped recipe that post-processes its result), so recipe
-viewers still render the pattern normally. Because the new container shares the storage UUID,
-the original item must be consumed by the recipe — it is.
-
-## Building
-
-Requirements: **JDK 21** and network access (the build resolves NeoForge from
-`neoforged.forgecdn.net` and downloads the Curios API jar from `cdn.modrinth.com`).
-
-```bash
-./gradlew build
-```
-
-The jar ends up in `build/libs/xiabis_modpack_toolbox-<version>.jar`.
-
-```bash
-./gradlew runServer   # dev server, --nogui; run/eula.txt is created on first launch
-./gradlew runClient   # dev client
-```
-
-The Curios API jar is **not** committed (it is a third-party LGPL-3.0 binary). The
-`downloadCurios` task fetches `curios-neoforge-9.5.1+1.21.1.jar` into `libs/` when it is
-missing and wires it into the build; `libs/` is ignored by git.
-
-## Development notes
-
-`libs/curios-neoforge-9.5.1+1.21.1.jar` (downloaded by `./gradlew downloadCurios`) is wired in through `implementation files(...)`, which
-gives the dev runs both the compile-time API and Curios as a runtime mod (ModDevGradle has no
-`modRuntimeOnly` configuration; it passes runtime mods through `fml.modFolders` /
-`additionalRuntimeClasspath`). To smoke test the Apotheosis integration, drop
-`Placebo`, `ApothicAttributes` and `Apotheosis` jars into `libs/` and add the matching
-`implementation files(...)` lines; they are not needed to compile the mod.
-
-## Known limitations
-
-* The tool does not shear sheep (shears behavior is limited to block mining and carving).
-* Wrench integration is generic: the first item found in `c:tools/wrench` (or an item whose
-  id/class contains `wrench` / `screwdriver`) is used as a proxy; if nothing is found the
-  wrench falls back to block state rotation.
-* Staff mode first tries Iron's Spells `Utils#serverSideInitiateCast` (reflectively, only when
-  the mod is installed) so the spell selected in a spell book is cast with the normal mana /
-  cooldown pipeline. Without that mod it falls back to borrowing a `c:tools/staff` /
-  staff-like item and calling its `use`.
-* Apotheosis socket seeding (4 sockets) uses reflection and is skipped when the mod is absent.
-* `data/curios/curios/entities/player.json` grants players exactly one `charm` slot. If another
-  datapack already defines a `charm` slot for players with a different size, that definition is
-  overwritten (Curios merges entity slot maps by slot id) - delete this file from the jar in that
-  case.
-* The `data/apotheosis/.../loot_category_overrides.json` data map produces a harmless
-  `non-existent data map type` warning when Apotheosis is not installed (NeoForge's data map
-  loader ignores `neoforge:conditions` overrides).
-
-## Omni Greenhouse (`omni_greenhouse`)
-
-A single-block farm that turns one seed or sapling into its harvest.
-
-* Recipe (shaped): glowstone / glass / glowstone, iron block / dirt / iron block, iron block / bone block / iron block.
-* Right-click opens the GUI: one seed slot (a single item, extra copies are ignored), nine output slots, a
-  640 B water tank, a 64 000 FE buffer and two card slots.
-* One cycle takes 1 s and costs 1 000 FE and 1 000 mB of water. The seed is **not** consumed.
-* Crops are harvested through their loot table (rolled against the fully grown block), so modded crops work;
-  saplings yield the matching log plus sticks.
-* Mystical Agriculture (and other mods that follow the same naming) are handled by mapping `xxx_seeds` to the
-  `xxx_crop` block, so the essence comes out of its own loot table.
-* Six faces can each be set to *fluid input*, *energy input*, *item output* or *both*; the two left buttons toggle
-  active input/output (pulling water/FE from neighbours and pushing harvests out).
-* Card slots: each **speed card** shortens the cycle by 0.1 s; once the cycle reaches 1 tick the remaining cards
-  add one extra harvest each. Each **energy card** adds 64 000 FE of buffer.
-
-## Omni Generator (`omni_generator`)
-
-A block that burns solid fuel or lava and pushes the produced energy out as **FE**, **EU**
-(GregTech Modern) or **AE** (Applied Energistics 2).
-
-* Generation: **4096 FE/t** by default; the output rate equals the generation rate.
-* Internal storage: **10 240 FE**, fuel: **9 slots x 1024 items** (coal / charcoal),
-  fluid: **1024 B of lava** (1 B = 1000 mB = 20 000 burn ticks).
-* Conversion: `1 FE = 0.5 AE = 0.25 EU` (4 FE per EU, 2 FE per AE).
-* Every face is configured on its own by cycling through
-  **fluid input -> item input -> energy output -> input + output** with left / right click.
-* "Active output" pushes energy every tick to the faces configured as energy output;
-  "active input" pulls items / lava out of the neighbouring inventories and tanks.
-* GUI layout follows the requirements: the 3x3 button block in the upper left
-  (`active output`, `top`, `active input` / `left`, `front`, `right` / `back`, `bottom`,
-  `energy type`), the 9 fuel slots, a lava gauge, an energy gauge and the two card slots in the
-  upper right.
-* Upgrade cards (`energy_card` / `speed_card`, up to **64 of each**) scale the buffer and the
-  generation **linearly**: capacity `10 240 x (1 + cache cards)` FE,
-  generation `4096 x (1 + efficiency cards)` FE/t.
-* Recipes (shaped):
-  * generator: `furnace smoker furnace` / `iron_ingot copper_block iron_ingot` /
-    `obsidian obsidian obsidian`
-  * `energy_card`: `gold redstone gold` / `redstone amethyst_shard redstone` /
-    `gold redstone gold`
-  * `speed_card`: `gold glowstone gold` / `glowstone amethyst_shard glowstone` /
-    `gold glowstone gold`
-* Integration is reflective and optional: EU output needs GregTech Modern **1.21.1 (7.x)**
-  (`IEnergyContainer#acceptEnergyFromNetwork`, ULV 8 EU amps); AE output injects into any
-  neighbouring block entity that implements `IAEPowerStorage` (AE2's Energy Acceptor does),
-  so the FE path keeps working even when neither mod is installed.
-
-## Giant Battery Box (`omni_battery`)
-
-An unbounded FE buffer without a GUI. Right click a face to flip it between **energy input** and
-**energy output** (all six faces start as input); sneak + right click any face toggles **active
-I/O**, which every tick pushes energy out of the output faces and pulls energy from the input
-faces (off by default). Every interaction is reported on the action bar, e.g.
-`Top: energy output, stored 1234567 FE`.
-
-* Capacity: a `long`, i.e. `Long.MAX_VALUE` = about **9.22e18 FE**. The Forge Energy API is
-  `int` based, so every neighbour interaction is clamped to `Integer.MAX_VALUE` (2 147 483 647 FE)
-  per call; inside the block the full `long` range is kept.
-* Transfer (`receiveEnergy` / `extractEnergy` and the active I/O pass): up to
-  **2 147 483 647 FE per tick per side** (`Integer.MAX_VALUE`, the most a single FE call can
-  carry).
-* Breaking the battery keeps its charge: the item stores the energy in the
-  `stored_energy` component, drops with it and is restored when placed again (the tooltip of the
-  item shows `Stored: <n> FE`).
-* Faces only expose what they are configured for: input faces reject `extractEnergy`, output
-  faces reject `receiveEnergy`, which means pipes and cables automatically respect the setting.
-* Recipe (shaped):
-
-  ```
-  I C I      I = iron ingot, C = copper ingot
-  B R B      B = iron block, R = redstone block
-  B P B      P = copper block
+  . Amethyst Block  Amethyst Shard
+  . Stick           Amethyst Block
+  Stick .           .
   ```
 
-The block id is lowercase (`omni_battery`); Minecraft resource locations cannot contain uppercase
-letters, so the `omni_Battery` from the requirements is registered as `omni_battery`.
+## Omni Generator
 
-## Omni Armor (`omni_armor`)
+A fuel-powered generator with a compact control panel and configurable sides.
 
-A single helmet that replaces an entire kit.
+- Produces **4096 FE per tick** by default and stores **10,240 FE**. Coal, charcoal and lava are supported fuels.
+- Its nine fuel slots hold large stacks; the lava tank stores up to **1024 buckets**.
+- Choose FE, EU or AE output when the corresponding energy mod is installed. Conversion rates are **1 FE = 0.25 EU = 0.5 AE**.
+- Configure each side for fluid input, item input, energy output or combined input/output. Active input and output can be toggled from the screen.
+- **Energy Cards** increase storage; **Speed Cards** increase generation. Both scale with the number installed.
 
-* Equips either in the vanilla helmet slot or in the Curios **head** slot (both are shipped: the
-  item is in `data/curios/tags/item/head.json` and the built-in `player` curio entity now declares
-  `charm` **and** `head`).
-* While worn it grants `+60` armor and `+60` armor toughness as plain **item attribute modifiers**, so
-  the stock tooltip lists them itself under `When on Head:` (no custom tooltip text). Curios slots do
-  not apply vanilla item modifiers, so a small server-side fallback adds the same numbers when the
-  armor is worn in the Curios head slot and not in the helmet slot. Vanilla clamps these attributes
-  at 30 / 20, which is exactly why the requirements mention Apotheosis: Apotheosis raises the caps of
-  `minecraft:armor` (200) and `minecraft:armor_toughness` (100). Verified with and without it in the
-  dev environment: 60 / 60 with Apotheosis installed, 30 / 20 without.
-* 640 durability, `Unbreakable`, and it ships with Protection 20, Respiration 20 and Aqua Affinity 1
-  (seeded into a real `enchantments` component, so the tooltip and enchanting behave normally).
-* Every damage source except `/kill` (`minecraft:generic_kill`) is cancelled. That includes void,
-  starvation, the warden's sonic boom and other mods' damage types; this is a deliberately
-  unbalanced sandbox item.
-* Wearing it removes **all** fog (`ViewportEvent.RenderFog` is cancelled) and strips the Darkness and
-  Blindness effects every tick, so boss fog, lava/water/powder-snow fog and darkness ambience are
-  gone.
-* **Block highlighting**: with the armor worn (or held) press the armor-menu key (`H` by default, the
-  tooltip shows whatever is bound in Options > Controls) to open a 4x9 marker menu. The
-  slots are ghosts: click a slot while holding a block to mark that block (the held stack is **not**
-  consumed), click it with an empty hand to clear it, or drag a block in from JEI
-  (`IGhostIngredientHandler`, only registered when JEI is installed). Marked stacks can never be
-  taken out, so the menu cannot be used to duplicate items. Every marked block type is scanned for in
-  a 32 block radius and drawn as a glowing, depth-test-free outline in its own colour; the scan is
-  spread across ticks and refreshed every 0.5 s (up to 6000 outlines).
-* Recipe (shaped):
+## Giant Battery Box
 
-  ```
-  A D A      A = amethyst shard, D = diamond block
-  G H G      G = glowstone dust,  H = diamond helmet
-  I D I      I = iron block
-  ```
+A large FE buffer with no screen. Right-click a side to switch it between input and output; all sides start as input. Sneak-right-click toggles automatic input/output. The action bar reports each change. Stored energy is retained when the block is picked up or broken.
 
-## Item tags
+## Omni Greenhouse
 
-Both items are added to the vanilla and NeoForge common tool/weapon tags so modpacks and
-other mods recognise them (`data/minecraft/tags/item/*` and `data/c/tags/item/*`):
+An automated farm for crops and saplings.
 
-* `omni_tool`: `minecraft:pickaxes`, `shovels`, `axes`, `hoes`, `swords`,
-  `cluster_max_harvestables`, `breaks_decorated_pots`, `enchantable/{mining, mining_loot,
-  durability, weapon, sharp_weapon, sword, fire_aspect, vanishing}`,
-  `c:tools`, `c:tools/mining_tool`, `c:tools/melee_weapon`, `c:tools/shield`,
-  `c:tools/shear`, `c:enchantables`.
-* `omni_weapon`: `minecraft:axes`, `swords`, `cluster_max_harvestables`, `breaks_decorated_pots`,
-  `enchantable/{mining, mining_loot, durability, weapon, sharp_weapon, sword, fire_aspect,
-  vanishing, mace, bow, crossbow}`, `c:tools`, `c:tools/mining_tool`,
-  `c:tools/melee_weapon`, `c:tools/ranged_weapon`, `c:tools/bow`, `c:tools/crossbow`,
-  `c:tools/mace`, `c:enchantables`.
+- Insert one seed or sapling, water and energy. The seed is not consumed; each harvest uses **1000 mB of water** and **1000 FE**.
+- Crops are harvested from their mature drops, and saplings produce their matching logs and sticks. Mystical Agriculture seeds can produce their crop's usual drops, including essence.
+- Nine output slots, a water tank, an energy buffer and slots for **Speed Cards** and **Energy Cards**. The machine pauses when all output slots are full.
+- Configure sides for water input, energy input or item output. Cards shorten the harvest cycle or increase the energy buffer.
 
-`c:tools/wrench` and `c:tools/staff` are intentionally **not** claimed: those interactions are
-forwarded to a real wrench/staff item found at runtime, and tagging the toolbox items as
-wrenches would make other mods (and the forwarding code) treat them as the genuine article.
+## Storage Upgrades
 
-## Changes in 2.0.0
+When the corresponding Sophisticated mod is installed, surround a Diamond Backpack or Diamond Barrel with eight Diamond Blocks to upgrade it to Netherite tier.
 
-* Reduced server-side work for time-wand markers: display entities are reconciled once per second instead of
-  being searched and refreshed for every accelerated block on every tick. A newly applied marker is still
-  created immediately by the wand.
-* Greenhouse cycles now short-circuit before crop/loot generation when all nine output slots are full. The
-  existing full-batch simulation remains as the final guard, so a cycle consumes no water/FE and never spills
-  items into the world when its outputs cannot hold the complete result.
-* Optional integration jars used for local testing are now `runtimeOnly` dependencies. They remain available in
-  the configured development `libs/` directory, but a clean clone only needs the required Curios download to
-  compile the mod; the optional integrations are still discovered at runtime when their jars are present.
+- The upgraded backpack has **15 upgrade slots** and **4096 item slots**.
+- The upgraded barrel has **15 upgrade slots** and **8192 item slots**. Both upgrades keep their contents, and the barrel keeps its wood style.
+- The upgraded containers appear in the toolbox creative tab when their mod is installed.
 
-## Changes in 1.6.4
+## Potion of Flight
 
-* The greenhouse no longer works when its nine output slots are full: it holds the finished cycle, consumes
-  no energy or water and never throws the harvest on the ground. Once a slot is emptied it resumes on the
-  next retry tick (checked every 0.5 s while blocked).
+When Apotheosis and Apothic Attributes are installed, three Water Bottles, a Phantom Membrane, a Fermented Spider Eye and a Popped Chorus Fruit craft a **24-hour Flight Potion**. It uses the flight effect supplied by Apothic Attributes.
 
-## Changes in 1.6.3
+## Updates and Feedback
 
-* Every container slot moved up one more pixel so 16x16 item sprites sit centred in the drawn 16x14 cells
-  instead of hanging over the bottom bevel.
-* The greenhouse seed slot now also accepts nether fungi, mushrooms, sugar cane, bamboo, cactus, kelp,
-  sweet berries, glow berries, cocoa beans, sea pickles and chorus fruit, each with its own harvest table
-  (nether fungi give shroomlight, wart blocks and stems).
-* Greenhouse harvests are collected with `Block#getDrops` instead of rolling the block loot table, so
-  Mystical Agriculture crops hand out their essence again (they generate drops in code, not in a loot
-  table).
-
-## Changes in 1.6.2
-
-* Fine tuned both container GUIs against the drawn art: the 3x3 config buttons now fill exactly the
-  drawn button cells (16x14 at 185/30 instead of 18x16 at 184/29), the generator card slots moved onto
-  their drawn cells (102/120, 65 instead of 101/120, 63), and every item slot was nudged up one pixel so
-  the 16x16 item sprites sit centered in the drawn 16x14 cells instead of spilling over the lower bevel.
-* The greenhouse GUI now uses the maintainer's hand drawn sheet: two gauges (water left, FE right at
-  33/30), the seed slot at 60/25, three by three outputs at 114/29, two card slots at 64/65 and 82/65,
-  and the progress bar at 64/56.
-
-## Changes in 1.6.1
-
-* Fixed the container GUIs being distorted: the three GUI sheets were saved at their drawn size
-  (245x186 / 176x186) while `blit` still declared a 256x256 sheet, so Minecraft sampled only the top
-  73 percent of the texture and stretched it. All three are now stored on a 256x256 canvas at the
-  original coordinates, so the art lines up with the slot positions again.
-
-## Changes in 1.6.0
-
-* Added the omni greenhouse (`omni_greenhouse`) with its GUI, face configuration, water/FE handling, loot table
-  based harvests (crops, saplings, Mystical Agriculture style seeds) and the speed/energy card support.
-
-## Changes in 1.5.0
-
-* Replaced the placeholder art with the hand-drawn assets: the omni armor's worn model
-  (`textures/models/armor/omni_armor_layer_1.png`), its item icon, and both container GUIs.
-* The armor marker screen now uses the drawn 176x186 sheet (title bar, 4x9 marker grid, inventory and
-  hotbar all line up with the art).
-* The generator screen now uses the drawn 176x186 panel plus the 3x3 button cluster on its right
-  (245x186 total): fuel slots at the drawn 3x3 grid, the two card slots sit on the drawn card icons,
-  the lava and energy gauges fill the drawn frames and the burn progress fills the thin bar.
-  Button colours now indicate state (green = active toggle, blue = fluid input face, orange = item
-  input face, red = energy output face, green = both) and hovering a gauge shows the exact amount.
-
-## Changes in 1.4.2
-
-* `omni_armor` now exposes armor and toughness as regular item attribute modifiers, so the vanilla
-  tooltip shows `When on Head: +60 Armor / +60 Armor Toughness`; the custom "wear it for +60" line is
-  gone. Wearing the armor in the Curios head slot still works through a server-side fallback modifier.
-* Both `omni_tool` and `omni_armor` now show `Press <key> to open the item configuration screen`
-  (translated, `%s` = current binding). The key text follows the controls screen, and both menu keys
-  (`Open Tool Menu`, `Open armor highlight menu`) already appear under Options > Controls >
-  xiabi's Modpack Toolbox, so they can be rebound there.
-
-## Changes in 1.4.1
-
-* Fixed the **Giant Battery Box** being invisible once placed (only its item looked right). The block
-  extends `BaseEntityBlock`, whose default render shape is `INVISIBLE`; it now returns
-  `RenderShape.MODEL` like the generator does.
-* The armor marker grid is now made of ghost slots: clicking marks the held block without consuming
-  it, JEI drags can no longer be pulled back out (item duplication), shift-clicking never moves items
-  into the grid, and clicking a marker with an empty hand clears it.
-
-## Changes in 1.4.0
-
-* New item **Omni Armor** (`omni_armor`): helmet/Curios head slot, +60 armor and +60 toughness,
-  640 durability with `Unbreakable`, Protection 20 / Respiration 20 / Aqua Affinity 1, immunity to
-  every damage source except `/kill`, full fog removal (including Darkness/Blindness) and a 36 slot
-  block-highlight editor opened with `H` that accepts inventory and JEI drags.
-* New client-side outline renderer for highlighted blocks (custom `RenderType`, no depth test, 12
-  colour palette, 32 block radius, half-second refresh).
-* New packet pair for the marker menu (`open_armor_menu`, `set_armor_marker`) and the `marker_slots`
-  item component.
-* Curios `player` entity now declares the `charm` and `head` slots; `omni_armor` is tagged
-  `curios:head`.
-
-## Changes in 1.3.11
-
-* Fixed a server crash (`No enum constant appeng.api.config.Actionable.MODIFY`) when the generator
-  was set to AE output with AE2 19.x installed. AE2 renamed `Actionable.MODIFY` to
-  `Actionable.MODULATE`; the adapter now resolves the constant by scanning the enum (accepts both
-  names) and disables itself with a logged warning if the API changed again.
-* Soft-dependency adapters (AE2 / GregTech) can no longer throw out of a block entity tick: the
-  generator's energy push is wrapped in a guard that logs and skips the face.
-
-## Changes in 1.3.10
-
-* Active I/O transfer is now exactly `Integer.MAX_VALUE` (2 147 483 647 FE/t per side).
-
-## Changes in 1.3.9
-
-* Battery capacity raised from `Integer.MAX_VALUE` to a real `long` (`Long.MAX_VALUE`); the FE
-  capability still reports clamped `int` values.
-* Active I/O transfer raised from 1 000 000 FE/t to `Integer.MAX_VALUE` FE/t per side.
-* Breaking a giant battery box keeps its stored energy: it is written into the dropped item
-  (`stored_energy` component) and restored on placement, with a tooltip showing the amount.
-
-## Changes in 1.3.8
-
-* New block **Giant Battery Box** (`omni_battery`): unbounded FE storage, per-face input/output
-  mode, active I/O toggle, action bar feedback, no GUI.
-* The oversized Sophisticated Backpacks / Storage containers are now listed in this mod's creative
-  tab when their mod is installed (with the obfuscated red names and the 4096/8192 slot counts).
-
-## Changes in 1.3.4 - 1.3.7
-
-* 1.3.4: the mods.toml is now maintained by the author (only `version` stays templated).
-* 1.3.5: mod logo (`icon.png`), issue tracker URL and the provided card textures.
-* 1.3.6: provided generator block textures, including a dedicated bottom face.
-* 1.3.7: storage upgrade recipes for Sophisticated Backpacks / Storage (8 diamond blocks around a
-  diamond container -> oversized netherite container that keeps its contents).
-
-## Changes in 1.3.3
-
-* The magic poison bottle now **consumes** an effect when marking it succeeds: the marked effect is
-  removed from the player. Effects that are already marked at the same (or a higher) level, and
-  instances weaker than the marked level, are left alone.
-* Example: with Speed II and Jump Boost I you mark both, both are stored at level 2 / 1 and removed
-  from you. Drinking Speed I later and marking again does nothing (already marked at a higher
-  level), while Speed III raises the stored level to 3 and is consumed.
-
-## Changes in 1.3.2
-
-* Fixed the omni weapon providing mining: it no longer carries the omni tool's mining rules.
-  The weapon keeps only the sword's block interaction (cobwebs at 15x, sword-efficient blocks at
-  1.5x) and cannot harvest any block that needs a pickaxe/shovel/hoe/shears, so stone, ores and
-  logs give no drops and break at normal hand speed.
-* The custom 0.3 s break speed now only applies to the **omni tool**; the weapon is not affected.
-* Weapon stacks from older versions are migrated on first tick (their old 8-rule mining `tool`
-  component is replaced with the 2-rule sword component).
-* The weapon was also removed from the `c:tools/mining_tool`, `minecraft:cluster_max_harvestables`,
-  `minecraft:enchantable/mining` and `minecraft:enchantable/mining_loot` tags.
-
-## Changes in 1.3.1
-
-* Removed the custom tooltip lines from both omni items (the "Mining tier", "Mining speed" and
-  reach lines are gone).
-* Reach and Iron's Spellbooks bonuses are now **real item attribute modifiers** built in
-  `getDefaultAttributeModifiers`, so the stock tooltip renders them under
-  "When in Main Hand:" / "When held:" and no per-tick player patching is needed
-  (`PlayerAttributesHandler` was deleted).
-* Iron's Spellbooks defines spell power, cooldown reduction and mana regeneration as percentage
-  attributes (base 1.0 = 100%), therefore the +20 spell power addition shows up as
-  "+2000% Spell Power" (total 21.0) while max mana shows as a flat "+5000 Max Mana".
-
-## Changes in 1.3.0
-
-* New block `omni_generator` (万用发电机) with its GUI, face routing, fuel / lava burning,
-  FE / EU / AE output and the two upgrade cards `energy_card` and `speed_card`
-  (see the Omni Generator section above).
-
-## Changes in 1.2.3
-
-* Added the vanilla `minecraft:*` and NeoForge `c:*` item tags listed above so modpacks and
-  other mods detect the omni tool / omni weapon as tools and weapons.
-
-## Changes in 1.2.2
-
-* Omni Tool: **+5 block interaction range** in the main hand; with Iron's Spellbooks also
-  **+20 spell power**, **+5000 max mana**, **+500% spell cooldown speed** (attribute 1.0 -> 6.0)
-  and **+500% mana regeneration** (1.0 -> 6.0) while held in either hand.
-* Omni Weapon: **+4 entity interaction range** in the main hand.
-* Digging time for both items changed from 18 ticks (0.9 s) to **6 ticks (0.3 s)** per block.
-* Range and magic bonuses are item attribute modifiers now, so the vanilla tooltip shows them
-  (the magic entries only appear when Iron's is loaded).
-
-## Changes in 1.2.1
-
-* The acceleration marker is now a real block shell plus a floating countdown text entity instead
-  of a client side text renderer that did not show up in game: a `minecraft:block_display` shows
-  the internal `time_layer` block scaled 1.2 (0.1 blocks outside the face, no z-fighting, full
-  brightness) and a `minecraft:text_display` shows `4x - 59s`. The old client sync payload was
-  removed.
-* Item and block textures are the ones supplied by the author (`time_wand`, `time_layer`); the
-  placeholder generators keep existing files instead of overwriting them.
-
-## Changes in 1.2.0
-
-* New item `time_wand` (时间加速手杖): sneak + right click accelerates block entities or
-  randomly ticking blocks from 4x up to 256x, 60 s per level, shown as a floating label plus
-  particles on all six faces (see above for the mechanics).
-* `magic_poison_bottle` recipe changed to the 3x3 layout from the requirements
-  (redstone / 2 glowstone dust / glass bottle / fermented spider eye).
-* Fixed the flight potion recipe showing "不可合成的药水": water bottles are now matched with
-  the `neoforge:components` ingredient type, which keeps the `potion_contents` component.
-
-## Changes in 1.1.1
-
-* Fixed "the bottle cannot be worn / no charm slot in the curio GUI": Curios derives the slots a
-  player owns from `data/<namespace>/curios/entities/*.json`, and the Curios jar itself ships no
-  entity mapping at all (the `curios:charm` **item** tag only says *what* fits, not that the player
-  *has* a charm slot). The mod now ships `data/curios/curios/entities/player.json` granting
-  `minecraft:player` one `charm` slot, so the bottle both shows "可佩戴在：护符" and can be equipped.
-* Both omni items now override `isCorrectToolForDrops` (always true, netherite tier) and
-  `getDestroySpeed` (falls back to the configured 9.0 speed when the `tool` component is missing),
-  so mining never depends on the component having been applied yet.
-* Both omni items expose their combat/utility bonuses as vanilla item attribute modifiers, so the
-  stock tooltip ("When in Main Hand:" / "When held:") lists them.
-
-## Changes in 1.1.0
-
-* New item `magic_poison_bottle` (魔法药水瓶): marks the effects the player currently has with
-  `sneak + right click`, lists them in the tooltip and grants them with an infinite duration
-  while worn in a Curios **charm** slot.
-* Curios API is now a required dependency (`[9.0.0,)`), declared in `neoforge.mods.toml`, and
-  the bottle is added to the `curios:charm` item tag.
-* New potion type `xiabis_modpack_toolbox:flight` and the Apotheosis-gated recipe for a 24 hour
-  flight potion, reusing `apothic_attributes:flying` instead of registering a second flight
-  effect (the JSON `custom_effects` + `item_name` variant was dropped: item components in recipe
-  JSON reject translatable names).
-
-## Changes in 1.0.1
-
-* The weapon now extends `MaceItem`, so the fall smash reuses the vanilla mace feedback
-  (impact sound, heavy/air variants, knockback wave, fall damage immunity window) instead of
-  a hand-written copy that never ran (`Item#hurtEnemy` returned `false`, so `postHurtEnemy`
-  was skipped).
-* Multishot fires three arrows with the vanilla crossbow spread
-  (`EnchantmentHelper#processProjectileSpread`), consuming a single arrow.
-* Quick charge shortens the draw (`20 - 5 * level` ticks, minimum 3) and the client side
-  `pull` / `pulling` model predicates read the enchantment straight off the stack, so the
-  draw animation follows the shortened charge.
-* New 4-stage draw textures for the weapon (`omni_weapon_pulling_0..3`).
-* The sonic boom no longer ignores the shield mode: `LivingIncomingDamageEvent` cancels it
-  while the tool is held up in shield mode.
-* Staff mode casts the Iron's Spells spell selected in the spell book (reflection, optional).
-
-## Changes in 1.0.3
-
-* Digging time per block was 18 ticks (0.9 s) instead of the instant 0.4 tick target
-  from 1.0.2.
-
-## Changes in 1.0.2
-
-* Both items are netherite tier (the `incorrect_for_netherite_tool` tag is empty, i.e. every
-  block that needs a proper tool can be harvested) and share a single digging speed:
-  `PlayerEvent.BreakSpeed` replaces the vanilla speed with `hardness * 30 / 18`, which is
-  the shared number of ticks per block regardless of the block hardness.
-* The omni weapon now has a `minecraft:tool` component too (backfilled for weapons that were
-  created before this version), so it can mine and harvest blocks.
+See [CHANGELOG.md](CHANGELOG.md) for the version history. For mod issues, use the [GitHub issue tracker](https://github.com/xiabi418/xiabis_modpack_toolbox/issues).
