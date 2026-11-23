@@ -56,7 +56,7 @@ def gauge(px, x0, y0, width, height):
 
 
 def gui():
-    width, height = 245, 186
+    width, height = 256, 256
     px = blank(width, height)
 
     # Panel.

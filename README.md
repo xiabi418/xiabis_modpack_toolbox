@@ -337,6 +337,13 @@ other mods recognise them (`data/minecraft/tags/item/*` and `data/c/tags/item/*`
 forwarded to a real wrench/staff item found at runtime, and tagging the toolbox items as
 wrenches would make other mods (and the forwarding code) treat them as the genuine article.
 
+## Changes in 1.6.1
+
+* Fixed the container GUIs being distorted: the three GUI sheets were saved at their drawn size
+  (245x186 / 176x186) while `blit` still declared a 256x256 sheet, so Minecraft sampled only the top
+  73 percent of the texture and stretched it. All three are now stored on a 256x256 canvas at the
+  original coordinates, so the art lines up with the slot positions again.
+
 ## Changes in 1.6.0
 
 * Added the omni greenhouse (`omni_greenhouse`) with its GUI, face configuration, water/FE handling, loot table
