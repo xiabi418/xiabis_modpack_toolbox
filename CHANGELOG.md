@@ -2,6 +2,11 @@
 
 All notable changes to xiabi's modpack toolbox are recorded here.
 
+## 2.3.2
+
+- Converted the Simplified Chinese locale to readable UTF-8 text.
+- Removed the Advanced Totem of Undying tooltip.
+
 ## 2.3.1
 
 - Added custom textures for the Omni Fluid Tank and Advanced Totem of Undying.

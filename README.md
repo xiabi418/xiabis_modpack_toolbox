@@ -116,7 +116,7 @@ The **Omni Fluid Tank** (`omni_fluid_tank`) accepts any number of different flui
   Copper Ingot  Copper Ingot  Copper Ingot
   ```
 
-The latest release includes custom tank and advanced totem textures.
+The Simplified Chinese locale is stored as readable UTF-8 text, and the advanced totem no longer has a tooltip.
 
 ## Compressed Matter Condenser
 
