@@ -13,6 +13,7 @@ import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.fml.ModList;
 import xiabis.modpack.toolbox.XmtMod;
+import xiabis.modpack.toolbox.item.AdvancedTotemItem;
 import xiabis.modpack.toolbox.item.MagicPoisonBottleItem;
 import xiabis.modpack.toolbox.item.OmniToolItem;
 import xiabis.modpack.toolbox.item.OmniWeaponItem;
@@ -76,6 +77,10 @@ public final class ModItems {
     public static final DeferredItem<Item> SPEED_CARD = ITEMS.registerItem("speed_card", Item::new,
             new Item.Properties().stacksTo(64).rarity(Rarity.RARE));
 
+    public static final DeferredItem<Item> ADVANCED_TOTEM_OF_UNDYING = ITEMS.registerItem(
+            "advanced_totem_of_undying", AdvancedTotemItem::new,
+            new Item.Properties().stacksTo(1).durability(AdvancedTotemItem.DURABILITY).rarity(Rarity.EPIC));
+
     public static final DeferredItem<Item> MAGIC_POISON_BOTTLE =
             ITEMS.registerItem("magic_poison_bottle", MagicPoisonBottleItem::new,
                     new Item.Properties().stacksTo(1).rarity(Rarity.RARE));
@@ -106,6 +111,7 @@ public final class ModItems {
                         output.accept(OMNI_ARMOR.get());
                         output.accept(TIME_WAND.get());
                         output.accept(MAGIC_POISON_BOTTLE.get());
+                        output.accept(ADVANCED_TOTEM_OF_UNDYING.get());
                         output.accept(OMNI_GENERATOR_ITEM.get());
                         output.accept(ENERGY_CARD.get());
                         output.accept(SPEED_CARD.get());

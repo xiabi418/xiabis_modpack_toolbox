@@ -2,6 +2,11 @@
 
 All notable changes to xiabi's modpack toolbox are recorded here.
 
+## 2.2.0
+
+- Added the Advanced Totem of Undying (`advanced_totem_of_undying`) with 256 durability, vanilla rescue effects and the requested bonus effects.
+- Added its shaped recipe and English/Simplified Chinese names, tooltip and guide sections.
+
 ## 2.1.0
 
 - Added the optional AE2 Compressed Matter Condenser (`compressed_condenser`).

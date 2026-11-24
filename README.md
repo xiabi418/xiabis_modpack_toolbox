@@ -90,6 +90,18 @@ When the corresponding Sophisticated mod is installed, surround a Diamond Backpa
 
 When Apotheosis and Apothic Attributes are installed, three Water Bottles, a Phantom Membrane, a Fermented Spider Eye and a Popped Chorus Fruit craft a **24-hour Flight Potion**. It uses the flight effect supplied by Apothic Attributes.
 
+## Advanced Totem of Undying
+
+A durable totem that prevents death like the vanilla totem. Each rescue consumes one durability point, and it breaks after **256 uses**.
+
+- On rescue, it grants the vanilla effects plus **Strength V**, **Speed II** and **Jump Boost III** for **30 seconds**, and **Water Breathing** for **3 minutes**.
+- Crafting pattern:
+  ```
+  Redstone  Quartz        Redstone
+  Obsidian  Totem         Obsidian
+  Emerald Block  Gold Ingot  Emerald Block
+  ```
+
 ## Compressed Matter Condenser
 
 When Applied Energistics 2 is installed, the **Compressed Matter Condenser** (`compressed_condenser`) connects to an ME network and converts selected network items into AE2 matter balls or singularities.

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "RQR",
+    "OTO",
+    "EGE"
+  ],
+  "key": {
+    "R": { "item": "minecraft:redstone" },
+    "Q": { "item": "minecraft:quartz" },
+    "O": { "item": "minecraft:obsidian" },
+    "T": { "item": "minecraft:totem_of_undying" },
+    "E": { "item": "minecraft:emerald_block" },
+    "G": { "item": "minecraft:gold_ingot" }
+  },
+  "result": {
+    "id": "xiabis_modpack_toolbox:advanced_totem_of_undying",
+    "count": 1
+  }
+}

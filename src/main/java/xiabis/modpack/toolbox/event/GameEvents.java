@@ -7,9 +7,18 @@ import net.minecraft.core.Holder;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.stats.Stats;
+import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageTypes;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -18,10 +27,13 @@ import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.AnvilUpdateEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+import net.neoforged.neoforge.common.EffectCures;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import xiabis.modpack.toolbox.XmtMod;
+import xiabis.modpack.toolbox.item.AdvancedTotemItem;
 import xiabis.modpack.toolbox.item.OmniToolItem;
 import xiabis.modpack.toolbox.item.OmniWeaponItem;
 import xiabis.modpack.toolbox.item.ToolMode;
@@ -31,6 +43,44 @@ import xiabis.modpack.toolbox.util.ToolComponents;
 
 @EventBusSubscriber(modid = XmtMod.MOD_ID)
 public final class GameEvents {
+    @SubscribeEvent
+    public static void onAdvancedTotemUse(LivingDeathEvent event) {
+        LivingEntity entity = event.getEntity();
+        if (entity.level().isClientSide()) {
+            return;
+        }
+        for (InteractionHand hand : InteractionHand.values()) {
+            ItemStack totem = entity.getItemInHand(hand);
+            if (!(totem.getItem() instanceof AdvancedTotemItem)) {
+                continue;
+            }
+
+            ItemStack usedTotem = totem.copy();
+            EquipmentSlot slot = hand == InteractionHand.MAIN_HAND
+                    ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND;
+            totem.hurtAndBreak(1, entity, slot);
+
+            entity.setHealth(1.0F);
+            entity.removeEffectsCuredBy(EffectCures.PROTECTED_BY_TOTEM);
+            entity.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 900, 1));
+            entity.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 100, 1));
+            entity.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 800, 0));
+            entity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 600, 4));
+            entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 600, 1));
+            entity.addEffect(new MobEffectInstance(MobEffects.JUMP, 600, 2));
+            entity.addEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 3600, 0));
+            entity.level().broadcastEntityEvent(entity, (byte) 35);
+
+            if (entity instanceof ServerPlayer player) {
+                player.awardStat(Stats.ITEM_USED.get(totem.getItem()), 1);
+                CriteriaTriggers.USED_TOTEM.trigger(player, usedTotem);
+                player.gameEvent(GameEvent.ITEM_INTERACT_FINISH);
+            }
+            event.setCanceled(true);
+            return;
+        }
+    }
+
     /**
      * Omnipotent items accept every enchantment, including mutually exclusive ones.
      * The anvil merge is performed here so conflicts can be bypassed.
