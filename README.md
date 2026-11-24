@@ -116,6 +116,8 @@ The **Omni Fluid Tank** (`omni_fluid_tank`) accepts any number of different flui
   Copper Ingot  Copper Ingot  Copper Ingot
   ```
 
+The latest release includes custom tank and advanced totem textures.
+
 ## Compressed Matter Condenser
 
 When Applied Energistics 2 is installed, the **Compressed Matter Condenser** (`compressed_condenser`) connects to an ME network and converts selected network items into AE2 matter balls or singularities.

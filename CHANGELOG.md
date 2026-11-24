@@ -2,6 +2,10 @@
 
 All notable changes to xiabi's modpack toolbox are recorded here.
 
+## 2.3.1
+
+- Added custom textures for the Omni Fluid Tank and Advanced Totem of Undying.
+
 ## 2.3.0
 
 - Added the Omni Fluid Tank (`omni_fluid_tank`) with unlimited fluid types and 8-bucket storage per type.
