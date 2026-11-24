@@ -81,6 +81,14 @@ public class XmtMod {
         event.registerBlockEntity(net.neoforged.neoforge.capabilities.Capabilities.EnergyStorage.BLOCK,
                 ModBlockEntities.OMNI_GREENHOUSE.get(),
                 (greenhouse, side) -> greenhouse.energyHandler(side));
+        event.registerBlockEntity(net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK,
+                ModBlockEntities.OMNI_FLUID_TANK.get(),
+                (tank, side) -> tank.fluidHandler());
+        if (ModList.get().isLoaded("ae2")) {
+            event.registerBlockEntity(appeng.api.AECapabilities.ME_STORAGE,
+                    ModBlockEntities.OMNI_FLUID_TANK.get(),
+                    (tank, side) -> new xiabis.modpack.toolbox.blockentity.OmniFluidTankAeStorage(tank));
+        }
     }
 
     public static ResourceLocation id(String path) {

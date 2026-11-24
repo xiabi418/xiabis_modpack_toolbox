@@ -92,5 +92,7 @@
   "gui.xiabis_modpack_toolbox.compressed_condenser.rate": "Rate: %s/t",
   "gui.xiabis_modpack_toolbox.compressed_condenser.output_state": "Network output: %s",
   "item.xiabis_modpack_toolbox.advanced_totem_of_undying": "Advanced Totem of Undying",
-  "tooltip.xiabis_modpack_toolbox.advanced_totem_of_undying": "256 durability; grants Strength V, Speed II, Jump Boost III and Water Breathing on rescue"
+  "tooltip.xiabis_modpack_toolbox.advanced_totem_of_undying": "256 durability; grants Strength V, Speed II, Jump Boost III and Water Breathing on rescue",
+  "block.xiabis_modpack_toolbox.omni_fluid_tank": "Omni Fluid Tank",
+  "item.xiabis_modpack_toolbox.omni_fluid_tank": "Omni Fluid Tank"
 }

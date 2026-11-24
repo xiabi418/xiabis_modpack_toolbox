@@ -102,6 +102,20 @@ A durable totem that prevents death like the vanilla totem. Each rescue consumes
   Emerald Block  Gold Ingot  Emerald Block
   ```
 
+## Omni Fluid Tank
+
+The **Omni Fluid Tank** (`omni_fluid_tank`) accepts any number of different fluid types, with **8 buckets per type**.
+
+- A fluid that reaches 8 buckets can be extracted indefinitely without reducing the stored amount.
+- Additional input of that same full fluid is voided; other fluids remain independent.
+- With Applied Energistics 2 installed, an AE2 storage bus sees every full fluid type as **2.1G** stored.
+- Crafting pattern:
+  ```
+  Copper Ingot  Copper Ingot  Copper Ingot
+  Copper Block  Any Glass     Copper Block
+  Copper Ingot  Copper Ingot  Copper Ingot
+  ```
+
 ## Compressed Matter Condenser
 
 When Applied Energistics 2 is installed, the **Compressed Matter Condenser** (`compressed_condenser`) connects to an ME network and converts selected network items into AE2 matter balls or singularities.

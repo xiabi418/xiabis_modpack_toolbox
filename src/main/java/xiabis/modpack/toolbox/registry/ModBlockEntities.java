@@ -8,6 +8,8 @@ import xiabis.modpack.toolbox.XmtMod;
 import net.neoforged.fml.ModList;
 import xiabis.modpack.toolbox.blockentity.CompressedCondenserBlockEntity;
 import xiabis.modpack.toolbox.blockentity.OmniGeneratorBlockEntity;
+import xiabis.modpack.toolbox.blockentity.OmniFluidTankBlockEntity;
+import xiabis.modpack.toolbox.blockentity.OmniGreenhouseBlockEntity;
 
 public final class ModBlockEntities {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
@@ -28,7 +30,11 @@ public final class ModBlockEntities {
                     xiabis.modpack.toolbox.blockentity.OmniBatteryBlockEntity::new,
                     ModBlocks.OMNI_BATTERY.get()).build(null));
 
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<xiabis.modpack.toolbox.blockentity.OmniGreenhouseBlockEntity>> OMNI_GREENHOUSE =
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<OmniFluidTankBlockEntity>> OMNI_FLUID_TANK =
+            BLOCK_ENTITIES.register("omni_fluid_tank", () -> BlockEntityType.Builder.of(
+                    OmniFluidTankBlockEntity::new, ModBlocks.OMNI_FLUID_TANK.get()).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<OmniGreenhouseBlockEntity>> OMNI_GREENHOUSE =
             BLOCK_ENTITIES.register("omni_greenhouse", () -> BlockEntityType.Builder.of(
                     xiabis.modpack.toolbox.blockentity.OmniGreenhouseBlockEntity::new,
                     ModBlocks.OMNI_GREENHOUSE.get()).build(null));

@@ -59,6 +59,9 @@ public final class ModItems {
     public static final DeferredItem<net.minecraft.world.item.BlockItem> OMNI_GENERATOR_ITEM =
             ITEMS.registerSimpleBlockItem(ModBlocks.OMNI_GENERATOR);
 
+    public static final DeferredItem<net.minecraft.world.item.BlockItem> OMNI_FLUID_TANK_ITEM =
+            ITEMS.registerSimpleBlockItem(ModBlocks.OMNI_FLUID_TANK);
+
     /** Block item of the giant battery box. */
     public static final DeferredItem<net.minecraft.world.item.BlockItem> OMNI_BATTERY_ITEM =
             ITEMS.registerItem("omni_battery",
@@ -113,6 +116,7 @@ public final class ModItems {
                         output.accept(MAGIC_POISON_BOTTLE.get());
                         output.accept(ADVANCED_TOTEM_OF_UNDYING.get());
                         output.accept(OMNI_GENERATOR_ITEM.get());
+                        output.accept(OMNI_FLUID_TANK_ITEM.get());
                         output.accept(ENERGY_CARD.get());
                         output.accept(SPEED_CARD.get());
                         output.accept(OMNI_BATTERY_ITEM.get());

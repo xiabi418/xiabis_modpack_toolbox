@@ -93,5 +93,7 @@
   "gui.xiabis_modpack_toolbox.compressed_condenser.rate": "处理速率：%s/t",
   "gui.xiabis_modpack_toolbox.compressed_condenser.output_state": "网络输出：%s",
   "item.xiabis_modpack_toolbox.advanced_totem_of_undying": "强化不死图腾",
-  "tooltip.xiabis_modpack_toolbox.advanced_totem_of_undying": "耐久度：256；触发后获得力量 V、迅捷 II、跳跃提升 III 和水下呼吸"
+  "tooltip.xiabis_modpack_toolbox.advanced_totem_of_undying": "耐久度：256；触发后获得力量 V、迅捷 II、跳跃提升 III 和水下呼吸",
+  "block.xiabis_modpack_toolbox.omni_fluid_tank": "无限流体罐",
+  "item.xiabis_modpack_toolbox.omni_fluid_tank": "无限流体罐"
 }

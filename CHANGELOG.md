@@ -2,6 +2,12 @@
 
 All notable changes to xiabi's modpack toolbox are recorded here.
 
+## 2.3.0
+
+- Added the Omni Fluid Tank (`omni_fluid_tank`) with unlimited fluid types and 8-bucket storage per type.
+- Full fluids can be extracted without depletion; same-fluid overflow is voided.
+- Added optional AE2 storage-bus exposure at 2.1G per full fluid type, plus recipe, models and translations.
+
 ## 2.2.0
 
 - Added the Advanced Totem of Undying (`advanced_totem_of_undying`) with 256 durability, vanilla rescue effects and the requested bonus effects.

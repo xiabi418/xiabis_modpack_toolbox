@@ -8,6 +8,7 @@ import xiabis.modpack.toolbox.XmtMod;
 import net.neoforged.fml.ModList;
 import xiabis.modpack.toolbox.block.CompressedCondenserBlock;
 import xiabis.modpack.toolbox.block.OmniGeneratorBlock;
+import xiabis.modpack.toolbox.block.OmniFluidTankBlock;
 
 public final class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(XmtMod.MOD_ID);
@@ -38,6 +39,10 @@ public final class ModBlocks {
                     .requiresCorrectToolForDrops()
                     .noOcclusion());
 
+
+    public static final DeferredBlock<OmniFluidTankBlock> OMNI_FLUID_TANK = BLOCKS.registerBlock("omni_fluid_tank",
+            OmniFluidTankBlock::new,
+            BlockBehaviour.Properties.of().strength(4.0F, 9.0F).requiresCorrectToolForDrops().noOcclusion());
 
     /** Grows one seed or sapling into its harvest while drinking water and FE. */
     public static final DeferredBlock<xiabis.modpack.toolbox.block.OmniGreenhouseBlock> OMNI_GREENHOUSE =
