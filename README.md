@@ -71,7 +71,7 @@ A large FE buffer with no screen. Right-click a side to switch it between input 
 
 ## Omni Greenhouse
 
-An automated farm for crops and saplings.
+An automated farm for crops and saplings, available in the toolbox creative tab.
 
 - Insert one seed or sapling, water and energy. The seed is not consumed; each harvest uses **1000 mB of water** and **1000 FE**.
 - Crops are harvested from their mature drops, and saplings produce their matching logs and sticks. Mystical Agriculture seeds can produce their crop's usual drops, including essence.

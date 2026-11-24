@@ -2,6 +2,10 @@
 
 All notable changes to xiabi's modpack toolbox are recorded here.
 
+## 2.3.3
+
+- Restored the Omni Greenhouse to the toolbox creative tab.
+
 ## 2.3.2
 
 - Converted the Simplified Chinese locale to readable UTF-8 text.

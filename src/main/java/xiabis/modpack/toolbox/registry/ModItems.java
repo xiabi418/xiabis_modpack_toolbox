@@ -120,6 +120,7 @@ public final class ModItems {
                         output.accept(ENERGY_CARD.get());
                         output.accept(SPEED_CARD.get());
                         output.accept(OMNI_BATTERY_ITEM.get());
+                        output.accept(OMNI_GREENHOUSE_ITEM.get());
                         if (COMPRESSED_CONDENSER_ITEM != null) output.accept(COMPRESSED_CONDENSER_ITEM.get());
 
                         ItemStack bigBackpack = xiabis.modpack.toolbox.util.StorageUpgradeSupport.creativeBackpack();
