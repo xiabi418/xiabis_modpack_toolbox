@@ -108,7 +108,8 @@ The **Omni Fluid Tank** (`omni_fluid_tank`) accepts any number of different flui
 
 - A fluid that reaches 8 buckets can be extracted indefinitely without reducing the stored amount.
 - Additional input of that same full fluid is voided; other fluids remain independent.
-- With Applied Energistics 2 installed, an AE2 storage bus sees every full fluid type as **2.1G** stored.
+- Breaking the tank preserves all stored fluids in the dropped item, and placing it restores them.
+- The item tooltip lists one line per stored fluid: full types show `无限`, while partial types show their amount as `xxmb/8000mb`.
 - Crafting pattern:
   ```
   Copper Ingot  Copper Ingot  Copper Ingot

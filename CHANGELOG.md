@@ -2,6 +2,11 @@
 
 All notable changes to xiabi's modpack toolbox are recorded here.
 
+## 2.3.4
+
+- Preserved Omni Fluid Tank contents when mined and restored them when placed again.
+- Added per-fluid tank item tooltips with infinite and partial-capacity displays.
+
 ## 2.3.3
 
 - Restored the Omni Greenhouse to the toolbox creative tab.

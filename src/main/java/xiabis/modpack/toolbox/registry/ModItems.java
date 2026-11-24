@@ -15,6 +15,7 @@ import net.neoforged.fml.ModList;
 import xiabis.modpack.toolbox.XmtMod;
 import xiabis.modpack.toolbox.item.AdvancedTotemItem;
 import xiabis.modpack.toolbox.item.MagicPoisonBottleItem;
+import xiabis.modpack.toolbox.item.OmniFluidTankBlockItem;
 import xiabis.modpack.toolbox.item.OmniToolItem;
 import xiabis.modpack.toolbox.item.OmniWeaponItem;
 import xiabis.modpack.toolbox.item.TimeWandItem;
@@ -60,7 +61,9 @@ public final class ModItems {
             ITEMS.registerSimpleBlockItem(ModBlocks.OMNI_GENERATOR);
 
     public static final DeferredItem<net.minecraft.world.item.BlockItem> OMNI_FLUID_TANK_ITEM =
-            ITEMS.registerSimpleBlockItem(ModBlocks.OMNI_FLUID_TANK);
+            ITEMS.registerItem("omni_fluid_tank",
+                    properties -> new OmniFluidTankBlockItem(ModBlocks.OMNI_FLUID_TANK.get(), properties),
+                    new Item.Properties());
 
     /** Block item of the giant battery box. */
     public static final DeferredItem<net.minecraft.world.item.BlockItem> OMNI_BATTERY_ITEM =
