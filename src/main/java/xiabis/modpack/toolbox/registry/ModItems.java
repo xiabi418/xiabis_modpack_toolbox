@@ -1,6 +1,10 @@
 package xiabis.modpack.toolbox.registry;
 
+import java.util.EnumMap;
+import java.util.Map;
+
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -75,6 +79,16 @@ public final class ModItems {
     public static final DeferredItem<net.minecraft.world.item.BlockItem> OMNI_GREENHOUSE_ITEM =
             ITEMS.registerSimpleBlockItem(ModBlocks.OMNI_GREENHOUSE);
 
+    public static final Map<DyeColor, DeferredItem<net.minecraft.world.item.BlockItem>> POLISHED_CONCRETE = new EnumMap<>(DyeColor.class);
+    public static final Map<DyeColor, DeferredItem<net.minecraft.world.item.BlockItem>> GLOWING_POLISHED_CONCRETE = new EnumMap<>(DyeColor.class);
+
+    static {
+        for (DyeColor color : DyeColor.values()) {
+            POLISHED_CONCRETE.put(color, ITEMS.registerSimpleBlockItem(ModBlocks.POLISHED_CONCRETE.get(color)));
+            GLOWING_POLISHED_CONCRETE.put(color, ITEMS.registerSimpleBlockItem(ModBlocks.GLOWING_POLISHED_CONCRETE.get(color)));
+        }
+    }
+
     /** Upgrade card that doubles the generator's internal energy buffer per card. */
     public static final DeferredItem<Item> ENERGY_CARD = ITEMS.registerItem("energy_card", Item::new,
             new Item.Properties().stacksTo(64).rarity(Rarity.RARE));
@@ -124,7 +138,11 @@ public final class ModItems {
                         output.accept(SPEED_CARD.get());
                         output.accept(OMNI_BATTERY_ITEM.get());
                         output.accept(OMNI_GREENHOUSE_ITEM.get());
-                        if (COMPRESSED_CONDENSER_ITEM != null) output.accept(COMPRESSED_CONDENSER_ITEM.get());
+                                                 for (DyeColor color : DyeColor.values()) {
+                             output.accept(POLISHED_CONCRETE.get(color).get());
+                             output.accept(GLOWING_POLISHED_CONCRETE.get(color).get());
+                         }
+                         if (COMPRESSED_CONDENSER_ITEM != null) output.accept(COMPRESSED_CONDENSER_ITEM.get());
 
                         ItemStack bigBackpack = xiabis.modpack.toolbox.util.StorageUpgradeSupport.creativeBackpack();
                         if (!bigBackpack.isEmpty()) {

@@ -8,11 +8,15 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import xiabis.modpack.toolbox.block.PolishedConcreteBlock;
+import net.minecraft.world.item.DyeColor;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import xiabis.modpack.toolbox.XmtMod;
 import xiabis.modpack.toolbox.item.OmniWeaponItem;
 import xiabis.modpack.toolbox.menu.CompressedCondenserMenu;
+import xiabis.modpack.toolbox.registry.ModBlocks;
 import xiabis.modpack.toolbox.registry.ModItems;
 import xiabis.modpack.toolbox.registry.ModMenus;
 
@@ -30,6 +34,32 @@ public final class ClientModEvents {
             InputConstants.Type.KEYSYM,
             org.lwjgl.glfw.GLFW.GLFW_KEY_V,
             CATEGORY);
+
+    @SubscribeEvent
+    public static void registerBlockColors(RegisterColorHandlersEvent.Block event) {
+        event.register((state, level, pos, tintIndex) -> ((PolishedConcreteBlock) state.getBlock()).color().getTextureDiffuseColor(),
+                ModBlocks.POLISHED_CONCRETE.values().stream().map(holder -> holder.get()).toArray(net.minecraft.world.level.block.Block[]::new));
+        event.register((state, level, pos, tintIndex) -> ((PolishedConcreteBlock) state.getBlock()).color().getTextureDiffuseColor(),
+                ModBlocks.GLOWING_POLISHED_CONCRETE.values().stream().map(holder -> holder.get()).toArray(net.minecraft.world.level.block.Block[]::new));
+    }
+
+    @SubscribeEvent
+    public static void registerItemColors(RegisterColorHandlersEvent.Item event) {
+        event.register((stack, tintIndex) -> {
+            if (stack.getItem() instanceof net.minecraft.world.item.BlockItem blockItem
+                    && blockItem.getBlock() instanceof PolishedConcreteBlock block) {
+                return block.color().getTextureDiffuseColor();
+            }
+            return -1;
+        }, ModItems.POLISHED_CONCRETE.values().toArray(net.minecraft.world.level.ItemLike[]::new));
+        event.register((stack, tintIndex) -> {
+            if (stack.getItem() instanceof net.minecraft.world.item.BlockItem blockItem
+                    && blockItem.getBlock() instanceof PolishedConcreteBlock block) {
+                return block.color().getTextureDiffuseColor();
+            }
+            return -1;
+        }, ModItems.GLOWING_POLISHED_CONCRETE.values().toArray(net.minecraft.world.level.ItemLike[]::new));
+    }
 
     @SubscribeEvent
     public static void registerKeys(RegisterKeyMappingsEvent event) {

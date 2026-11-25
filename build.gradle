@@ -6,7 +6,7 @@ plugins {
     id 'net.neoforged.moddev' version '2.0.148'
 }
 
-version = '2.3.4'
+version = '2.4.0'
 group = 'xiabis.modpack'
 
 base {
@@ -44,6 +44,10 @@ repositories {
     maven {
         name = 'MinecraftLibraries'
         url = 'https://libraries.minecraft.net'
+    }
+    maven {
+        name = 'Modrinth'
+        url = 'https://api.modrinth.com/maven'
     }
     maven {
         name = 'BlameJared'
@@ -144,6 +148,8 @@ dependencies {
     optionalDevMod('Placebo-1.21.1-9.9.4.jar')
     optionalDevMod('ApothicAttributes-1.21.1-2.11.0.jar')
     optionalDevMod('Apotheosis-1.21.1-8.9.0.jar')
+
+    implementation 'maven.modrinth:fusion-connected-textures:1.3.16-neoforge-mc1.21.1'
 
     implementation files(curiosJar)
 
