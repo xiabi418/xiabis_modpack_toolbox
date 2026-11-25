@@ -7,12 +7,10 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import xiabis.modpack.toolbox.block.DimensionTeleportBlock;
+import xiabis.modpack.toolbox.worldgen.DimensionReturnPoint;
 import xiabis.modpack.toolbox.registry.ModBlockEntities;
 
 public final class ReturnDimensionBlockEntity extends BlockEntity {
@@ -28,27 +26,10 @@ public final class ReturnDimensionBlockEntity extends BlockEntity {
         super(ModBlockEntities.RETURN_DIMENSION.get(), pos, state);
     }
 
-    public void setReturnPoint(ServerPlayer player, ServerLevel origin) {
-        owner = player.getUUID();
-        dimension = origin.dimension();
-        x = player.getX();
-        y = player.getY();
-        z = player.getZ();
-        yaw = player.getYRot();
-        pitch = player.getXRot();
-        setChanged();
-    }
-
-    public boolean returnPlayer(ServerPlayer player) {
-        if (owner == null || !owner.equals(player.getUUID()) || dimension == null) {
-            return false;
-        }
-        ServerLevel destination = player.getServer().getLevel(dimension);
-        if (destination == null) {
-            return false;
-        }
-        player.teleportTo(destination, x, y, z, yaw, pitch);
-        return player.serverLevel() == destination;
+    // Read old owner-bound blocks without deleting their stored return points.
+    public DimensionReturnPoint legacyReturnPoint(UUID player) {
+        return player.equals(owner) && dimension != null
+                ? new DimensionReturnPoint(dimension.location(), x, y, z, yaw, pitch) : null;
     }
 
     @Override

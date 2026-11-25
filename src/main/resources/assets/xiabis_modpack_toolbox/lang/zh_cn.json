@@ -136,8 +136,9 @@
   "dimension.xiabis_modpack_toolbox.nether": "私有下界",
   "dimension.xiabis_modpack_toolbox.end": "私有末地",
   "message.xiabis_modpack_toolbox.dimension_missing": "目标维度不可用。",
-  "message.xiabis_modpack_toolbox.dimension_entered": "已进入%s，附近已生成返回方块。",
+  "message.xiabis_modpack_toolbox.dimension_entered": "已进入%s，附近有返回方块。",
   "message.xiabis_modpack_toolbox.return_spot_failed": "附近找不到安全落点和返回方块位置。",
   "message.xiabis_modpack_toolbox.teleport_failed": "未能传送到目标维度。",
-  "message.xiabis_modpack_toolbox.return_not_yours": "无法返回：方块可能属于其他玩家，或目标位置不可用。"
+  "message.xiabis_modpack_toolbox.already_in_dimension": "你已在该维度。",
+  "message.xiabis_modpack_toolbox.return_unavailable": "没有可用的返回点，请先通过维度传送方块进入。"
 }

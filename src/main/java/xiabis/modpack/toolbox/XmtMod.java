@@ -18,6 +18,7 @@ import xiabis.modpack.toolbox.registry.ModItems;
 import xiabis.modpack.toolbox.registry.ModMenus;
 import xiabis.modpack.toolbox.registry.ModPotions;
 import xiabis.modpack.toolbox.registry.ModRecipes;
+import xiabis.modpack.toolbox.worldgen.DimensionReturnPoint;
 import xiabis.modpack.toolbox.worldgen.ModWorldgen;
 
 @Mod(XmtMod.MOD_ID)
@@ -38,6 +39,7 @@ public class XmtMod {
         ModRecipes.RECIPE_SERIALIZERS.register(modBus);
         modBus.addListener(ModNetwork::register);
         ModWorldgen.register(modBus);
+        DimensionReturnPoint.ATTACHMENTS.register(modBus);
         modBus.addListener(XmtMod::registerCapabilities);
         modBus.addListener(XmtMod::commonSetup);
     }

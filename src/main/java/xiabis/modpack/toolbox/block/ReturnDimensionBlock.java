@@ -3,7 +3,6 @@ package xiabis.modpack.toolbox.block;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -16,9 +15,9 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import xiabis.modpack.toolbox.blockentity.ReturnDimensionBlockEntity;
-import xiabis.modpack.toolbox.registry.ModBlockEntities;
+import xiabis.modpack.toolbox.worldgen.DimensionReturnPoint;
 
-/** Generated at each private-dimension landing point and bound to the entering player. */
+/** A reusable return block; the return destination belongs to the player, not the block. */
 public final class ReturnDimensionBlock extends BaseEntityBlock {
     private static final MapCodec<ReturnDimensionBlock> CODEC = simpleCodec(ReturnDimensionBlock::new);
 
@@ -52,15 +51,16 @@ public final class ReturnDimensionBlock extends BaseEntityBlock {
         if (level.isClientSide) {
             return InteractionResult.SUCCESS;
         }
-        if (!(player instanceof ServerPlayer serverPlayer) || !(level instanceof ServerLevel serverLevel)
-                || !(level.getBlockEntity(pos) instanceof ReturnDimensionBlockEntity returnBlock)) {
+        if (!(player instanceof ServerPlayer serverPlayer)) {
             return InteractionResult.PASS;
         }
-        if (returnBlock.returnPlayer(serverPlayer)) {
-            level.setBlockAndUpdate(pos, net.minecraft.world.level.block.Blocks.AIR.defaultBlockState());
-            return InteractionResult.CONSUME;
+        DimensionReturnPoint origin = DimensionReturnPoint.forCurrentDimension(serverPlayer);
+        if (origin == null && level.getBlockEntity(pos) instanceof ReturnDimensionBlockEntity legacyBlock) {
+            origin = legacyBlock.legacyReturnPoint(serverPlayer.getUUID());
         }
-        serverPlayer.displayClientMessage(Component.translatable("message.xiabis_modpack_toolbox.return_not_yours"), true);
+        if (origin == null || !origin.teleport(serverPlayer)) {
+            serverPlayer.displayClientMessage(Component.translatable("message.xiabis_modpack_toolbox.return_unavailable"), true);
+        }
         return InteractionResult.CONSUME;
     }
 }

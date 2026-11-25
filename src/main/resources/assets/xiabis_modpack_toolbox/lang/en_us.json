@@ -135,8 +135,9 @@
   "dimension.xiabis_modpack_toolbox.nether": "Private Nether",
   "dimension.xiabis_modpack_toolbox.end": "Private End",
   "message.xiabis_modpack_toolbox.dimension_missing": "The destination dimension is unavailable.",
-  "message.xiabis_modpack_toolbox.dimension_entered": "Entered %s. A return block was created nearby.",
+  "message.xiabis_modpack_toolbox.dimension_entered": "Entered %s. A return block is nearby.",
   "message.xiabis_modpack_toolbox.return_spot_failed": "Could not find a safe landing and return-block spot.",
   "message.xiabis_modpack_toolbox.teleport_failed": "Could not travel to the destination dimension.",
-  "message.xiabis_modpack_toolbox.return_not_yours": "Could not return. The block may belong to another player or the destination may be unavailable."
+  "message.xiabis_modpack_toolbox.already_in_dimension": "You are already in this dimension.",
+  "message.xiabis_modpack_toolbox.return_unavailable": "No usable return point. Enter through a dimension teleport block first."
 }

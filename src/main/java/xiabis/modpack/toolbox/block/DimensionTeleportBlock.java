@@ -17,10 +17,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.BlockHitResult;
 import xiabis.modpack.toolbox.XmtMod;
-import xiabis.modpack.toolbox.blockentity.ReturnDimensionBlockEntity;
+import xiabis.modpack.toolbox.worldgen.DimensionReturnPoint;
 import xiabis.modpack.toolbox.registry.ModBlocks;
 
-/** Sends a player to one of the private dimensions and creates a personal return block. */
+/** Sends a player to a shared private dimension and creates or reuses a return block. */
 public final class DimensionTeleportBlock extends Block {
     private static final MapCodec<DimensionTeleportBlock> CODEC = simpleCodec(DimensionTeleportBlock::new);
 
@@ -39,7 +39,7 @@ public final class DimensionTeleportBlock extends Block {
         if (level.isClientSide) {
             return InteractionResult.SUCCESS;
         }
-        if (!(player instanceof ServerPlayer serverPlayer) || !(level instanceof ServerLevel source)) {
+        if (!(player instanceof ServerPlayer serverPlayer)) {
             return InteractionResult.PASS;
         }
         String blockPath = BuiltInRegistries.BLOCK.getKey(this).getPath();
@@ -58,24 +58,27 @@ public final class DimensionTeleportBlock extends Block {
             return InteractionResult.CONSUME;
         }
 
+        if (destination == level) {
+            serverPlayer.displayClientMessage(Component.translatable("message.xiabis_modpack_toolbox.already_in_dimension"), true);
+            return InteractionResult.CONSUME;
+        }
         LandingSpot spot = findLanding(destination, serverPlayer.blockPosition());
-        if (spot == null || !destination.setBlockAndUpdate(spot.returnBlock(), ModBlocks.RETURN_DIMENSION.get().defaultBlockState())) {
+        if (spot == null || (!spot.existing() && !destination.setBlockAndUpdate(
+                spot.returnBlock(), ModBlocks.RETURN_DIMENSION.get().defaultBlockState()))) {
             serverPlayer.displayClientMessage(Component.translatable("message.xiabis_modpack_toolbox.return_spot_failed"), true);
             return InteractionResult.CONSUME;
         }
-        if (!(destination.getBlockEntity(spot.returnBlock()) instanceof ReturnDimensionBlockEntity returnBlock)) {
-            destination.setBlockAndUpdate(spot.returnBlock(), net.minecraft.world.level.block.Blocks.AIR.defaultBlockState());
-            serverPlayer.displayClientMessage(Component.translatable("message.xiabis_modpack_toolbox.return_spot_failed"), true);
-            return InteractionResult.CONSUME;
-        }
-        returnBlock.setReturnPoint(serverPlayer, source);
+        DimensionReturnPoint origin = DimensionReturnPoint.capture(serverPlayer);
         serverPlayer.teleportTo(destination, spot.feet().getX() + 0.5D, spot.feet().getY(),
                 spot.feet().getZ() + 0.5D, serverPlayer.getYRot(), serverPlayer.getXRot());
         if (serverPlayer.serverLevel() != destination) {
-            destination.removeBlock(spot.returnBlock(), false);
+            if (!spot.existing()) {
+                destination.removeBlock(spot.returnBlock(), false);
+            }
             serverPlayer.displayClientMessage(Component.translatable("message.xiabis_modpack_toolbox.teleport_failed"), true);
             return InteractionResult.CONSUME;
         }
+        origin.remember(serverPlayer, targetDimension);
         serverPlayer.displayClientMessage(Component.translatable("message.xiabis_modpack_toolbox.dimension_entered",
                 Component.translatable("dimension.xiabis_modpack_toolbox." + targetName)), true);
         return InteractionResult.CONSUME;
@@ -90,21 +93,33 @@ public final class DimensionTeleportBlock extends Block {
                     }
                     int x = origin.getX() + dx;
                     int z = origin.getZ() + dz;
-                    int y = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
+                    BlockPos column = new BlockPos(x, 0, z);
+                if (!level.getWorldBorder().isWithinBounds(column)) {
+                    continue;
+                }
+                // Level#getHeight returns the minimum Y for unloaded chunks.
+                int y = level.getChunkAt(column).getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                        x & 15, z & 15) + 1;
                     BlockPos feet = new BlockPos(x, y, z);
                     if (y <= level.getMinBuildHeight() || y + 1 >= level.getMaxBuildHeight()
                             || !clear(level, feet) || !clear(level, feet.above())
                             || !supported(level, feet.below())) {
                         continue;
                     }
+                    LandingSpot available = null;
                     for (Direction direction : Direction.Plane.HORIZONTAL) {
                         BlockPos returnPos = feet.relative(direction);
-                        if (returnPos.getY() < level.getMinBuildHeight() || returnPos.getY() >= level.getMaxBuildHeight()
-                                || !clear(level, returnPos) || !clear(level, returnPos.above())
-                                || !supported(level, returnPos.below())) {
-                            continue;
+                        BlockState returnState = level.getBlockState(returnPos);
+                        if (returnState.is(ModBlocks.RETURN_DIMENSION.get())) {
+                            return new LandingSpot(feet, returnPos, true);
                         }
-                        return new LandingSpot(feet, returnPos);
+                        if (available == null && returnState.isAir() && clear(level, returnPos.above())
+                                && supported(level, returnPos.below())) {
+                            available = new LandingSpot(feet, returnPos, false);
+                        }
+                    }
+                    if (available != null) {
+                        return available;
                     }
                 }
             }
@@ -125,6 +140,6 @@ public final class DimensionTeleportBlock extends Block {
         return ResourceKey.create(Registries.DIMENSION, XmtMod.id(path));
     }
 
-    private record LandingSpot(BlockPos feet, BlockPos returnBlock) {
+    private record LandingSpot(BlockPos feet, BlockPos returnBlock, boolean existing) {
     }
 }

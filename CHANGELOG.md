@@ -2,6 +2,12 @@
 
 All notable changes to xiabi's modpack toolbox are recorded here.
 
+## 2.6.2
+
+- Return blocks stay in place and can be shared. Each player returns to their own latest entry point for that dimension.
+- Reuse adjacent return blocks where possible. The same three dimensions are shared by all players; existing return blocks still support their original owners.
+- Load destination chunks before checking for a safe landing, so teleporting can work on the first visit.
+
 ## 2.6.1
 
 - Fixed the three teleport block recipes not loading on Minecraft 1.21.1.
