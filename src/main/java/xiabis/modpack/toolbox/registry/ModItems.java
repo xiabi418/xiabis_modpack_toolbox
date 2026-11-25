@@ -4,18 +4,19 @@ import java.util.EnumMap;
 import java.util.Map;
 
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.world.item.DyeColor;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.component.Unbreakable;
+import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.fml.ModList;
 import xiabis.modpack.toolbox.XmtMod;
 import xiabis.modpack.toolbox.item.AdvancedTotemItem;
 import xiabis.modpack.toolbox.item.MagicPoisonBottleItem;
@@ -58,29 +59,24 @@ public final class ModItems {
     public static final DeferredItem<Item> TIME_WAND = ITEMS.registerItem("time_wand", TimeWandItem::new,
             new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant());
 
-    public static final DeferredItem<net.minecraft.world.item.BlockItem> COMPRESSED_CONDENSER_ITEM = ModList.get().isLoaded("ae2")
+    public static final DeferredItem<BlockItem> COMPRESSED_CONDENSER_ITEM = ModList.get().isLoaded("ae2")
             ? ITEMS.registerSimpleBlockItem(ModBlocks.COMPRESSED_CONDENSER) : null;
 
-    public static final DeferredItem<net.minecraft.world.item.BlockItem> OMNI_GENERATOR_ITEM =
-            ITEMS.registerSimpleBlockItem(ModBlocks.OMNI_GENERATOR);
+    public static final DeferredItem<BlockItem> OMNI_GENERATOR_ITEM = ITEMS.registerSimpleBlockItem(ModBlocks.OMNI_GENERATOR);
 
-    public static final DeferredItem<net.minecraft.world.item.BlockItem> OMNI_FLUID_TANK_ITEM =
-            ITEMS.registerItem("omni_fluid_tank",
-                    properties -> new OmniFluidTankBlockItem(ModBlocks.OMNI_FLUID_TANK.get(), properties),
-                    new Item.Properties());
+    public static final DeferredItem<BlockItem> OMNI_FLUID_TANK_ITEM = ITEMS.registerItem("omni_fluid_tank",
+            properties -> new OmniFluidTankBlockItem(ModBlocks.OMNI_FLUID_TANK.get(), properties), new Item.Properties());
 
     /** Block item of the giant battery box. */
-    public static final DeferredItem<net.minecraft.world.item.BlockItem> OMNI_BATTERY_ITEM =
-            ITEMS.registerItem("omni_battery",
-                    properties -> new xiabis.modpack.toolbox.item.OmniBatteryBlockItem(ModBlocks.OMNI_BATTERY.get(), properties),
-                    new Item.Properties());
+    public static final DeferredItem<BlockItem> OMNI_BATTERY_ITEM = ITEMS.registerItem("omni_battery",
+            properties -> new xiabis.modpack.toolbox.item.OmniBatteryBlockItem(ModBlocks.OMNI_BATTERY.get(), properties),
+            new Item.Properties());
 
     /** Block item of the omni greenhouse. */
-    public static final DeferredItem<net.minecraft.world.item.BlockItem> OMNI_GREENHOUSE_ITEM =
-            ITEMS.registerSimpleBlockItem(ModBlocks.OMNI_GREENHOUSE);
+    public static final DeferredItem<BlockItem> OMNI_GREENHOUSE_ITEM = ITEMS.registerSimpleBlockItem(ModBlocks.OMNI_GREENHOUSE);
 
-    public static final Map<DyeColor, DeferredItem<net.minecraft.world.item.BlockItem>> POLISHED_CONCRETE = new EnumMap<>(DyeColor.class);
-    public static final Map<DyeColor, DeferredItem<net.minecraft.world.item.BlockItem>> GLOWING_POLISHED_CONCRETE = new EnumMap<>(DyeColor.class);
+    public static final Map<DyeColor, DeferredItem<BlockItem>> POLISHED_CONCRETE = new EnumMap<>(DyeColor.class);
+    public static final Map<DyeColor, DeferredItem<BlockItem>> GLOWING_POLISHED_CONCRETE = new EnumMap<>(DyeColor.class);
 
     static {
         for (DyeColor color : DyeColor.values()) {
@@ -101,9 +97,8 @@ public final class ModItems {
             "advanced_totem_of_undying", AdvancedTotemItem::new,
             new Item.Properties().stacksTo(1).durability(AdvancedTotemItem.DURABILITY).rarity(Rarity.EPIC));
 
-    public static final DeferredItem<Item> MAGIC_POISON_BOTTLE =
-            ITEMS.registerItem("magic_poison_bottle", MagicPoisonBottleItem::new,
-                    new Item.Properties().stacksTo(1).rarity(Rarity.RARE));
+    public static final DeferredItem<Item> MAGIC_POISON_BOTTLE = ITEMS.registerItem("magic_poison_bottle",
+            MagicPoisonBottleItem::new, new Item.Properties().stacksTo(1).rarity(Rarity.RARE));
 
     /**
      * The 24 hour flight potion item, or an empty stack when Apothic Attributes (and therefore the
@@ -138,11 +133,9 @@ public final class ModItems {
                         output.accept(SPEED_CARD.get());
                         output.accept(OMNI_BATTERY_ITEM.get());
                         output.accept(OMNI_GREENHOUSE_ITEM.get());
-                                                 for (DyeColor color : DyeColor.values()) {
-                             output.accept(POLISHED_CONCRETE.get(color).get());
-                             output.accept(GLOWING_POLISHED_CONCRETE.get(color).get());
-                         }
-                         if (COMPRESSED_CONDENSER_ITEM != null) output.accept(COMPRESSED_CONDENSER_ITEM.get());
+                        if (COMPRESSED_CONDENSER_ITEM != null) {
+                            output.accept(COMPRESSED_CONDENSER_ITEM.get());
+                        }
 
                         ItemStack bigBackpack = xiabis.modpack.toolbox.util.StorageUpgradeSupport.creativeBackpack();
                         if (!bigBackpack.isEmpty()) {
@@ -155,6 +148,18 @@ public final class ModItems {
                         ItemStack flightPotion = flightPotion();
                         if (!flightPotion.isEmpty()) {
                             output.accept(flightPotion);
+                        }
+                    })
+                    .build());
+
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> BUILDING_TAB =
+            CREATIVE_TABS.register("building", () -> CreativeModeTab.builder()
+                    .title(Component.translatable("itemGroup.xiabis_modpack_toolbox.building"))
+                    .icon(() -> new ItemStack(GLOWING_POLISHED_CONCRETE.get(DyeColor.WHITE).get()))
+                    .displayItems((parameters, output) -> {
+                        for (DyeColor color : DyeColor.values()) {
+                            output.accept(POLISHED_CONCRETE.get(color).get());
+                            output.accept(GLOWING_POLISHED_CONCRETE.get(color).get());
                         }
                     })
                     .build());

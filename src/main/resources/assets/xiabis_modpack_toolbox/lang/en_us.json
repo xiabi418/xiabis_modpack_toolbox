@@ -4,6 +4,7 @@
   "item.xiabis_modpack_toolbox.omni_tool": "Omni Tool",
   "item.xiabis_modpack_toolbox.omni_weapon": "Omni Weapon",
   "itemGroup.xiabis_modpack_toolbox.toolbox": "xiabi's Modpack Toolbox",
+  "itemGroup.xiabis_modpack_toolbox.building": "xiabi's Modpack Toolbox - Building Materials",
   "key.categories.xiabis_modpack_toolbox": "xiabi's Modpack Toolbox",
   "key.xiabis_modpack_toolbox.open_menu": "Open Tool Menu",
   "message.xiabis_modpack_toolbox.magic_poison_bottle.already_marked": "Those effects are already marked",

@@ -4,6 +4,7 @@
   "item.xiabis_modpack_toolbox.omni_tool": "通用多功能工具",
   "item.xiabis_modpack_toolbox.omni_weapon": "通用多功能武器",
   "itemGroup.xiabis_modpack_toolbox.toolbox": "xiabi 的整合包工具箱",
+  "itemGroup.xiabis_modpack_toolbox.building": "xiabi的整合包工具箱·建材",
   "key.categories.xiabis_modpack_toolbox": "xiabi 的整合包工具箱",
   "key.xiabis_modpack_toolbox.open_menu": "打开工具菜单",
   "message.xiabis_modpack_toolbox.magic_poison_bottle.already_marked": "这些效果已经标记过了",

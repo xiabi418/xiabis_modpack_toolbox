@@ -2,7 +2,11 @@
 
 All notable changes to xiabi's modpack toolbox are recorded here.
 
-## 2.4.2
+## 2.4.3
+
+- Moved all 32 polished concrete variants into the dedicated building-materials creative tab.
+- Set the tab icon to Glowing White Polished Concrete.
+
 
 - Fixed startup without Applied Energistics 2 by isolating the Omni Fluid Tank storage-bus capability registration.
 

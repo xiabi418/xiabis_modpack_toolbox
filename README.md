@@ -123,6 +123,9 @@ The Simplified Chinese locale is stored as readable UTF-8 text, and the advanced
 
 ## Polished Concrete
 
+All 32 polished and glowing concrete variants are grouped in the dedicated **xiabi's Modpack Toolbox - Building Materials** creative tab. Its icon is Glowing White Polished Concrete.
+
+
 The mod adds 16 color variants of **Polished Concrete** and matching **Glowing Polished Concrete** blocks.
 
 - A stonecutter turns one ordinary concrete into one polished block. Fill the crafting grid with nine ordinary concrete blocks of one color to craft nine polished blocks.
