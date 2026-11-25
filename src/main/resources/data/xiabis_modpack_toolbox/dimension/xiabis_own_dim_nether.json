@@ -1,0 +1,9 @@
+{
+  "type": "xiabis_modpack_toolbox:own_nether",
+  "generator": {
+    "type": "xiabis_modpack_toolbox:private_dimension",
+    "biome_source": {"type":"minecraft:multi_noise","preset":"minecraft:nether"},
+    "settings": "minecraft:nether",
+    "mode": "nether"
+  }
+}

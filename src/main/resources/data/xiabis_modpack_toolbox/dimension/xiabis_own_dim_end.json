@@ -1,0 +1,9 @@
+{
+  "type": "xiabis_modpack_toolbox:own_end",
+  "generator": {
+    "type": "xiabis_modpack_toolbox:private_dimension",
+    "biome_source": {"type":"minecraft:the_end"},
+    "settings": "minecraft:end",
+    "mode": "end"
+  }
+}

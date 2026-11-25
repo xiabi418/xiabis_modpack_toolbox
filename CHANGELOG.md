@@ -2,6 +2,12 @@
 
 All notable changes to xiabi's modpack toolbox are recorded here.
 
+## 2.5.0
+
+- Added private Overworld, Nether, and End dimensions that share vanilla biome sources and generation settings.
+- Added a flat Y=63 private Overworld without cave carvers, a solid Nether foundation through Y=128, and a solid End foundation through Y=128 with a bedrock floor and no main island terrain.
+- Kept biome-based mod features and structures in the normal generation pipeline; mods hard-coded to vanilla dimension IDs are not universally compatible.
+
 ## 2.4.3
 
 - Moved all 32 polished concrete variants into the dedicated building-materials creative tab.

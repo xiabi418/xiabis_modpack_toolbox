@@ -18,6 +18,7 @@ import xiabis.modpack.toolbox.registry.ModItems;
 import xiabis.modpack.toolbox.registry.ModMenus;
 import xiabis.modpack.toolbox.registry.ModPotions;
 import xiabis.modpack.toolbox.registry.ModRecipes;
+import xiabis.modpack.toolbox.worldgen.ModWorldgen;
 
 @Mod(XmtMod.MOD_ID)
 public class XmtMod {
@@ -36,6 +37,7 @@ public class XmtMod {
         ModPotions.POTIONS.register(modBus);
         ModRecipes.RECIPE_SERIALIZERS.register(modBus);
         modBus.addListener(ModNetwork::register);
+        ModWorldgen.register(modBus);
         modBus.addListener(XmtMod::registerCapabilities);
         modBus.addListener(XmtMod::commonSetup);
     }
