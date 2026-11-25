@@ -119,6 +119,8 @@ The **Omni Fluid Tank** (`omni_fluid_tank`) accepts any number of different flui
 
 The Simplified Chinese locale is stored as readable UTF-8 text, and the advanced totem no longer has a tooltip.
 
+**2.4.2** fixes startup on installations without Applied Energistics 2.
+
 ## Polished Concrete
 
 The mod adds 16 color variants of **Polished Concrete** and matching **Glowing Polished Concrete** blocks.

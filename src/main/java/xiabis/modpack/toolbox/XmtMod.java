@@ -85,9 +85,7 @@ public class XmtMod {
                 ModBlockEntities.OMNI_FLUID_TANK.get(),
                 (tank, side) -> tank.fluidHandler());
         if (ModList.get().isLoaded("ae2")) {
-            event.registerBlockEntity(appeng.api.AECapabilities.ME_STORAGE,
-                    ModBlockEntities.OMNI_FLUID_TANK.get(),
-                    (tank, side) -> new xiabis.modpack.toolbox.blockentity.OmniFluidTankAeStorage(tank));
+            xiabis.modpack.toolbox.blockentity.OmniFluidTankAeStorage.registerCapabilities(event);
         }
     }
 

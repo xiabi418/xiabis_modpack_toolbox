@@ -7,14 +7,20 @@ import appeng.api.stacks.AEFluidKey;
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.KeyCounter;
 import appeng.api.storage.MEStorage;
-import java.util.Map;
 import net.minecraft.network.chat.Component;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import xiabis.modpack.toolbox.registry.ModBlockEntities;
 import net.minecraft.world.level.material.Fluid;
 
 /** Optional AE2 storage-bus view; loaded only when AE2 is installed. */
 public final class OmniFluidTankAeStorage implements MEStorage {
     private final OmniFluidTankBlockEntity tank;
     public OmniFluidTankAeStorage(OmniFluidTankBlockEntity tank) { this.tank = tank; }
+
+    public static void registerCapabilities(RegisterCapabilitiesEvent event) {
+        event.registerBlockEntity(AECapabilities.ME_STORAGE, ModBlockEntities.OMNI_FLUID_TANK.get(),
+                (tank, side) -> new OmniFluidTankAeStorage(tank));
+    }
     @Override public long insert(AEKey key, long amount, Actionable action, IActionSource source) { return 0; }
     @Override public long extract(AEKey key, long amount, Actionable action, IActionSource source) {
         if (!(key instanceof AEFluidKey fluidKey) || amount <= 0) return 0;

@@ -2,6 +2,10 @@
 
 All notable changes to xiabi's modpack toolbox are recorded here.
 
+## 2.4.2
+
+- Fixed startup without Applied Energistics 2 by isolating the Omni Fluid Tank storage-bus capability registration.
+
 ## 2.4.1
 
 - Corrected the concrete crafting recipe to consume nine regular concrete blocks.
