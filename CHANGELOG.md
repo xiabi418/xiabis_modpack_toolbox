@@ -2,6 +2,10 @@
 
 All notable changes to xiabi's modpack toolbox are recorded here.
 
+## 2.6.5
+
+- Preserve underground deepslate and bedrock in the private Overworld and reserve space around ancient city pieces before structure placement. This affects newly generated chunks.
+
 ## 2.6.4
 
 - Include the private Overworld dimension type in TerraBlender's overworld-region tag so BOP and BWG biomes can be sampled there.

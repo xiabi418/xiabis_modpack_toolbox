@@ -3,12 +3,13 @@ package xiabis.modpack.toolbox.worldgen;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import java.util.Locale;
 import java.util.EnumSet;
+import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.IntFunction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.NoiseColumn;
@@ -22,6 +23,8 @@ import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
 import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
 import net.minecraft.world.level.levelgen.RandomState;
 import net.minecraft.world.level.levelgen.blending.Blender;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.BuiltinStructures;
 import net.minecraft.world.level.biome.BiomeManager;
 import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.server.level.WorldGenRegion;
@@ -40,7 +43,11 @@ public final class PrivateDimensionChunkGenerator extends NoiseBasedChunkGenerat
 
     private static final int OVERWORLD_LAND_Y = 63;
     private static final int DRY_COLUMN = Integer.MIN_VALUE;
+    private static final int CITY_SIDE_CLEARANCE = 4;
+    private static final int CITY_ROOF_CLEARANCE = 6;
     private static final BlockState STONE = Blocks.STONE.defaultBlockState();
+    private static final BlockState DEEPSLATE = Blocks.DEEPSLATE.defaultBlockState();
+    private static final BlockState BEDROCK = Blocks.BEDROCK.defaultBlockState();
     private static final BlockState AIR = Blocks.AIR.defaultBlockState();
 
     private final Mode mode;
@@ -77,10 +84,45 @@ public final class PrivateDimensionChunkGenerator extends NoiseBasedChunkGenerat
     public void applyCarvers(WorldGenRegion region, long seed, RandomState randomState, BiomeManager biomeManager,
             StructureManager structureManager, ChunkAccess chunk, GenerationStep.Carving carving) {
         if (mode == Mode.OVERWORLD) {
+            clearAncientCitySpace(region, structureManager, chunk);
             return;
         }
         super.applyCarvers(region, seed, randomState, biomeManager, structureManager, chunk, carving);
         normalizeTerrain(chunk);
+    }
+
+    private static void clearAncientCitySpace(WorldGenRegion region, StructureManager structures, ChunkAccess chunk) {
+        var registry = region.registryAccess().registryOrThrow(Registries.STRUCTURE);
+        var ancientCity = registry.getHolder(BuiltinStructures.ANCIENT_CITY);
+        if (ancientCity.isEmpty()) {
+            return;
+        }
+
+        ChunkPos chunkPos = chunk.getPos();
+        var city = ancientCity.get().value();
+        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+        // Structure references are ready at this stage. Work on this chunk before templates are placed.
+        for (var start : structures.startsForStructure(chunkPos, structure -> structure == city)) {
+            for (var piece : start.getPieces()) {
+                BoundingBox box = piece.getBoundingBox();
+                int minX = Math.max(box.minX() - CITY_SIDE_CLEARANCE, chunkPos.getMinBlockX());
+                int maxX = Math.min(box.maxX() + CITY_SIDE_CLEARANCE, chunkPos.getMaxBlockX());
+                int minZ = Math.max(box.minZ() - CITY_SIDE_CLEARANCE, chunkPos.getMinBlockZ());
+                int maxZ = Math.min(box.maxZ() + CITY_SIDE_CLEARANCE, chunkPos.getMaxBlockZ());
+                int minY = Math.max(box.minY(), chunk.getMinBuildHeight() + 5);
+                int maxY = Math.min(box.maxY() + CITY_ROOF_CLEARANCE, -1);
+                for (int x = minX; x <= maxX; x++) {
+                    for (int z = minZ; z <= maxZ; z++) {
+                        for (int y = minY; y <= maxY; y++) {
+                            pos.set(x, y, z);
+                            if (!chunk.getBlockState(pos).isAir()) {
+                                chunk.setBlockState(pos, AIR, false);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private void normalizeTerrain(ChunkAccess chunk) {
@@ -128,7 +170,7 @@ public final class PrivateDimensionChunkGenerator extends NoiseBasedChunkGenerat
                 for (int y = minY; y <= Math.max(top, Math.min(OVERWORLD_LAND_Y, maxY - 1)); y++) {
                     pos.set(worldX, y, worldZ);
                     BlockState original = chunk.getBlockState(pos);
-                    BlockState normalized = overworldState(original, y, floor, surface);
+                    BlockState normalized = overworldState(original, y, minY, floor, surface);
                     if (original != normalized) {
                         chunk.setBlockState(pos, normalized, false);
                     }
@@ -150,7 +192,7 @@ public final class PrivateDimensionChunkGenerator extends NoiseBasedChunkGenerat
             int floor = waterFloor(column::getBlock, minY, top);
             BlockState surface = floor == DRY_COLUMN ? drySurface(column::getBlock, minY, top) : AIR;
             for (int y = minY; y <= Math.max(top, Math.min(OVERWORLD_LAND_Y, height.getMaxBuildHeight() - 1)); y++) {
-                column.setBlock(y, overworldState(column.getBlock(y), y, floor, surface));
+                column.setBlock(y, overworldState(column.getBlock(y), y, minY, floor, surface));
             }
         }
         return column;
@@ -184,7 +226,7 @@ public final class PrivateDimensionChunkGenerator extends NoiseBasedChunkGenerat
     }
 
     private static BlockState drySurface(ChunkAccess chunk, BlockPos.MutableBlockPos pos, int x, int z, int minY, int top) {
-        for (int y = top; y >= minY; y--) {
+        for (int y = top; y >= Math.max(minY, top - 4); y--) {
             BlockState state = chunk.getBlockState(pos.set(x, y, z));
             if (surfaceMaterial(state)) {
                 return state;
@@ -194,7 +236,7 @@ public final class PrivateDimensionChunkGenerator extends NoiseBasedChunkGenerat
     }
 
     private static BlockState drySurface(IntFunction<BlockState> block, int minY, int top) {
-        for (int y = top; y >= minY; y--) {
+        for (int y = top; y >= Math.max(minY, top - 4); y--) {
             BlockState state = block.apply(y);
             if (surfaceMaterial(state)) {
                 return state;
@@ -205,19 +247,30 @@ public final class PrivateDimensionChunkGenerator extends NoiseBasedChunkGenerat
 
     private static boolean surfaceMaterial(BlockState state) {
         return state.blocksMotion() && state.getFluidState().isEmpty()
-                && !state.is(Blocks.STONE) && !state.is(Blocks.DEEPSLATE)
+                && !state.is(Blocks.STONE) && !state.is(Blocks.DEEPSLATE) && !state.is(Blocks.BEDROCK)
                 && !state.is(Blocks.NETHERRACK) && !state.is(Blocks.END_STONE);
     }
 
-    private static BlockState overworldState(BlockState original, int y, int floor, BlockState surface) {
+    private static BlockState overworldState(BlockState original, int y, int minY, int floor, BlockState surface) {
+        if (y == minY) {
+            return BEDROCK;
+        }
         if (floor == DRY_COLUMN) {
+            if (y > OVERWORLD_LAND_Y) {
+                return AIR;
+            }
             if (y == OVERWORLD_LAND_Y) {
                 return surface;
             }
-            return y < OVERWORLD_LAND_Y ? STONE : AIR;
+        } else if (y > floor) {
+            // Preserve exposed water and its original depth.
+            return original;
         }
-        // Preserve the original water surface and bathymetry, but close voids beneath the bed.
-        return y <= floor && (original.isAir() || !original.getFluidState().isEmpty()) ? STONE : original;
+        if (original.isAir() || !original.getFluidState().isEmpty()) {
+            return y < -8 ? DEEPSLATE : STONE;
+        }
+        // Preserve solid noise blocks and the bedrock/deepslate placed by surface rules.
+        return original;
     }
 
     private static void set(ChunkAccess chunk, ChunkPos chunkPos, int x, int y, int z, BlockState state) {
