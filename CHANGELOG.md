@@ -2,6 +2,10 @@
 
 All notable changes to xiabi's modpack toolbox are recorded here.
 
+## 2.6.6
+
+- Cap exposed terrain pools at five blocks deep outside river and ocean biomes in newly generated private Overworld chunks.
+
 ## 2.6.5
 
 - Preserve underground deepslate and bedrock in the private Overworld and reserve space around ancient city pieces before structure placement. This affects newly generated chunks.

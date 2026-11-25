@@ -9,7 +9,9 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.IntFunction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.QuartPos;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.NoiseColumn;
@@ -42,6 +44,7 @@ public final class PrivateDimensionChunkGenerator extends NoiseBasedChunkGenerat
             ).apply(instance, PrivateDimensionChunkGenerator::new));
 
     private static final int OVERWORLD_LAND_Y = 63;
+    private static final int MAX_INLAND_POOL_DEPTH = 5;
     private static final int DRY_COLUMN = Integer.MIN_VALUE;
     private static final int CITY_SIDE_CLEARANCE = 4;
     private static final int CITY_ROOF_CLEARANCE = 6;
@@ -67,7 +70,7 @@ public final class PrivateDimensionChunkGenerator extends NoiseBasedChunkGenerat
             StructureManager structureManager, ChunkAccess chunk) {
         return super.fillFromNoise(blender, randomState, structureManager, chunk)
                 .thenApply(generated -> {
-                    normalizeTerrain(generated);
+                    normalizeTerrain(generated, randomState);
                     return generated;
                 });
     }
@@ -76,7 +79,7 @@ public final class PrivateDimensionChunkGenerator extends NoiseBasedChunkGenerat
     public void buildSurface(WorldGenRegion region, StructureManager structureManager, RandomState randomState, ChunkAccess chunk) {
         super.buildSurface(region, structureManager, randomState, chunk);
         if (mode == Mode.OVERWORLD) {
-            normalizeTerrain(chunk);
+            normalizeTerrain(chunk, randomState);
         }
     }
 
@@ -88,7 +91,7 @@ public final class PrivateDimensionChunkGenerator extends NoiseBasedChunkGenerat
             return;
         }
         super.applyCarvers(region, seed, randomState, biomeManager, structureManager, chunk, carving);
-        normalizeTerrain(chunk);
+        normalizeTerrain(chunk, randomState);
     }
 
     private static void clearAncientCitySpace(WorldGenRegion region, StructureManager structures, ChunkAccess chunk) {
@@ -125,12 +128,12 @@ public final class PrivateDimensionChunkGenerator extends NoiseBasedChunkGenerat
         }
     }
 
-    private void normalizeTerrain(ChunkAccess chunk) {
+    private void normalizeTerrain(ChunkAccess chunk, RandomState randomState) {
         ChunkPos chunkPos = chunk.getPos();
         int minY = chunk.getMinBuildHeight();
         int maxY = chunk.getMaxBuildHeight();
         if (mode == Mode.OVERWORLD) {
-            normalizeOverworld(chunk, chunkPos, minY, maxY);
+            normalizeOverworld(chunk, chunkPos, minY, maxY, randomState);
             normalizeHeightmaps(chunk);
             return;
         }
@@ -158,14 +161,14 @@ public final class PrivateDimensionChunkGenerator extends NoiseBasedChunkGenerat
         }
     }
 
-    private static void normalizeOverworld(ChunkAccess chunk, ChunkPos chunkPos, int minY, int maxY) {
+    private void normalizeOverworld(ChunkAccess chunk, ChunkPos chunkPos, int minY, int maxY, RandomState randomState) {
         BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
                 int worldX = chunkPos.getMinBlockX() + x;
                 int worldZ = chunkPos.getMinBlockZ() + z;
                 int top = chunk.getHeight(Heightmap.Types.WORLD_SURFACE_WG, x, z);
-                int floor = waterFloor(y -> chunk.getBlockState(pos.set(worldX, y, worldZ)), minY, top);
+                int floor = waterFloor(y -> chunk.getBlockState(pos.set(worldX, y, worldZ)), minY, top, worldX, worldZ, randomState);
                 BlockState surface = floor == DRY_COLUMN ? drySurface(chunk, pos, worldX, worldZ, minY, top) : AIR;
                 for (int y = minY; y <= Math.max(top, Math.min(OVERWORLD_LAND_Y, maxY - 1)); y++) {
                     pos.set(worldX, y, worldZ);
@@ -189,7 +192,7 @@ public final class PrivateDimensionChunkGenerator extends NoiseBasedChunkGenerat
             while (top >= minY && column.getBlock(top).isAir()) {
                 top--;
             }
-            int floor = waterFloor(column::getBlock, minY, top);
+            int floor = waterFloor(column::getBlock, minY, top, x, z, randomState);
             BlockState surface = floor == DRY_COLUMN ? drySurface(column::getBlock, minY, top) : AIR;
             for (int y = minY; y <= Math.max(top, Math.min(OVERWORLD_LAND_Y, height.getMaxBuildHeight() - 1)); y++) {
                 column.setBlock(y, overworldState(column.getBlock(y), y, minY, floor, surface));
@@ -213,8 +216,8 @@ public final class PrivateDimensionChunkGenerator extends NoiseBasedChunkGenerat
         return height.getMinBuildHeight();
     }
 
-    private static int waterFloor(IntFunction<BlockState> block, int minY, int top) {
-        // Only water exposed at the top of a noise column is a river/ocean, not a buried aquifer.
+    private int waterFloor(IntFunction<BlockState> block, int minY, int top, int x, int z, RandomState randomState) {
+        // Only consider water exposed at the top of the column.
         if (top < minY || !block.apply(top).is(Blocks.WATER)) {
             return DRY_COLUMN;
         }
@@ -222,7 +225,13 @@ public final class PrivateDimensionChunkGenerator extends NoiseBasedChunkGenerat
         while (floor >= minY && block.apply(floor).is(Blocks.WATER)) {
             floor--;
         }
-        return floor;
+        int inlandFloor = top - MAX_INLAND_POOL_DEPTH;
+        if (floor >= inlandFloor) {
+            return floor;
+        }
+        var biome = getBiomeSource().getNoiseBiome(
+                QuartPos.fromBlock(x), QuartPos.fromBlock(top), QuartPos.fromBlock(z), randomState.sampler());
+        return biome.is(BiomeTags.IS_RIVER) || biome.is(BiomeTags.IS_OCEAN) ? floor : inlandFloor;
     }
 
     private static BlockState drySurface(ChunkAccess chunk, BlockPos.MutableBlockPos pos, int x, int z, int minY, int top) {
@@ -263,7 +272,7 @@ public final class PrivateDimensionChunkGenerator extends NoiseBasedChunkGenerat
                 return surface;
             }
         } else if (y > floor) {
-            // Preserve exposed water and its original depth.
+            // Keep exposed water above the selected bed.
             return original;
         }
         if (original.isAir() || !original.getFluidState().isEmpty()) {
