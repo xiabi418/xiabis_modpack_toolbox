@@ -62,6 +62,7 @@ public final class PrivateDimensionChunkGenerator extends NoiseBasedChunkGenerat
             return;
         }
         super.applyCarvers(region, seed, randomState, biomeManager, structureManager, chunk, carving);
+        normalizeTerrain(chunk);
     }
 
     private void normalizeTerrain(ChunkAccess chunk) {
@@ -71,9 +72,11 @@ public final class PrivateDimensionChunkGenerator extends NoiseBasedChunkGenerat
         if (mode == Mode.OVERWORLD) {
             for (int x = 0; x < 16; x++) {
                 for (int z = 0; z < 16; z++) {
-                    for (int y = 63; y < maxY; y++) {
-                        set(chunk, chunkPos, x, y, z,
-                                y == 63 ? Blocks.GRASS_BLOCK.defaultBlockState() : Blocks.AIR.defaultBlockState());
+                    for (int y = minY; y <= 63; y++) {
+                        set(chunk, chunkPos, x, y, z, Blocks.STONE.defaultBlockState());
+                    }
+                    for (int y = 64; y < maxY; y++) {
+                        set(chunk, chunkPos, x, y, z, Blocks.AIR.defaultBlockState());
                     }
                 }
             }

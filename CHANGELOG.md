@@ -2,6 +2,11 @@
 
 All notable changes to xiabi's modpack toolbox are recorded here.
 
+## 2.5.1
+
+- Filled the full private Overworld below Y=63 to remove terrain and aquifer caves.
+- Reapply the specified solid Nether and End foundations after carvers run.
+
 ## 2.5.0
 
 - Added private Overworld, Nether, and End dimensions that share vanilla biome sources and generation settings.
