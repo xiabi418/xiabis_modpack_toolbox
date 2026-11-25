@@ -141,7 +141,7 @@ Craft the entry blocks from a full 3×3 grid of dirt (private Overworld), nether
 
 The mod adds three seed-aligned dimensions:
 
-- `xiabis_own_dim_overworld`: vanilla Overworld biomes and decoration with a flat stone foundation through Y=63, a grass surface at Y=63, and no cave carving.
+- `xiabis_own_dim_overworld`: keeps vanilla rivers, oceans, and their underwater terrain so ocean structures can generate. Dry land remains flat at Y=63, and cave carving remains disabled. Only newly generated chunks are affected.
 - `xiabis_own_dim_nether`: vanilla Nether biome and decoration pipeline, solid netherrack through Y=128, and no generated upper bedrock ceiling.
 - `xiabis_own_dim_end`: vanilla End biomes and decoration, no main-island terrain, solid end stone through Y=128, and a bedrock floor at Y=0.
 

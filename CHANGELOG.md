@@ -2,6 +2,10 @@
 
 All notable changes to xiabi's modpack toolbox are recorded here.
 
+## 2.6.3
+
+- Restore rivers, oceans, and natural underwater terrain in newly generated private Overworld chunks. Ocean structures use the preserved seabed; dry land stays flat and cave carving stays disabled.
+
 ## 2.6.2
 
 - Return blocks stay in place and can be shared. Each player returns to their own latest entry point for that dimension.
