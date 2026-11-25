@@ -126,5 +126,16 @@
   "block.xiabis_modpack_toolbox.glowing_brown_polished_concrete": "Glowing Brown Polished Concrete",
   "block.xiabis_modpack_toolbox.glowing_green_polished_concrete": "Glowing Green Polished Concrete",
   "block.xiabis_modpack_toolbox.glowing_red_polished_concrete": "Glowing Red Polished Concrete",
-  "block.xiabis_modpack_toolbox.glowing_black_polished_concrete": "Glowing Black Polished Concrete"
+  "block.xiabis_modpack_toolbox.glowing_black_polished_concrete": "Glowing Black Polished Concrete",
+  "block.xiabis_modpack_toolbox.overworld_teleport": "Private Overworld Teleporter",
+  "block.xiabis_modpack_toolbox.nether_teleport": "Private Nether Teleporter",
+  "block.xiabis_modpack_toolbox.end_teleport": "Private End Teleporter",
+  "block.xiabis_modpack_toolbox.return_dimension": "Return Block",
+  "dimension.xiabis_modpack_toolbox.overworld": "Private Overworld",
+  "dimension.xiabis_modpack_toolbox.nether": "Private Nether",
+  "dimension.xiabis_modpack_toolbox.end": "Private End",
+  "message.xiabis_modpack_toolbox.dimension_missing": "The destination dimension is unavailable.",
+  "message.xiabis_modpack_toolbox.dimension_entered": "Entered %s. A return block was created nearby.",
+  "message.xiabis_modpack_toolbox.return_spot_failed": "Could not find a safe landing and return-block spot.",
+  "message.xiabis_modpack_toolbox.return_not_yours": "This return block belongs to another player or has no valid return point."
 }

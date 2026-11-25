@@ -2,7 +2,12 @@
 
 All notable changes to xiabi's modpack toolbox are recorded here.
 
-## 2.5.1
+## 2.6.0
+
+- Added Overworld, Nether, and End private-dimension teleport blocks.
+- Added automatic owner-bound return blocks at safe destination landing points; return blocks have no recipe and are consumed on successful return.
+- Added nine-dirt, nine-netherrack, and nine-end-stone recipes for the three entry blocks.
+
 
 - Filled the full private Overworld below Y=63 to remove terrain and aquifer caves.
 - Reapply the specified solid Nether and End foundations after carvers run.

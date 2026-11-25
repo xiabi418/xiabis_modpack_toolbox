@@ -10,6 +10,8 @@ import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import xiabis.modpack.toolbox.XmtMod;
+import xiabis.modpack.toolbox.block.DimensionTeleportBlock;
+import xiabis.modpack.toolbox.block.ReturnDimensionBlock;
 import xiabis.modpack.toolbox.block.CompressedCondenserBlock;
 import xiabis.modpack.toolbox.block.OmniFluidTankBlock;
 import xiabis.modpack.toolbox.block.OmniGeneratorBlock;
@@ -36,6 +38,16 @@ public final class ModBlocks {
             BLOCKS.registerBlock("omni_greenhouse", xiabis.modpack.toolbox.block.OmniGreenhouseBlock::new, machineProperties());
     public static final DeferredBlock<Block> OMNI_BATTERY = BLOCKS.registerBlock("omni_battery",
             xiabis.modpack.toolbox.block.OmniBatteryBlock::new, machineProperties());
+
+    public static final DeferredBlock<DimensionTeleportBlock> OVERWORLD_TELEPORT = BLOCKS.registerBlock(
+            "overworld_teleport", DimensionTeleportBlock::new, machineProperties());
+    public static final DeferredBlock<DimensionTeleportBlock> NETHER_TELEPORT = BLOCKS.registerBlock(
+            "nether_teleport", DimensionTeleportBlock::new, machineProperties());
+    public static final DeferredBlock<DimensionTeleportBlock> END_TELEPORT = BLOCKS.registerBlock(
+            "end_teleport", DimensionTeleportBlock::new, machineProperties());
+    public static final DeferredBlock<ReturnDimensionBlock> RETURN_DIMENSION = BLOCKS.registerBlock(
+            "return_dimension", ReturnDimensionBlock::new,
+            BlockBehaviour.Properties.of().strength(-1.0F, 3_600_000.0F).noLootTable().noOcclusion());
 
     public static final Map<DyeColor, DeferredBlock<PolishedConcreteBlock>> POLISHED_CONCRETE = new EnumMap<>(DyeColor.class);
     public static final Map<DyeColor, DeferredBlock<PolishedConcreteBlock>> GLOWING_POLISHED_CONCRETE = new EnumMap<>(DyeColor.class);

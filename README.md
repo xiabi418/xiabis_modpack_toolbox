@@ -133,7 +133,10 @@ The mod adds 16 color variants of **Polished Concrete** and matching **Glowing P
 - Add glowstone dust to make the glowing variant; surround a glowing block with cobblestone to duplicate nine glowing blocks.
 - Glowing blocks emit light level 15. Fusion 1.3.16 or later is required on the Minecraft 1.21.1 NeoForge client. Connected textures join adjacent blocks of the same color and variant.
 
-## Private Dimensions
+## Dimension Teleport Blocks
+
+Craft the entry blocks from a full 3×3 grid of dirt (private Overworld), netherrack (private Nether), or end stone (private End). Right-click an entry block to travel to the same X/Z location in its private dimension. The block searches nearby for a safe surface landing and creates an owner-bound return block next to it. Right-click that return block to go back to the exact origin dimension, position, and rotation; it is consumed on successful return. Return blocks have no recipe and cannot be mined.
+
 
 The mod adds three seed-aligned dimensions:
 

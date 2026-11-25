@@ -1,0 +1,1 @@
+{"type":"minecraft:block","pools":[{"rolls":1,"entries":[{"type":"minecraft:item","name":"xiabis_modpack_toolbox:end_teleport"}],"conditions":[{"condition":"minecraft:survives_explosion"}]}]}

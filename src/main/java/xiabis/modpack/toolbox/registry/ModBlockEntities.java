@@ -9,6 +9,7 @@ import net.neoforged.fml.ModList;
 import xiabis.modpack.toolbox.blockentity.CompressedCondenserBlockEntity;
 import xiabis.modpack.toolbox.blockentity.OmniGeneratorBlockEntity;
 import xiabis.modpack.toolbox.blockentity.OmniFluidTankBlockEntity;
+import xiabis.modpack.toolbox.blockentity.ReturnDimensionBlockEntity;
 import xiabis.modpack.toolbox.blockentity.OmniGreenhouseBlockEntity;
 
 public final class ModBlockEntities {
@@ -33,6 +34,10 @@ public final class ModBlockEntities {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<OmniFluidTankBlockEntity>> OMNI_FLUID_TANK =
             BLOCK_ENTITIES.register("omni_fluid_tank", () -> BlockEntityType.Builder.of(
                     OmniFluidTankBlockEntity::new, ModBlocks.OMNI_FLUID_TANK.get()).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ReturnDimensionBlockEntity>> RETURN_DIMENSION =
+            BLOCK_ENTITIES.register("return_dimension", () -> BlockEntityType.Builder.of(
+                    ReturnDimensionBlockEntity::new, ModBlocks.RETURN_DIMENSION.get()).build(null));
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<OmniGreenhouseBlockEntity>> OMNI_GREENHOUSE =
             BLOCK_ENTITIES.register("omni_greenhouse", () -> BlockEntityType.Builder.of(

@@ -75,6 +75,10 @@ public final class ModItems {
     /** Block item of the omni greenhouse. */
     public static final DeferredItem<BlockItem> OMNI_GREENHOUSE_ITEM = ITEMS.registerSimpleBlockItem(ModBlocks.OMNI_GREENHOUSE);
 
+    public static final DeferredItem<BlockItem> OVERWORLD_TELEPORT_ITEM = ITEMS.registerSimpleBlockItem(ModBlocks.OVERWORLD_TELEPORT);
+    public static final DeferredItem<BlockItem> NETHER_TELEPORT_ITEM = ITEMS.registerSimpleBlockItem(ModBlocks.NETHER_TELEPORT);
+    public static final DeferredItem<BlockItem> END_TELEPORT_ITEM = ITEMS.registerSimpleBlockItem(ModBlocks.END_TELEPORT);
+
     public static final Map<DyeColor, DeferredItem<BlockItem>> POLISHED_CONCRETE = new EnumMap<>(DyeColor.class);
     public static final Map<DyeColor, DeferredItem<BlockItem>> GLOWING_POLISHED_CONCRETE = new EnumMap<>(DyeColor.class);
 
@@ -133,6 +137,9 @@ public final class ModItems {
                         output.accept(SPEED_CARD.get());
                         output.accept(OMNI_BATTERY_ITEM.get());
                         output.accept(OMNI_GREENHOUSE_ITEM.get());
+                        output.accept(OVERWORLD_TELEPORT_ITEM.get());
+                        output.accept(NETHER_TELEPORT_ITEM.get());
+                        output.accept(END_TELEPORT_ITEM.get());
                         if (COMPRESSED_CONDENSER_ITEM != null) {
                             output.accept(COMPRESSED_CONDENSER_ITEM.get());
                         }

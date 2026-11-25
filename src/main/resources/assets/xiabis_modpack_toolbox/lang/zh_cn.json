@@ -127,5 +127,16 @@
   "block.xiabis_modpack_toolbox.glowing_brown_polished_concrete": "发光棕色磨制混凝土",
   "block.xiabis_modpack_toolbox.glowing_green_polished_concrete": "发光绿色磨制混凝土",
   "block.xiabis_modpack_toolbox.glowing_red_polished_concrete": "发光红色磨制混凝土",
-  "block.xiabis_modpack_toolbox.glowing_black_polished_concrete": "发光黑色磨制混凝土"
+  "block.xiabis_modpack_toolbox.glowing_black_polished_concrete": "发光黑色磨制混凝土",
+  "block.xiabis_modpack_toolbox.overworld_teleport": "私有主世界传送方块",
+  "block.xiabis_modpack_toolbox.nether_teleport": "私有下界传送方块",
+  "block.xiabis_modpack_toolbox.end_teleport": "私有末地传送方块",
+  "block.xiabis_modpack_toolbox.return_dimension": "返回方块",
+  "dimension.xiabis_modpack_toolbox.overworld": "私有主世界",
+  "dimension.xiabis_modpack_toolbox.nether": "私有下界",
+  "dimension.xiabis_modpack_toolbox.end": "私有末地",
+  "message.xiabis_modpack_toolbox.dimension_missing": "目标维度不可用。",
+  "message.xiabis_modpack_toolbox.dimension_entered": "已进入%s，附近已生成返回方块。",
+  "message.xiabis_modpack_toolbox.return_spot_failed": "附近找不到安全落点和返回方块位置。",
+  "message.xiabis_modpack_toolbox.return_not_yours": "此返回方块属于其他玩家，或没有有效的返回位置。"
 }
