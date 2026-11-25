@@ -137,6 +137,7 @@ The mod adds 16 color variants of **Polished Concrete** and matching **Glowing P
 
 Craft the entry blocks from a full 3×3 grid of dirt (private Overworld), netherrack (private Nether), or end stone (private End). Right-click an entry block to travel to the same X/Z location in its private dimension. The block searches nearby for a safe surface landing and creates an owner-bound return block next to it. Right-click that return block to go back to the exact origin dimension, position, and rotation; it is consumed on successful return. Return blocks have no recipe and cannot be mined.
 
+## Private Dimensions
 
 The mod adds three seed-aligned dimensions:
 

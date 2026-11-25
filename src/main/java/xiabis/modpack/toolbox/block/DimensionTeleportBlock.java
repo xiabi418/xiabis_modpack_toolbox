@@ -71,6 +71,11 @@ public final class DimensionTeleportBlock extends Block {
         returnBlock.setReturnPoint(serverPlayer, source);
         serverPlayer.teleportTo(destination, spot.feet().getX() + 0.5D, spot.feet().getY(),
                 spot.feet().getZ() + 0.5D, serverPlayer.getYRot(), serverPlayer.getXRot());
+        if (serverPlayer.serverLevel() != destination) {
+            destination.removeBlock(spot.returnBlock(), false);
+            serverPlayer.displayClientMessage(Component.translatable("message.xiabis_modpack_toolbox.teleport_failed"), true);
+            return InteractionResult.CONSUME;
+        }
         serverPlayer.displayClientMessage(Component.translatable("message.xiabis_modpack_toolbox.dimension_entered",
                 Component.translatable("dimension.xiabis_modpack_toolbox." + targetName)), true);
         return InteractionResult.CONSUME;

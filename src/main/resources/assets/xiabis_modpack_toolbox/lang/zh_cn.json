@@ -138,5 +138,6 @@
   "message.xiabis_modpack_toolbox.dimension_missing": "目标维度不可用。",
   "message.xiabis_modpack_toolbox.dimension_entered": "已进入%s，附近已生成返回方块。",
   "message.xiabis_modpack_toolbox.return_spot_failed": "附近找不到安全落点和返回方块位置。",
-  "message.xiabis_modpack_toolbox.return_not_yours": "此返回方块属于其他玩家，或没有有效的返回位置。"
+  "message.xiabis_modpack_toolbox.teleport_failed": "未能传送到目标维度。",
+  "message.xiabis_modpack_toolbox.return_not_yours": "无法返回：方块可能属于其他玩家，或目标位置不可用。"
 }

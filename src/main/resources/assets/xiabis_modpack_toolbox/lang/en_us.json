@@ -137,5 +137,6 @@
   "message.xiabis_modpack_toolbox.dimension_missing": "The destination dimension is unavailable.",
   "message.xiabis_modpack_toolbox.dimension_entered": "Entered %s. A return block was created nearby.",
   "message.xiabis_modpack_toolbox.return_spot_failed": "Could not find a safe landing and return-block spot.",
-  "message.xiabis_modpack_toolbox.return_not_yours": "This return block belongs to another player or has no valid return point."
+  "message.xiabis_modpack_toolbox.teleport_failed": "Could not travel to the destination dimension.",
+  "message.xiabis_modpack_toolbox.return_not_yours": "Could not return. The block may belong to another player or the destination may be unavailable."
 }

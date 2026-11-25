@@ -48,7 +48,7 @@ public final class ReturnDimensionBlockEntity extends BlockEntity {
             return false;
         }
         player.teleportTo(destination, x, y, z, yaw, pitch);
-        return true;
+        return player.serverLevel() == destination;
     }
 
     @Override
