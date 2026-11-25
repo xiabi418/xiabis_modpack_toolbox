@@ -2,6 +2,11 @@
 
 All notable changes to xiabi's modpack toolbox are recorded here.
 
+## 2.6.4
+
+- Include the private Overworld dimension type in TerraBlender's overworld-region tag so BOP and BWG biomes can be sampled there.
+- Preserve custom biome surface blocks and refresh worldgen heightmaps after terrain normalization so biome tree features can place on the flat land.
+
 ## 2.6.3
 
 - Restore rivers, oceans, and natural underwater terrain in newly generated private Overworld chunks. Ocean structures use the preserved seabed; dry land stays flat and cave carving stays disabled.

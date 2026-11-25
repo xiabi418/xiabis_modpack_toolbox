@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.Locale;
+import java.util.EnumSet;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.IntFunction;
 import net.minecraft.core.Holder;
@@ -65,6 +66,14 @@ public final class PrivateDimensionChunkGenerator extends NoiseBasedChunkGenerat
     }
 
     @Override
+    public void buildSurface(WorldGenRegion region, StructureManager structureManager, RandomState randomState, ChunkAccess chunk) {
+        super.buildSurface(region, structureManager, randomState, chunk);
+        if (mode == Mode.OVERWORLD) {
+            normalizeTerrain(chunk);
+        }
+    }
+
+    @Override
     public void applyCarvers(WorldGenRegion region, long seed, RandomState randomState, BiomeManager biomeManager,
             StructureManager structureManager, ChunkAccess chunk, GenerationStep.Carving carving) {
         if (mode == Mode.OVERWORLD) {
@@ -80,6 +89,7 @@ public final class PrivateDimensionChunkGenerator extends NoiseBasedChunkGenerat
         int maxY = chunk.getMaxBuildHeight();
         if (mode == Mode.OVERWORLD) {
             normalizeOverworld(chunk, chunkPos, minY, maxY);
+            normalizeHeightmaps(chunk);
             return;
         }
 
@@ -114,10 +124,11 @@ public final class PrivateDimensionChunkGenerator extends NoiseBasedChunkGenerat
                 int worldZ = chunkPos.getMinBlockZ() + z;
                 int top = chunk.getHeight(Heightmap.Types.WORLD_SURFACE_WG, x, z);
                 int floor = waterFloor(y -> chunk.getBlockState(pos.set(worldX, y, worldZ)), minY, top);
+                BlockState surface = floor == DRY_COLUMN ? drySurface(chunk, pos, worldX, worldZ, minY, top) : AIR;
                 for (int y = minY; y <= Math.max(top, Math.min(OVERWORLD_LAND_Y, maxY - 1)); y++) {
                     pos.set(worldX, y, worldZ);
                     BlockState original = chunk.getBlockState(pos);
-                    BlockState normalized = overworldState(original, y, floor);
+                    BlockState normalized = overworldState(original, y, floor, surface);
                     if (original != normalized) {
                         chunk.setBlockState(pos, normalized, false);
                     }
@@ -137,8 +148,9 @@ public final class PrivateDimensionChunkGenerator extends NoiseBasedChunkGenerat
                 top--;
             }
             int floor = waterFloor(column::getBlock, minY, top);
+            BlockState surface = floor == DRY_COLUMN ? drySurface(column::getBlock, minY, top) : AIR;
             for (int y = minY; y <= Math.max(top, Math.min(OVERWORLD_LAND_Y, height.getMaxBuildHeight() - 1)); y++) {
-                column.setBlock(y, overworldState(column.getBlock(y), y, floor));
+                column.setBlock(y, overworldState(column.getBlock(y), y, floor, surface));
             }
         }
         return column;
@@ -171,9 +183,38 @@ public final class PrivateDimensionChunkGenerator extends NoiseBasedChunkGenerat
         return floor;
     }
 
-    private static BlockState overworldState(BlockState original, int y, int floor) {
+    private static BlockState drySurface(ChunkAccess chunk, BlockPos.MutableBlockPos pos, int x, int z, int minY, int top) {
+        for (int y = top; y >= minY; y--) {
+            BlockState state = chunk.getBlockState(pos.set(x, y, z));
+            if (surfaceMaterial(state)) {
+                return state;
+            }
+        }
+        return Blocks.GRASS_BLOCK.defaultBlockState();
+    }
+
+    private static BlockState drySurface(IntFunction<BlockState> block, int minY, int top) {
+        for (int y = top; y >= minY; y--) {
+            BlockState state = block.apply(y);
+            if (surfaceMaterial(state)) {
+                return state;
+            }
+        }
+        return Blocks.GRASS_BLOCK.defaultBlockState();
+    }
+
+    private static boolean surfaceMaterial(BlockState state) {
+        return state.blocksMotion() && state.getFluidState().isEmpty()
+                && !state.is(Blocks.STONE) && !state.is(Blocks.DEEPSLATE)
+                && !state.is(Blocks.NETHERRACK) && !state.is(Blocks.END_STONE);
+    }
+
+    private static BlockState overworldState(BlockState original, int y, int floor, BlockState surface) {
         if (floor == DRY_COLUMN) {
-            return y <= OVERWORLD_LAND_Y ? STONE : AIR;
+            if (y == OVERWORLD_LAND_Y) {
+                return surface;
+            }
+            return y < OVERWORLD_LAND_Y ? STONE : AIR;
         }
         // Preserve the original water surface and bathymetry, but close voids beneath the bed.
         return y <= floor && (original.isAir() || !original.getFluidState().isEmpty()) ? STONE : original;
@@ -181,6 +222,12 @@ public final class PrivateDimensionChunkGenerator extends NoiseBasedChunkGenerat
 
     private static void set(ChunkAccess chunk, ChunkPos chunkPos, int x, int y, int z, BlockState state) {
         chunk.setBlockState(new BlockPos(chunkPos.getMinBlockX() + x, y, chunkPos.getMinBlockZ() + z), state, false);
+    }
+
+    private void normalizeHeightmaps(ChunkAccess chunk) {
+        if (mode == Mode.OVERWORLD) {
+            Heightmap.primeHeightmaps(chunk, EnumSet.of(Heightmap.Types.WORLD_SURFACE_WG, Heightmap.Types.OCEAN_FLOOR_WG));
+        }
     }
 
     public enum Mode {
