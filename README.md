@@ -135,7 +135,7 @@ The mod adds 16 color variants of **Polished Concrete** and matching **Glowing P
 
 ## Dimension Teleport Blocks
 
-Craft the entry blocks from a full 3×3 grid of dirt (private Overworld), netherrack (private Nether), or end stone (private End). Right-click an entry block to travel to a safe landing near the same X/Z in its shared private dimension. The landing reuses an adjacent return block or creates one. Players can share a return block: it returns each player to their own latest entry dimension, exact position, and facing, and stays in place after use. Return blocks have no recipe and cannot be mined.
+Craft the entry blocks from a full 3×3 grid of dirt (private Overworld), netherrack (private Nether), or end stone (private End). Right-click an entry block to travel to a safe landing near the same X/Z in its shared private dimension. The landing reuses an adjacent return block or creates one. Players can share a return block: it returns each player to their own latest entry dimension, exact position, and facing, and stays in place after use. Return blocks have no recipe and cannot be mined. Each teleport block uses the shared border with its original material visible in the center.
 
 ## Private Dimensions
 

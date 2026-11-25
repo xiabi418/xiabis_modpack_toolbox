@@ -1,1 +1,6 @@
-{"parent":"minecraft:block/cube_all","textures":{"all":"minecraft:block/netherrack"}}
+{
+  "parent": "xiabis_modpack_toolbox:block/dimension_teleport_frame",
+  "textures": {
+    "center": "minecraft:block/netherrack"
+  }
+}

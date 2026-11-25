@@ -2,6 +2,10 @@
 
 All notable changes to xiabi's modpack toolbox are recorded here.
 
+## 2.6.7
+
+- Add the supplied border to the three dimension entry blocks and the return block, keeping each original block texture visible in the center.
+
 ## 2.6.6
 
 - Cap exposed terrain pools at five blocks deep outside river and ocean biomes in newly generated private Overworld chunks.

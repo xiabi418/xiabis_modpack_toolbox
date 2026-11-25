@@ -1,1 +1,6 @@
-{"parent":"minecraft:block/cube_all","textures":{"all":"minecraft:block/end_stone"}}
+{
+  "parent": "xiabis_modpack_toolbox:block/dimension_teleport_frame",
+  "textures": {
+    "center": "minecraft:block/end_stone"
+  }
+}
