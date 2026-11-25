@@ -2,6 +2,12 @@
 
 All notable changes to xiabi's modpack toolbox are recorded here.
 
+## 2.4.1
+
+- Corrected the concrete crafting recipe to consume nine regular concrete blocks.
+- Repacked the connected textures into Fusion’s five-tile layout and added pickaxe mining support.
+- Restored existing Simplified Chinese translations and documentation headings.
+
 ## 2.4.0
 
 - Added 16 tinted polished concrete blocks and 16 glowing variants.
@@ -9,6 +15,7 @@ All notable changes to xiabi's modpack toolbox are recorded here.
 - Added 1:1 stonecutting, nine-output crafting, cobblestone duplication, and glowstone upgrade recipes.
 - Glowing variants emit light level 15.
 
+## 2.3.4
 
 - Preserved Omni Fluid Tank contents when mined and restored them when placed again.
 - Added per-fluid tank item tooltips with infinite and partial-capacity displays.

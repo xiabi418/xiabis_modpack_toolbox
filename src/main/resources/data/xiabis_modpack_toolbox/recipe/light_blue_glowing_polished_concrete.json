@@ -1,1 +1,15 @@
-{"type":"minecraft:crafting_shapeless","ingredients":[{"item":"xiabis_modpack_toolbox:light_blue_polished_concrete"},"minecraft:glowstone_dust"],"result":{"id":"xiabis_modpack_toolbox:glowing_light_blue_polished_concrete","count":1}}
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "xiabis_modpack_toolbox:light_blue_polished_concrete"
+    },
+    {
+      "item": "minecraft:glowstone_dust"
+    }
+  ],
+  "result": {
+    "id": "xiabis_modpack_toolbox:glowing_light_blue_polished_concrete",
+    "count": 1
+  }
+}

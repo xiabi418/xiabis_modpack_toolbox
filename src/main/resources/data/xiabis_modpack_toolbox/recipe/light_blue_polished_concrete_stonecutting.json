@@ -1,1 +1,10 @@
-{"type":"minecraft:stonecutting","ingredient":"minecraft:light_blue_concrete","result":{"id":"xiabis_modpack_toolbox:light_blue_polished_concrete","count":1}}
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "minecraft:light_blue_concrete"
+  },
+  "result": {
+    "id": "xiabis_modpack_toolbox:light_blue_polished_concrete",
+    "count": 1
+  }
+}

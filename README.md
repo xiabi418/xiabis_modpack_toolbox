@@ -123,11 +123,12 @@ The Simplified Chinese locale is stored as readable UTF-8 text, and the advanced
 
 The mod adds 16 color variants of **Polished Concrete** and matching **Glowing Polished Concrete** blocks.
 
-- Ordinary concrete can be stonecut into one polished block, or crafted into nine polished blocks.
+- A stonecutter turns one ordinary concrete into one polished block. Fill the crafting grid with nine ordinary concrete blocks of one color to craft nine polished blocks.
 - Surround a polished block with cobblestone to duplicate nine blocks of that color.
 - Add glowstone dust to make the glowing variant; surround a glowing block with cobblestone to duplicate nine glowing blocks.
-- Glowing blocks emit light level 15. With Fusion installed, supplied connected textures join adjacent blocks of the same type.
+- Glowing blocks emit light level 15. Fusion 1.3.16 or later is required on the Minecraft 1.21.1 NeoForge client. Connected textures join adjacent blocks of the same color and variant.
 
+## Compressed Matter Condenser
 
 When Applied Energistics 2 is installed, the **Compressed Matter Condenser** (`compressed_condenser`) connects to an ME network and converts selected network items into AE2 matter balls or singularities.
 

@@ -1,1 +1,18 @@
-{"type":"minecraft:crafting_shapeless","ingredients":["minecraft:brown_concrete"],"result":{"id":"xiabis_modpack_toolbox:brown_polished_concrete","count":9}}
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "CCC",
+    "CCC",
+    "CCC"
+  ],
+  "key": {
+    "C": {
+      "item": "minecraft:brown_concrete"
+    }
+  },
+  "result": {
+    "id": "xiabis_modpack_toolbox:brown_polished_concrete",
+    "count": 9
+  }
+}
