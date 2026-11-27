@@ -39,6 +39,9 @@ public final class ModBlocks {
     public static final DeferredBlock<Block> OMNI_BATTERY = BLOCKS.registerBlock("omni_battery",
             xiabis.modpack.toolbox.block.OmniBatteryBlock::new, machineProperties());
 
+    public static final DeferredBlock<Block> FLOOR_BUILDER = BLOCKS.registerBlock("floor_builder",
+            xiabis.modpack.toolbox.block.FloorBuilderBlock::new, machineProperties());
+
     public static final DeferredBlock<DimensionTeleportBlock> OVERWORLD_TELEPORT = BLOCKS.registerBlock(
             "overworld_teleport", DimensionTeleportBlock::new, machineProperties());
     public static final DeferredBlock<DimensionTeleportBlock> NETHER_TELEPORT = BLOCKS.registerBlock(

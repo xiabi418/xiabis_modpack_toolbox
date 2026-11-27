@@ -2,6 +2,10 @@
 
 All notable changes to xiabi's modpack toolbox are recorded here.
 
+## 2.6.8
+
+- Add the Floor Builder with chunk-aligned polished concrete floors, independent border and fill colors, a glowing option, and optional replacement with block loot drops.
+
 ## 2.6.7
 
 - Add the supplied border to the three dimension entry blocks and the return block, keeping each original block texture visible in the center.

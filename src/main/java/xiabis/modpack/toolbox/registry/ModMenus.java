@@ -9,10 +9,15 @@ import xiabis.modpack.toolbox.XmtMod;
 import net.neoforged.fml.ModList;
 import xiabis.modpack.toolbox.menu.CompressedCondenserMenu;
 import xiabis.modpack.toolbox.menu.OmniGeneratorMenu;
+import xiabis.modpack.toolbox.menu.FloorBuilderMenu;
 
 public final class ModMenus {
     public static final DeferredRegister<MenuType<?>> MENUS =
             DeferredRegister.create(Registries.MENU, XmtMod.MOD_ID);
+
+    public static final DeferredHolder<MenuType<?>, MenuType<FloorBuilderMenu>> FLOOR_BUILDER =
+            MENUS.register("floor_builder", () -> IMenuTypeExtension.create(
+                    (id, inventory, buffer) -> new FloorBuilderMenu(id, inventory, buffer.readBlockPos())));
 
     public static final DeferredHolder<MenuType<?>, MenuType<CompressedCondenserMenu>> COMPRESSED_CONDENSER = ModList.get().isLoaded("ae2")
             ? MENUS.register("compressed_condenser", () -> IMenuTypeExtension.create(CompressedCondenserMenu::fromBuffer))

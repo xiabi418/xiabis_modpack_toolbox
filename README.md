@@ -133,6 +133,10 @@ The mod adds 16 color variants of **Polished Concrete** and matching **Glowing P
 - Add glowstone dust to make the glowing variant; surround a glowing block with cobblestone to duplicate nine glowing blocks.
 - Glowing blocks emit light level 15. Fusion 1.3.16 or later is required on the Minecraft 1.21.1 NeoForge client. Connected textures join adjacent blocks of the same color and variant.
 
+## Floor Builder
+
+Craft with polished concrete, cobblestone, and polished concrete in one row. Right-click the builder to pick border and fill colors, glow, replacement, and a 1×1, 3×3, or 5×5 chunk footprint centered on the builder's chunk. Each chunk gets its own one-block border. Build on a loaded area at the builder's height; a successful build consumes the builder. Replacement is off by default. When enabled, removed blocks use normal loot rules; protected blocks stop the build.
+
 ## Dimension Teleport Blocks
 
 Craft the entry blocks from a full 3×3 grid of dirt (private Overworld), netherrack (private Nether), or end stone (private End). Right-click an entry block to travel to a safe landing near the same X/Z in its shared private dimension. The landing reuses an adjacent return block or creates one. Players can share a return block: it returns each player to their own latest entry dimension, exact position, and facing, and stays in place after use. Return blocks have no recipe and cannot be mined. Each teleport block uses the shared border with its original material visible in the center.

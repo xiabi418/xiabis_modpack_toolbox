@@ -69,6 +69,7 @@ public final class ClientModEvents {
 
     @SubscribeEvent
     public static void registerScreens(RegisterMenuScreensEvent event) {
+        event.register(ModMenus.FLOOR_BUILDER.get(), FloorBuilderScreen::new);
         event.register(ModMenus.OMNI_GENERATOR.get(), OmniGeneratorScreen::new);
         event.register(ModMenus.OMNI_ARMOR.get(), OmniArmorScreen::new);
         event.register(ModMenus.OMNI_GREENHOUSE.get(), OmniGreenhouseScreen::new);

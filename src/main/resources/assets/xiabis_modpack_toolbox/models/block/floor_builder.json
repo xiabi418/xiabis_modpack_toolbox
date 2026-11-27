@@ -1,0 +1,6 @@
+{
+  "parent": "xiabis_modpack_toolbox:block/dimension_teleport_frame",
+  "textures": {
+    "center": "xiabis_modpack_toolbox:block/glow_concrete_block"
+  }
+}

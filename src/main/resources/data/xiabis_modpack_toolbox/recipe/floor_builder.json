@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "PCP"
+  ],
+  "key": {
+    "P": {
+      "tag": "xiabis_modpack_toolbox:polished_concrete"
+    },
+    "C": {
+      "item": "minecraft:cobblestone"
+    }
+  },
+  "result": {
+    "id": "xiabis_modpack_toolbox:floor_builder",
+    "count": 1
+  }
+}
