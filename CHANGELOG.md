@@ -2,6 +2,11 @@
 
 All notable changes to xiabi's modpack toolbox are recorded here.
 
+## 2.6.9
+
+- Restore the vanilla bedrock floor in newly generated private Nether chunks while removing the ceiling bedrock.
+- Suppress the obsidian arrival platform and crystal-topped pillars in newly generated private End chunks.
+
 ## 2.6.8
 
 - Add the Floor Builder with chunk-aligned polished concrete floors, independent border and fill colors, a glowing option, and optional replacement with block loot drops.

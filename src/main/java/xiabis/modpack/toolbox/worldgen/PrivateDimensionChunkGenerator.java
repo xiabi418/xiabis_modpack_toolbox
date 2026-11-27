@@ -11,6 +11,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.QuartPos;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.data.worldgen.features.EndFeatures;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.LevelHeightAccessor;
@@ -25,6 +26,7 @@ import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
 import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
 import net.minecraft.world.level.levelgen.RandomState;
 import net.minecraft.world.level.levelgen.blending.Blender;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.BuiltinStructures;
 import net.minecraft.world.level.biome.BiomeManager;
@@ -48,6 +50,7 @@ public final class PrivateDimensionChunkGenerator extends NoiseBasedChunkGenerat
     private static final int DRY_COLUMN = Integer.MIN_VALUE;
     private static final int CITY_SIDE_CLEARANCE = 4;
     private static final int CITY_ROOF_CLEARANCE = 6;
+    private static final int NETHER_BEDROCK_FLOOR_HEIGHT = 5;
     private static final BlockState STONE = Blocks.STONE.defaultBlockState();
     private static final BlockState DEEPSLATE = Blocks.DEEPSLATE.defaultBlockState();
     private static final BlockState BEDROCK = Blocks.BEDROCK.defaultBlockState();
@@ -94,6 +97,11 @@ public final class PrivateDimensionChunkGenerator extends NoiseBasedChunkGenerat
         normalizeTerrain(chunk, randomState);
     }
 
+    /** The native decoration hook delegates here so biome and structure registries stay shared. */
+    public boolean allowsBiomeFeature(Holder<ConfiguredFeature<?, ?>> feature) {
+        return mode != Mode.END || !(feature.is(EndFeatures.END_PLATFORM) || feature.is(EndFeatures.END_SPIKE));
+    }
+
     private static void clearAncientCitySpace(WorldGenRegion region, StructureManager structures, ChunkAccess chunk) {
         var registry = region.registryAccess().registryOrThrow(Registries.STRUCTURE);
         var ancientCity = registry.getHolder(BuiltinStructures.ANCIENT_CITY);
@@ -138,23 +146,23 @@ public final class PrivateDimensionChunkGenerator extends NoiseBasedChunkGenerat
             return;
         }
 
-        BlockState fill = mode == Mode.NETHER ? Blocks.NETHERRACK.defaultBlockState() : Blocks.END_STONE.defaultBlockState();
-        for (int x = 0; x < 16; x++) {
-            for (int z = 0; z < 16; z++) {
+        boolean nether = mode == Mode.NETHER;
+        BlockState fill = nether ? Blocks.NETHERRACK.defaultBlockState() : Blocks.END_STONE.defaultBlockState();
+        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+        for (int x = chunkPos.getMinBlockX(); x <= chunkPos.getMaxBlockX(); x++) {
+            for (int z = chunkPos.getMinBlockZ(); z <= chunkPos.getMaxBlockZ(); z++) {
                 for (int y = minY; y <= 128 && y < maxY; y++) {
-                    set(chunk, chunkPos, x, y, z,
-                            y == 0 && mode == Mode.END ? Blocks.BEDROCK.defaultBlockState() : fill);
-                }
-                if (mode == Mode.NETHER) {
-                    for (int y = 129; y < maxY; y++) {
-                        BlockPos pos = new BlockPos(chunkPos.getMinBlockX() + x, y, chunkPos.getMinBlockZ() + z);
-                        if (chunk.getBlockState(pos).is(Blocks.BEDROCK)) {
-                            chunk.setBlockState(pos, Blocks.AIR.defaultBlockState(), false);
-                        }
+                    pos.set(x, y, z);
+                    // Keep the vanilla floor gradient when normalizing again after surface rules and carvers.
+                    if (nether && y < minY + NETHER_BEDROCK_FLOOR_HEIGHT && chunk.getBlockState(pos).is(Blocks.BEDROCK)) {
+                        continue;
                     }
-                } else {
-                    for (int y = 129; y < maxY; y++) {
-                        set(chunk, chunkPos, x, y, z, Blocks.AIR.defaultBlockState());
+                    chunk.setBlockState(pos, y == (nether ? minY : 0) ? BEDROCK : fill, false);
+                }
+                for (int y = Math.max(129, minY); y < maxY; y++) {
+                    pos.set(x, y, z);
+                    if (!nether || chunk.getBlockState(pos).is(Blocks.BEDROCK)) {
+                        chunk.setBlockState(pos, AIR, false);
                     }
                 }
             }
@@ -280,10 +288,6 @@ public final class PrivateDimensionChunkGenerator extends NoiseBasedChunkGenerat
         }
         // Preserve solid noise blocks and the bedrock/deepslate placed by surface rules.
         return original;
-    }
-
-    private static void set(ChunkAccess chunk, ChunkPos chunkPos, int x, int y, int z, BlockState state) {
-        chunk.setBlockState(new BlockPos(chunkPos.getMinBlockX() + x, y, chunkPos.getMinBlockZ() + z), state, false);
     }
 
     private void normalizeHeightmaps(ChunkAccess chunk) {

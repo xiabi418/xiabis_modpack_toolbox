@@ -1,0 +1,10 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "xiabis.modpack.toolbox.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": ["PlacedFeatureMixin"],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

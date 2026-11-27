@@ -17,6 +17,9 @@ Special thanks:Squareful(Art reference)|https://www.curseforge.com/minecraft/tex
 Code by DeepSeek 4.1
 '''
 
+[[mixins]]
+config = "xiabis_modpack_toolbox.mixins.json"
+
 [[dependencies.xiabis_modpack_toolbox]]
 modId = "neoforge"
 type = "required"

@@ -146,8 +146,10 @@ Craft the entry blocks from a full 3×3 grid of dirt (private Overworld), nether
 The mod adds three seed-aligned dimensions:
 
 - `xiabis_own_dim_overworld`: keeps vanilla rivers, oceans, and their underwater terrain so ocean structures can generate. Dry land remains flat at Y=63. Exposed terrain pools outside river and ocean biomes are capped at five blocks deep. Underground deepslate and bedrock are preserved. Ancient city pieces have space cleared around them while ordinary cave carving remains disabled. The private dimension type is included in TerraBlender's overworld-region tag so compatible BOP/BWG biome regions and their biome features can be selected; custom surface blocks are preserved for tree placement. Only newly generated chunks are affected.
-- `xiabis_own_dim_nether`: vanilla Nether biome and decoration pipeline, solid netherrack through Y=128, and no generated upper bedrock ceiling.
-- `xiabis_own_dim_end`: vanilla End biomes and decoration, no main-island terrain, solid end stone through Y=128, and a bedrock floor at Y=0.
+- `xiabis_own_dim_nether` keeps the vanilla bedrock floor and a solid foundation through Y=128, with the ceiling bedrock removed.
+- `xiabis_own_dim_end` generates solid end stone through Y=128 with a bedrock floor at Y=0. It suppresses the main island terrain, obsidian arrival platform, and crystal-topped pillars.
+
+These rules apply when new chunks generate.
 
 Biome/tag-based ores, features, and structures from other mods can follow these dimensions because they reuse the vanilla biome sources and decoration pipeline. Mods that hard-code only the original Overworld, Nether, or End dimension IDs require their own compatibility support.
 
