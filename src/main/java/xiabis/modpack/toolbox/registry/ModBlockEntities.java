@@ -39,6 +39,10 @@ public final class ModBlockEntities {
             BLOCK_ENTITIES.register("return_dimension", () -> BlockEntityType.Builder.of(
                     ReturnDimensionBlockEntity::new, ModBlocks.RETURN_DIMENSION.get()).build(null));
 
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<xiabis.modpack.toolbox.blockentity.OmniDiggerBlockEntity>> OMNI_DIGGER =
+            BLOCK_ENTITIES.register("omni_digger", () -> BlockEntityType.Builder.of(
+                    xiabis.modpack.toolbox.blockentity.OmniDiggerBlockEntity::new, ModBlocks.OMNI_DIGGER.get()).build(null));
+
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<OmniGreenhouseBlockEntity>> OMNI_GREENHOUSE =
             BLOCK_ENTITIES.register("omni_greenhouse", () -> BlockEntityType.Builder.of(
                     xiabis.modpack.toolbox.blockentity.OmniGreenhouseBlockEntity::new,

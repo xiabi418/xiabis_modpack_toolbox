@@ -73,6 +73,7 @@ public final class ModItems {
             new Item.Properties());
 
     /** Block item of the omni greenhouse. */
+    public static final DeferredItem<BlockItem> OMNI_DIGGER_ITEM = ITEMS.registerSimpleBlockItem(ModBlocks.OMNI_DIGGER);
     public static final DeferredItem<BlockItem> OMNI_GREENHOUSE_ITEM = ITEMS.registerSimpleBlockItem(ModBlocks.OMNI_GREENHOUSE);
 
     public static final DeferredItem<BlockItem> OVERWORLD_TELEPORT_ITEM = ITEMS.registerSimpleBlockItem(ModBlocks.OVERWORLD_TELEPORT);
@@ -138,6 +139,7 @@ public final class ModItems {
                         output.accept(SPEED_CARD.get());
                         output.accept(OMNI_BATTERY_ITEM.get());
                         output.accept(OMNI_GREENHOUSE_ITEM.get());
+                         output.accept(OMNI_DIGGER_ITEM.get());
                         output.accept(OVERWORLD_TELEPORT_ITEM.get());
                          output.accept(FLOOR_BUILDER_ITEM.get());
                         output.accept(NETHER_TELEPORT_ITEM.get());

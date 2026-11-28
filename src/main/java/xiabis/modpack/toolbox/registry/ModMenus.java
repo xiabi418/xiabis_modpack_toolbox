@@ -36,6 +36,9 @@ public final class ModMenus {
             MENUS.register("omni_greenhouse", () -> IMenuTypeExtension.create(
                     xiabis.modpack.toolbox.menu.OmniGreenhouseMenu::new));
 
+    public static final DeferredHolder<MenuType<?>, MenuType<xiabis.modpack.toolbox.menu.OmniDiggerMenu>> OMNI_DIGGER =
+            MENUS.register("omni_digger", () -> IMenuTypeExtension.create(xiabis.modpack.toolbox.menu.OmniDiggerMenu::new));
+
     private ModMenus() {
     }
 }

@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "xiabis_modpack_toolbox:block/omni_digger" },
+    "facing=east": { "model": "xiabis_modpack_toolbox:block/omni_digger", "y": 90 },
+    "facing=south": { "model": "xiabis_modpack_toolbox:block/omni_digger", "y": 180 },
+    "facing=west": { "model": "xiabis_modpack_toolbox:block/omni_digger", "y": 270 }
+  }
+}

@@ -61,6 +61,8 @@ public class XmtMod {
     }
 
     private static void registerCapabilities(net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent event) {
+        event.registerBlockEntity(net.neoforged.neoforge.capabilities.Capabilities.EnergyStorage.BLOCK,
+                ModBlockEntities.OMNI_DIGGER.get(), (digger, side) -> side == net.minecraft.core.Direction.UP ? null : digger.energyStorage());
         if (ModBlockEntities.COMPRESSED_CONDENSER != null) {
             xiabis.modpack.toolbox.blockentity.CompressedCondenserBlockEntity.registerCapabilities(event);
         }

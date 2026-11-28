@@ -235,7 +235,9 @@ public class OmniGreenhouseBlockEntity extends BlockEntity implements MenuProvid
     }
 
     public void setFaceMode(Direction direction, GreenhouseFaceMode mode) {
+        if (faces[direction.get3DDataValue()] == mode) return;
         faces[direction.get3DDataValue()] = mode;
+        if (level != null && !level.isClientSide()) level.invalidateCapabilities(worldPosition);
         setChanged();
     }
 
@@ -395,14 +397,7 @@ public class OmniGreenhouseBlockEntity extends BlockEntity implements MenuProvid
                 IFluidHandler source = level.getCapability(Capabilities.FluidHandler.BLOCK,
                         pos.relative(direction), direction.getOpposite());
                 if (source != null) {
-                    FluidStack drained = source.drain(new FluidStack(Fluids.WATER, tank.getCapacity() - tank.getFluidAmount()),
-                            IFluidHandler.FluidAction.SIMULATE);
-                    if (!drained.isEmpty() && drained.getFluid().is(FluidTags.WATER)) {
-                        int accepted = tank.fill(drained, IFluidHandler.FluidAction.EXECUTE);
-                        if (accepted > 0) {
-                            source.drain(new FluidStack(drained.getFluid(), accepted), IFluidHandler.FluidAction.EXECUTE);
-                        }
-                    }
+                    MachineFluidTransfer.pull(source, tank, Fluids.WATER);
                 }
             }
             if (mode.acceptsEnergy() && energy.getEnergyStored() < energy.getMaxEnergyStored()) {
@@ -412,9 +407,9 @@ public class OmniGreenhouseBlockEntity extends BlockEntity implements MenuProvid
                     int amount = Math.min(energy.getMaxEnergyStored() - energy.getEnergyStored(), 100_000);
                     int extracted = source.extractEnergy(amount, true);
                     if (extracted > 0) {
-                        int accepted = energy.receiveEnergy(extracted, false);
+                        int accepted = energy.receiveEnergy(extracted, true);
                         if (accepted > 0) {
-                            source.extractEnergy(accepted, false);
+                            energy.receiveEnergy(source.extractEnergy(accepted, false), false);
                         }
                     }
                 }

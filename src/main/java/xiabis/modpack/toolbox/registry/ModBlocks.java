@@ -36,6 +36,8 @@ public final class ModBlocks {
             OmniFluidTankBlock::new, machineProperties());
     public static final DeferredBlock<xiabis.modpack.toolbox.block.OmniGreenhouseBlock> OMNI_GREENHOUSE =
             BLOCKS.registerBlock("omni_greenhouse", xiabis.modpack.toolbox.block.OmniGreenhouseBlock::new, machineProperties());
+    public static final DeferredBlock<xiabis.modpack.toolbox.block.OmniDiggerBlock> OMNI_DIGGER =
+            BLOCKS.registerBlock("omni_digger", xiabis.modpack.toolbox.block.OmniDiggerBlock::new, machineProperties());
     public static final DeferredBlock<Block> OMNI_BATTERY = BLOCKS.registerBlock("omni_battery",
             xiabis.modpack.toolbox.block.OmniBatteryBlock::new, machineProperties());
 

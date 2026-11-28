@@ -131,7 +131,9 @@ public class OmniGeneratorBlockEntity extends BlockEntity implements MenuProvide
     }
 
     public void setFaceMode(Direction direction, GeneratorFaceMode mode) {
+        if (faces[direction.get3DDataValue()] == mode) return;
         faces[direction.get3DDataValue()] = mode;
+        if (level != null && !level.isClientSide()) level.invalidateCapabilities(worldPosition);
         setChanged();
     }
 
@@ -269,17 +271,7 @@ public class OmniGeneratorBlockEntity extends BlockEntity implements MenuProvide
     }
 
     private void pullFluid(IFluidHandler source) {
-        FluidStack drained = source.drain(tank.getCapacity() - tank.getFluidAmount(),
-                IFluidHandler.FluidAction.SIMULATE);
-        if (drained.isEmpty() || !LAVA.test(drained)) {
-            return;
-        }
-        int accepted = tank.fill(drained, IFluidHandler.FluidAction.SIMULATE);
-        if (accepted <= 0) {
-            return;
-        }
-        FluidStack effective = source.drain(accepted, IFluidHandler.FluidAction.EXECUTE);
-        tank.fill(effective, IFluidHandler.FluidAction.EXECUTE);
+        MachineFluidTransfer.pull(source, tank, Fluids.LAVA);
     }
 
     private void pushEnergy(Level level, BlockPos pos) {

@@ -2,6 +2,11 @@
 
 All notable changes to xiabi's modpack toolbox are recorded here.
 
+## 2.7.0
+
+- Add the Omni Digger and updated digger, greenhouse, and condenser artwork.
+- Select water or lava explicitly when pulling from neighboring fluid handlers and refresh cached capabilities when machine sides change.
+
 ## 2.6.9
 
 - Restore the vanilla bedrock floor in newly generated private Nether chunks while removing the ceiling bedrock.

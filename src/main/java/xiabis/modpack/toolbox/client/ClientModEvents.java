@@ -72,6 +72,7 @@ public final class ClientModEvents {
         event.register(ModMenus.FLOOR_BUILDER.get(), FloorBuilderScreen::new);
         event.register(ModMenus.OMNI_GENERATOR.get(), OmniGeneratorScreen::new);
         event.register(ModMenus.OMNI_ARMOR.get(), OmniArmorScreen::new);
+        event.register(ModMenus.OMNI_DIGGER.get(), OmniDiggerScreen::new);
         event.register(ModMenus.OMNI_GREENHOUSE.get(), OmniGreenhouseScreen::new);
         if (ModMenus.COMPRESSED_CONDENSER != null) event.register(ModMenus.COMPRESSED_CONDENSER.get(), CompressedCondenserScreen::new);
 

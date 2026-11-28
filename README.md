@@ -141,6 +141,12 @@ Craft with polished concrete, cobblestone, and polished concrete in one row. Rig
 
 Craft the entry blocks from a full 3×3 grid of dirt (private Overworld), netherrack (private Nether), or end stone (private End). Right-click an entry block to travel to a safe landing near the same X/Z in its shared private dimension. The landing reuses an adjacent return block or creates one. Players can share a return block: it returns each player to their own latest entry dimension, exact position, and facing, and stays in place after use. Return blocks have no recipe and cannot be mined. Each teleport block uses the shared border with its original material visible in the center.
 
+## Omni Digger
+
+The Omni Digger scans its own chunk downward from its placement height and mines blocks tagged as ores. Supply FE, put an item container directly above it, and start it in the menu. It uses 1,000 FE per ore and supports Fortune XV or Silk Touch. Mining pauses when the output cannot accept drops.
+
+For automation, stock compatible fuel or fluids in the adjacent ME Interface and enable active input on the machine. Set pipes to push into a face configured for the corresponding input.
+
 ## Private Dimensions
 
 The mod adds three seed-aligned dimensions:

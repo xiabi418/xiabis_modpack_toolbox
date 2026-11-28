@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "top": "xiabis_modpack_toolbox:block/omni_digger_top",
+    "bottom": "xiabis_modpack_toolbox:block/omni_digger_bottom",
+    "front": "xiabis_modpack_toolbox:block/omni_digger_front",
+    "side": "xiabis_modpack_toolbox:block/omni_digger_side"
+  }
+}

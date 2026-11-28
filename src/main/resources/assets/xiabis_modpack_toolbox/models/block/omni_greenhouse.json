@@ -2,7 +2,7 @@
   "parent": "minecraft:block/orientable",
   "textures": {
     "top": "xiabis_modpack_toolbox:block/omni_greenhouse_top",
-    "bottom": "xiabis_modpack_toolbox:block/omni_greenhouse_top",
+    "bottom": "xiabis_modpack_toolbox:block/omni_greenhouse_bottom",
     "front": "xiabis_modpack_toolbox:block/omni_greenhouse_front",
     "side": "xiabis_modpack_toolbox:block/omni_greenhouse_side"
   }
